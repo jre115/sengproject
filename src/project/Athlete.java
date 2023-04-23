@@ -1,5 +1,94 @@
 package project;
 
 public class Athlete {
+	
+	int offensiveStatistic;
+	int defensiveStatistic;
+	int staminaStatistic;
+	String athleteNickname;
+	String athletePosition;
+	int athletePrice;
+	
+	public Athlete( ) {
+		setStastistics();
+		
+	}
+	
+	public Athlete(int offensiveStatistic, int defensiveStatistic, int staminaStatistic, String athleteNickname) {
+	    this.offensiveStatistic = offensiveStatistic;
+	    this.defensiveStatistic = defensiveStatistic;
+	    this.staminaStatistic = staminaStatistic;
+	    this.athleteNickname = athleteNickname;
+	}
+	
+	private void setStastistics() {
+		AthleteStatistics generatedValues = new AthleteStatistics();
+		offensiveStatistic = generatedValues.getOffensiveStat();
+		defensiveStatistic = generatedValues.getDefensiveStat();
+		staminaStatistic = generatedValues.getStaminaStat();
+	}
+	
+    public int getOffensive() {
+
+        return offensiveStatistic;
+    }
+    
+    public int getDefensive() {
+
+        return defensiveStatistic;
+    }
+    
+    public int getStamina() {
+    	return staminaStatistic;
+    }
+    
+    public void setNickname(String nicknameInput) {
+    	// allows player to set the nickname for the athlete
+    	athleteNickname = nicknameInput;
+    }
+    
+    public void setPosition(String positionInput) {
+    	// allows player to set the nickname for the athlete
+    	athletePosition = positionInput;
+    }
+    
+    public int getPrice() {
+    	/*
+    	 JR NOTE: potentially in first round dull the athlete's abilities to around min 40 max 60 and make all same price.. not sure about stamina
+    	then later in shop can increase the statistics for athletes and increase price! 
+    	*/
+    	return athletePrice;
+    }
+    
+    public String getPosition() {
+    	return athletePosition;
+    }
+    
+    public String toString() {
+    	String result = ("Athlete name: " + athleteNickname);
+    	result += ("\nPosition: " + this.getPosition());
+        result += ("\nOffensive Statistic: " + this.getOffensive());
+        result += ("\nDefensive Statistic: " + this.getDefensive());
+        result += ("\nStamina Statistic: " + this.getStamina());
+        
+        return result;
+
+        
+    }
+    
+    
+	
+    public static void main(String[] args) {
+        Athlete athlete = new Athlete();
+        
+        // test the get methods
+        System.out.println("Offensive Statistic: " + athlete.getOffensive());
+        System.out.println("Defensive Statistic: " + athlete.getDefensive());
+        System.out.println("Stamina Statistic: " + athlete.getStamina());
+    }
+	
+	
+	
+	
 
 }
