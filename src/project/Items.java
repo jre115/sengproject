@@ -1,3 +1,4 @@
+
 package project;
 
 /**
@@ -10,6 +11,8 @@ public class Items {
 	/**
 	 * item name
 	 */
+	private int defence;
+	private int offence;
 	
 	
 	private String name;
@@ -28,12 +31,16 @@ public class Items {
 	 * @param name
 	 * @param description
 	 * @param price
+	 * @param offence 
+	 * @param defence 
 	 */
 	
-	public Items(String name, String description, int price) {
+	public Items(String name, String description, int price, int offence, int defence) {
 		this.name = name;
 		this.description = description;
 		this.cost = price;
+		this.setOffence(offence);
+		this.setDefence(defence);
 	}
 	
 	
@@ -60,7 +67,44 @@ public class Items {
 	public String getDescription() {
 		return description;
 	}
+
+
+	/**
+	 * @return the offence
+	 */
+	public int getOffence() {
+		return offence;
+	}
+
+
+	/**
+	 * @param offence the offence to set
+	 */
+	public void setOffence(int offence) {
+		this.offence = offence;
+	}
+
+
+	/**
+	 * @return the defence
+	 */
+	public int getDefence() {
+		return defence;
+	}
+
+
+	/**
+	 * @param defence the defence to set
+	 */
+	public void setDefence(int defence) {
+		this.defence = defence;
+	}
+	
+	public static void main(String[] args) {
+		EnergyDrink en = new EnergyDrink();
+		System.out.println(en.getName());
+		System.out.println(en.getDescription());
+		System.out.println(en.getDefence());
+		System.out.println(en.getCost());}
 	
 }
-	
-
