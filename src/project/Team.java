@@ -9,11 +9,19 @@ public class Team {
 	private ArrayList<Athlete> teamList;
 	private ArrayList<Athlete> reservesList;
 	
-	public Team(String name) {
-		teamName = name;
+	public Team() {
 		teamList = new ArrayList<Athlete>();
 		reservesList = new ArrayList<Athlete>();
 	}
+	
+	public void setTeamName(String nameInput) {
+		teamName = nameInput;
+	}
+	
+	public String getTeamName() {
+		return teamName;
+	}
+	
 	
 	public ArrayList<Athlete> getReservesList() {
 		return reservesList;
@@ -24,9 +32,7 @@ public class Team {
 		return teamList;
 	}
 	
-	public String getTeamName() {
-		return teamName;
-	}
+
 	
 	public void setPositions() {
 		for (Athlete athlete: teamList) {
@@ -62,7 +68,7 @@ public class Team {
 		Athlete athlete1 = new Athlete();
 		Athlete athlete2 = new Athlete();
 		Athlete athlete3 = new Athlete();	
-		Team team = new Team("Badgers");
+		Team team = new Team();
 		team.addToTeam(athlete1);
 		team.addToTeam(athlete2);
 		team.addReserve(athlete3);
