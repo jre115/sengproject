@@ -3,6 +3,7 @@ package project;
 public class GameEnvironment {
 	
 	Team team;
+	int seasonLength;
 	
 	public GameEnvironment() {
 		team = new Team();
@@ -21,6 +22,17 @@ public class GameEnvironment {
 	
 	public String getTeamName() {
 		return team.getTeamName();
+	}
+	
+	public void setSeasonLength(int length) {
+		if (length < 5 || length > 15) {
+			throw new IllegalArgumentException("Season length must be between 5 and 15 weeks");
+		}
+		seasonLength = length;
+	}
+	
+	public int getSeasonLength() {
+		return seasonLength;
 	}
 	
 	

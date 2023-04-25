@@ -19,12 +19,12 @@ public class CommandLineUI {
 		game = new GameEnvironment();
 		
 		// input team name
-		Scanner nameScanner = new Scanner(System.in); // creates scanner object for team name input
+		Scanner scanner = new Scanner(System.in); // creates scanner object for team name input
 		System.out.println("Welcome to the game! Please input a team name");
 		
 		while (true) {
 			try {
-				String nameInput = nameScanner.nextLine();
+				String nameInput = scanner.nextLine();
 				game.setTeamName(nameInput);
 				System.out.println("Great! Your team name is: " + game.getTeamName());
 				break;
@@ -33,6 +33,19 @@ public class CommandLineUI {
 			} 
 		}
 		
+		// input season length
+		System.out.println("Please input how many weeks you would like the season to last (between 5 and 15)");
+		
+		while (true) {
+			try {
+				String weeksInput = scanner.nextLine();
+				int weeksValue = new Integer(weeksInput);
+				game.setSeasonLength(weeksValue);
+				System.out.println("Great! The season will last " + game.getSeasonLength() + " weeks");
+			} catch (IllegalArgumentException e){
+				System.out.println(e.getMessage());
+			}
+		}
 
 		
 		
