@@ -1,5 +1,7 @@
 package project;
 
+import java.util.ArrayList;
+
 /**
  * This class drives a simple command line application that works in a simple runtime loop
  *
@@ -52,12 +54,18 @@ public class CommandLineUI {
 		
 		// Purchase the starting athletes for your team
 
-		System.out.println("Great! Now you need a starting team");
+		System.out.println("Now you need a starting team...");
 		System.out.println("Input any key to view the list of purchaseable athletes");
 		scanner.nextLine();
-		game.startingTeam();
+		ArrayList<Athlete> startingList = game.startingList();
 		
-		game.startingTeam();
+		int i = 1;
+		for (Athlete athlete: startingList) {
+			System.out.println("\nAthlete number " + i + ":");
+			System.out.println(athlete);
+			i += 1;
+		}
+
 		
 
 		

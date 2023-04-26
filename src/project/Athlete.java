@@ -12,7 +12,7 @@ public class Athlete {
 	int athletePrice;
 	
 	public Athlete( ) {
-		setStastistics();
+		generateStatistics();
 		setName(generateName());
 		
 	}
@@ -24,11 +24,17 @@ public class Athlete {
 	    this.athleteName = athleteName;
 	}
 	
-	private void setStastistics() {
-		AthleteStatistics generatedValues = new AthleteStatistics();
-		offensiveStatistic = generatedValues.getOffensiveStat();
-		defensiveStatistic = generatedValues.getDefensiveStat();
-		staminaStatistic = generatedValues.getStaminaStat();
+	private void generateStatistics() {
+		Random offensive = new Random();
+		int min = 30;
+		int max = 70;
+		
+		offensiveStatistic = offensive.nextInt(max - min + 1) + min;
+		defensiveStatistic = 100 - offensiveStatistic;
+		
+		Random stamina = new Random();
+		staminaStatistic = stamina.nextInt(100 - 60 + 1) + 60;
+		
 	}
 	
 	public String generateName() {

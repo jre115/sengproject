@@ -6,6 +6,7 @@ public class GameEnvironment {
 	
 	Team team;
 	int seasonLength;
+	Double playerMoney;
 	
 	public GameEnvironment() {
 		team = new Team();
@@ -38,15 +39,24 @@ public class GameEnvironment {
 		return seasonLength;
 	}
 	
-	public void startingTeam() {
+	public void setPlayerMoney(Double value) {
+		playerMoney = value;
+	}
+	
+	public Double getPlayerMoney() {
+		return playerMoney;
+	}
+	
+	public ArrayList<Athlete> startingList() {
 		ArrayList<Athlete> availableAthletes = new ArrayList<Athlete>();
+		
 		
 		for (int i = 1; i <= 4; i ++) {
 			Athlete athlete = new Athlete();
 			availableAthletes.add(athlete);
-			System.out.println("\nAthlete number " + i + ":");
-			System.out.println(athlete);
 		}
+		
+		return availableAthletes;
 		
 		
 	}

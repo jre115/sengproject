@@ -2,6 +2,8 @@ package project;
 
 import java.util.Random;
 
+///// JR NOTE: this class is to be removed. 
+
 public class AthleteStatistics {
 	
 	// Created separate class for AthleteStastistics to make it easier to add additional statistics in the future.
