@@ -6,6 +6,10 @@ public class Purchasable {
 	private int sellbackPrice;
 	private String description;
 	
+	public Purchasable() {
+	    // default constructor with no arguments
+	}
+	
     public Purchasable(int contractPrice, int sellbackPrice, String description) {
         this.contractPrice = contractPrice;
         this.sellbackPrice = sellbackPrice;
@@ -39,7 +43,7 @@ public class Purchasable {
     
     
 
-}
+
 
 
 

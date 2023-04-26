@@ -2,27 +2,57 @@ package project;
 
 import java.util.Random;
 
-public class Athlete {
+public class Athlete extends Purchasable {
 	
-	int offensiveStatistic;
-	int defensiveStatistic;
-	int staminaStatistic;
-	String athleteName;
-	String athletePosition;
-	int athletePrice;
+    private int offensiveStatistic;
+    private int defensiveStatistic;
+    private int staminaStatistic;
+    private String athleteName;
+    private String athletePosition;
+    private int athletePrice;
+    private int contractPrice;
+    private int sellbackPrice;
+    private String description;
 	
-	public Athlete( ) {
+	public Athlete() {
 		generateStatistics();
 		setName(generateName());
+        setContractPrice(0); // initialize contract price to 0
+        setSellBackPrice(0); // initialize sell-back price to 0
+        setDescription(""); // initialize description to empty string
 		
 	}
 	
-	public Athlete(int offensiveStatistic, int defensiveStatistic, int staminaStatistic, String athleteName) {
-	    this.offensiveStatistic = offensiveStatistic;
-	    this.defensiveStatistic = defensiveStatistic;
-	    this.staminaStatistic = staminaStatistic;
-	    this.athleteName = athleteName;
-	}
+    public Athlete(int contractPrice, int sellbackPrice, String description) {
+        super(contractPrice, sellbackPrice, description);
+        generateStatistics();
+        setName(generateName());
+    }
+
+	
+	public int getContractPrice() {
+        return contractPrice;
+    }
+    
+    public void setContractPrice(int price) {
+        contractPrice = price;
+    }
+    
+    public int getSellBackPrice() {
+        return sellbackPrice;
+    }
+    
+    public void setSellBackPrice(int price) {
+        sellbackPrice = price;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String desc) {
+        description = desc;
+    }
 	
 	private void generateStatistics() {
 		Random offensive = new Random();
