@@ -1,5 +1,7 @@
 package project;
 
+import java.util.ArrayList;
+
 public class GameEnvironment {
 	
 	Team team;
@@ -25,14 +27,28 @@ public class GameEnvironment {
 	}
 	
 	public void setSeasonLength(int length) {
+
 		if (length < 5 || length > 15) {
 			throw new IllegalArgumentException("Season length must be between 5 and 15 weeks");
-		}
+		} 
 		seasonLength = length;
 	}
 	
 	public int getSeasonLength() {
 		return seasonLength;
+	}
+	
+	public void startingTeam() {
+		ArrayList<Athlete> availableAthletes = new ArrayList<Athlete>();
+		
+		for (int i = 1; i <= 4; i ++) {
+			Athlete athlete = new Athlete();
+			availableAthletes.add(athlete);
+			System.out.println("\nAthlete number " + i + ":");
+			System.out.println(athlete);
+		}
+		
+		
 	}
 	
 	

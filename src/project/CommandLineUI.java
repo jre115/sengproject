@@ -39,15 +39,25 @@ public class CommandLineUI {
 		while (true) {
 			try {
 				String weeksInput = scanner.nextLine();
-				int weeksValue = new Integer(weeksInput);
+				int weeksValue = Integer.parseInt(weeksInput);
 				game.setSeasonLength(weeksValue);
 				System.out.println("Great! The season will last " + game.getSeasonLength() + " weeks");
+				break;
+			} catch (NumberFormatException e) {
+				System.out.println("Please enter a numerical value between 5 - 15");
 			} catch (IllegalArgumentException e){
 				System.out.println(e.getMessage());
-			}
+			} 
 		}
-
 		
+		// Purchase the starting athletes for your team
+
+		System.out.println("Great! Now you need a starting team");
+		System.out.println("Input any key to view the list of purchaseable athletes");
+		scanner.nextLine();
+		game.startingTeam();
+		
+		game.startingTeam();
 		
 
 		

@@ -1,24 +1,27 @@
 package project;
 
+import java.util.Random;
+
 public class Athlete {
 	
 	int offensiveStatistic;
 	int defensiveStatistic;
 	int staminaStatistic;
-	String athleteNickname;
+	String athleteName;
 	String athletePosition;
 	int athletePrice;
 	
 	public Athlete( ) {
 		setStastistics();
+		setName(generateName());
 		
 	}
 	
-	public Athlete(int offensiveStatistic, int defensiveStatistic, int staminaStatistic, String athleteNickname) {
+	public Athlete(int offensiveStatistic, int defensiveStatistic, int staminaStatistic, String athleteName) {
 	    this.offensiveStatistic = offensiveStatistic;
 	    this.defensiveStatistic = defensiveStatistic;
 	    this.staminaStatistic = staminaStatistic;
-	    this.athleteNickname = athleteNickname;
+	    this.athleteName = athleteName;
 	}
 	
 	private void setStastistics() {
@@ -27,6 +30,19 @@ public class Athlete {
 		defensiveStatistic = generatedValues.getDefensiveStat();
 		staminaStatistic = generatedValues.getStaminaStat();
 	}
+	
+	public String generateName() {
+		String[] firstNames = {"james", "Mary", "Robert", "John", "Linda", "David"};
+		String[] lastNames = {"Smith", "Johnson", "Brown", "Jones" , "Garcia","Miller"};
+		
+		Random random = new Random();
+		String randomName = firstNames[random.nextInt(firstNames.length)] + " " + lastNames[random.nextInt(lastNames.length)];
+		
+		return randomName;
+		
+	}
+	
+	
 	
     public int getOffensive() {
 
@@ -42,9 +58,8 @@ public class Athlete {
     	return staminaStatistic;
     }
     
-    public void setNickname(String nicknameInput) {
-    	// allows player to set the nickname for the athlete
-    	athleteNickname = nicknameInput;
+    public void setName(String nameInput) {
+    	athleteName = nameInput;
     }
     
     public void setPosition(String positionInput) {
@@ -65,8 +80,8 @@ public class Athlete {
     }
     
     public String toString() {
-    	String result = ("Athlete name: " + athleteNickname);
-    	result += ("\nPosition: " + this.getPosition());
+    	String result = ("Athlete name: " + athleteName);
+    	//result += ("\nPosition: " + this.getPosition());
         result += ("\nOffensive Statistic: " + this.getOffensive());
         result += ("\nDefensive Statistic: " + this.getDefensive());
         result += ("\nStamina Statistic: " + this.getStamina());
