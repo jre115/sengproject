@@ -85,6 +85,7 @@ public class Athlete extends Purchasable {
     public String toString() {
     	String result = ("Athlete name: " + athleteName);
     	//result += ("\nPosition: " + this.getPosition());
+    	result += ("\nPrice: " + this.getContractPriceFormatted());
         result += ("\nOffensive Statistic: " + this.getOffensive());
         result += ("\nDefensive Statistic: " + this.getDefensive());
         result += ("\nStamina Statistic: " + this.getStamina());
@@ -95,16 +96,6 @@ public class Athlete extends Purchasable {
     }
     
     
-	
-    public static void main(String[] args) {
-        Athlete athlete = new Athlete();
-        
-        // test the get methods
-        System.out.println("Offensive Statistic: " + athlete.getOffensive());
-        System.out.println("Defensive Statistic: " + athlete.getDefensive());
-        System.out.println("Stamina Statistic: " + athlete.getStamina());
-    }
-	
 	
 	
 	

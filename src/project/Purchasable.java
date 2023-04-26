@@ -20,6 +20,17 @@ public class Purchasable {
         return contractPrice;
     }
     
+	public String getContractPriceFormatted() {
+	    String formatted = "";
+	    if (contractPrice < 0) {
+	        formatted += "-";
+	        contractPrice = -contractPrice;
+	    }
+	    formatted += "$" + String.format("%,d", contractPrice);
+	    return formatted;
+	}
+
+    
     public void setContractPrice(int contractPrice) {
         this.contractPrice = contractPrice;
     }

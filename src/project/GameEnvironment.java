@@ -67,7 +67,7 @@ public class GameEnvironment {
 		
 		for (int i = 1; i <= 4; i ++) {
 			Athlete athlete = new Athlete();
-			athlete.setContractPrice(500);
+			athlete.setContractPrice(5000);
 			availableAthletes.add(athlete);
 		}
 		
