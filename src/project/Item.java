@@ -1,4 +1,3 @@
-
 package project;
 
 /**
@@ -7,7 +6,8 @@ package project;
  * one time use
  */
 
-public class Items {
+public class Item {
+	
 	/**
 	 * item name
 	 */
@@ -35,7 +35,7 @@ public class Items {
 	 * @param defence 
 	 */
 	
-	public Items(String name, String description, int price, int offence, int defence) {
+	public Item(String name, String description, int price, int offence, int defence) {
 		this.name = name;
 		this.description = description;
 		this.cost = price;
@@ -107,4 +107,7 @@ public class Items {
 		System.out.println(en.getDefence());
 		System.out.println(en.getCost());}
 	
+}
+
+
 }
