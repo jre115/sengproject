@@ -55,21 +55,6 @@ public class Item extends Purchasable {
 		return name;
 		
 	}
-	/**
-	 * 
-	 * @return Cost
-	 */
-	public int getCost() {
-		return cost;
-		
-	}
-	/**
-	 * 
-	 * @return description
-	 */
-	public String getDescription() {
-		return description;
-	}
 
 
 	/**
@@ -108,7 +93,7 @@ public class Item extends Purchasable {
 		System.out.println(en.getName());
 		System.out.println(en.getDescription());
 		System.out.println(en.getDefence());
-		System.out.println(en.getCost());}
+		//System.out.println(en.getCost());}
 	
 }
 

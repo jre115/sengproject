@@ -6,10 +6,11 @@ public class GameEnvironment {
 	
 	Team team;
 	int seasonLength;
-	Double playerMoney;
+	int playerMoney;
 	
 	public GameEnvironment() {
 		team = new Team();
+		playerMoney = 20000;
 	}
 	
 	public void setTeamName(String teamName) throws NameException {
@@ -39,13 +40,26 @@ public class GameEnvironment {
 		return seasonLength;
 	}
 	
-	public void setPlayerMoney(Double value) {
+	public void setPlayerMoney(int value) {
 		playerMoney = value;
 	}
 	
-	public Double getPlayerMoney() {
+	public int getPlayerMoney() {
 		return playerMoney;
 	}
+	
+	public String getMoneyFormatted() {
+	    String formatted = "";
+	    if (playerMoney < 0) {
+	        formatted += "-";
+	        playerMoney = -playerMoney;
+	    }
+	    formatted += "$" + String.format("%,d", playerMoney);
+	    return formatted;
+	}
+
+
+
 	
 	public ArrayList<Athlete> startingList() {
 		ArrayList<Athlete> availableAthletes = new ArrayList<Athlete>();
@@ -53,6 +67,7 @@ public class GameEnvironment {
 		
 		for (int i = 1; i <= 4; i ++) {
 			Athlete athlete = new Athlete();
+			athlete.setContractPrice(500);
 			availableAthletes.add(athlete);
 		}
 		

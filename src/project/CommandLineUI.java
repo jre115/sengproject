@@ -55,6 +55,7 @@ public class CommandLineUI {
 		// Purchase the starting athletes for your team
 
 		System.out.println("Now you need a starting team...");
+		System.out.println("You have " + game.getMoneyFormatted());
 		System.out.println("Input any key to view the list of purchaseable athletes");
 		scanner.nextLine();
 		ArrayList<Athlete> startingList = game.startingList();
