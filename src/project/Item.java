@@ -6,7 +6,7 @@ package project;
  * one time use
  */
 
-public class Item {
+public class Item extends Purchasable {
 	
 	/**
 	 * item name
@@ -14,18 +14,22 @@ public class Item {
 	private int defence;
 	private int offence;
 	
+	//JR NOTE: removed variables and methods that are inherited from Purchasable
+    //private int contractPrice;
+    //private int sellbackPrice;
+	
 	
 	private String name;
+	/** item name
+	 * 
+	 */
+	
+	//private String description;
 	/** item description
 	 * 
 	 */
 	
-	private String description;
-	/** item cost
-	 * 
-	 */
-	
-	private int cost;
+	//private int cost;
 	/**create item
 	 * 
 	 * @param name
@@ -35,10 +39,9 @@ public class Item {
 	 * @param defence 
 	 */
 	
-	public Item(String name, String description, int price, int offence, int defence) {
+	public Item(String name, int offence, int defence, int contractPrice, int sellbackPrice, String description) {
+		super(contractPrice, sellbackPrice, description);
 		this.name = name;
-		this.description = description;
-		this.cost = price;
 		this.setOffence(offence);
 		this.setDefence(defence);
 	}

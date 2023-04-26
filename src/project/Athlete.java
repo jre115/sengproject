@@ -9,10 +9,6 @@ public class Athlete extends Purchasable {
     private int staminaStatistic;
     private String athleteName;
     private String athletePosition;
-    private int athletePrice;
-    private int contractPrice;
-    private int sellbackPrice;
-    private String description;
 	
 	public Athlete() {
 		generateStatistics();
@@ -23,36 +19,14 @@ public class Athlete extends Purchasable {
 		
 	}
 	
-    public Athlete(int contractPrice, int sellbackPrice, String description) {
+    public Athlete(int offensiveStatistic, int defensiveStatistic, int staminaStatistic, String athleteName, String athletePosition, int contractPrice, int sellbackPrice, String description) {
         super(contractPrice, sellbackPrice, description);
-        generateStatistics();
-        setName(generateName());
+        this.offensiveStatistic = offensiveStatistic;
+        this.defensiveStatistic = defensiveStatistic;
+        this.staminaStatistic = staminaStatistic;
+        this.athleteName = athleteName;
     }
 
-	
-	public int getContractPrice() {
-        return contractPrice;
-    }
-    
-    public void setContractPrice(int price) {
-        contractPrice = price;
-    }
-    
-    public int getSellBackPrice() {
-        return sellbackPrice;
-    }
-    
-    public void setSellBackPrice(int price) {
-        sellbackPrice = price;
-    }
-    
-    public String getDescription() {
-        return description;
-    }
-    
-    public void setDescription(String desc) {
-        description = desc;
-    }
 	
 	private void generateStatistics() {
 		Random offensive = new Random();
@@ -103,14 +77,7 @@ public class Athlete extends Purchasable {
     	athletePosition = positionInput;
     }
     
-    public int getPrice() {
-    	/*
-    	 JR NOTE: potentially in first round dull the athlete's abilities to around min 40 max 60 and make all same price.. not sure about stamina
-    	then later in shop can increase the statistics for athletes and increase price! 
-    	*/
-    	return athletePrice;
-    }
-    
+
     public String getPosition() {
     	return athletePosition;
     }
