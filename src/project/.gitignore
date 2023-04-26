@@ -2,3 +2,9 @@
 /AthleteStatistics.class
 /Team.class
 /GameManager.class
+/CommandLineUI.class
+/EnergyDrink.class
+/GameEnvironment.class
+/Item.class
+/NameException.class
+/Purchasable.class
