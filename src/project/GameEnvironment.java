@@ -2,11 +2,15 @@ package project;
 
 import java.util.ArrayList;
 
+import lab.RocketManager;
+import lab.SetupScreen;
+
 public class GameEnvironment {
 	
 	Team team;
 	int seasonLength;
 	int playerMoney;
+    private SetupScreen setupWindow;
 	
 	public GameEnvironment() {
 		team = new Team();
@@ -74,6 +78,21 @@ public class GameEnvironment {
 		return availableAthletes;
 		
 		
+	}
+	
+	public void launchSetupScreen() {
+		 setupWindow = new SetupScreen(this);
+		 
+	}
+	
+	public void closeSetupScreen() {
+		//setupWindow.closeWindow();
+		//launchMainScreen();
+	}
+	
+	public static void main(String[] args) {
+		GameEnvironment game = new GameEnvironment();
+		game.launchSetupScreen();
 	}
 	
 	

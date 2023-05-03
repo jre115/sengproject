@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author jorda
- *
- */
-module project {
-}
