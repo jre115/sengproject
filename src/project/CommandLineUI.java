@@ -1,6 +1,7 @@
 package project;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 /**
  * This class drives a simple command line application that works in a simple runtime loop
@@ -28,10 +29,10 @@ public class CommandLineUI {
 			try {
 				String nameInput = scanner.nextLine();
 				game.setTeamName(nameInput);
-				System.out.println("Great! Your team name is: " + game.getTeamName());
+				System.out.println("\033[32m" + "Great! Your team name is: " + game.getTeamName() + "\033[0m");
 				break;
 			} catch (NameException e){
-				System.out.println(e.getMessage());
+				System.out.println("\033[31m" + e.getMessage() + "\033[0m");
 			} 
 		}
 		
@@ -43,33 +44,102 @@ public class CommandLineUI {
 				String weeksInput = scanner.nextLine();
 				int weeksValue = Integer.parseInt(weeksInput);
 				game.setSeasonLength(weeksValue);
-				System.out.println("Great! The season will last " + game.getSeasonLength() + " weeks");
+				System.out.println("\033[32m" + "Great! The season will last " + game.getSeasonLength() + " weeks" + "\033[0m");
 				break;
 			} catch (NumberFormatException e) {
-				System.out.println("Please enter a numerical value between 5 - 15");
+				System.out.println("\033[31m" + "Please enter a numerical value between 5 - 15" + "\033[0m");
 			} catch (IllegalArgumentException e){
-				System.out.println(e.getMessage());
+				System.out.println("\033[31m" + e.getMessage() + "\033[0m");
 			} 
 		}
 		
 		// Purchase the starting athletes for your team
-
-		System.out.println("Now you need a starting team...");
-		System.out.println("You have " + game.getMoneyFormatted());
-		System.out.println("Input any key to view the list of purchaseable athletes");
-		scanner.nextLine();
-		ArrayList<Athlete> startingList = game.getStartingAthletes();
 		
-		int i = 1;
-		for (Athlete athlete: startingList) {
-			System.out.println("\nAthlete number " + i + ":");
-			System.out.println(athlete);
-			i += 1;
+		for (int i = 0; i < 4; i ++) {
+			if (i == 0) {
+				System.out.println("Now you need a starting team...");
+				System.out.println("You have " + game.getMoneyFormatted());
+				System.out.println("Input any key to view the list of purchasable athletes");
+			} else {
+				System.out.println("You have " + game.getMoneyFormatted());
+				System.out.println("Team filled: " + i + "/4 players");
+				System.out.println("Input any key to view the next list of purchasable athletes");
+			}
+			
+			scanner.nextLine();
+			ArrayList<Athlete> startingList = game.getStartingAthletes();
+			
+			int value = 1;
+			for (Athlete athlete: startingList) {
+				System.out.println("\nAthlete number " + value + ":");
+				System.out.println(athlete);
+				value += 1;
 		}
+			System.out.println("\n\nInput athlete number to purchase an athlete");
+			
+			int athleteValue = scanNumericalValue(1, 4);
+			Athlete athlete = startingList.get(athleteValue - 1);
+			
+			System.out.println("\nYou have purchased the following athlete: ");
+			System.out.println(athlete);
+			System.out.println("\nSelect one of the following options");
+        	System.out.println("1. Add to team as attacker");
+        	System.out.println("2. Add to team as defender");
+			
+        	int positionValue = scanNumericalValue(1, 2);
+        	String athletePosition = null;
+        	if (positionValue == 1) {
+        		athletePosition = "Attacker";
+        	} else if (positionValue == 2) {
+        		athletePosition = "Defender";
+        	}
+        	
+        	game.purchaseAthlete(athlete, athletePosition);
+        	System.out.println("\033[32m" + "\nGreat! Purchased athlete " + athlete.getName() + " as " + athletePosition + "\n" + "\033[0m");
+		    
+		}
+		
+		System.out.println("\nGreat! Choose a difficulty");
+		System.out.println("\nSelect one of the following options");
+    	System.out.println("1. Normal");
+    	System.out.println("2. Hard");
+    	
+    	int difficultyValue = scanNumericalValue(1, 2);
+    	String difficultyInput = null;
+    	if (difficultyValue == 1) {
+    		difficultyInput = "Normal";
+    	} else if (difficultyValue == 2) {
+    		difficultyInput = "Hard";
+    	}
+    	
+    	game.setGameDifficulty(difficultyInput);
+		
+		System.out.println("\033[32m" + "\nGreat! Ready to start?" + "\033[0m");
+		System.out.println(game);
+    	System.out.println("\nPress any key to start game");
+    	scanner.nextLine();
+    	scanner.close();
 
 		
-
+	}
+	
+	public int scanNumericalValue(int lowerLimit, int upperLimit) {
 		
+		Scanner scanner = new Scanner(System.in);
+	    while (true) {
+	        try {
+	        	String input = scanner.nextLine();
+				int inputValue = Integer.parseInt(input);
+	        	if (inputValue < lowerLimit || inputValue > upperLimit) {
+		            System.out.println("\033[31mPlease input a value between " + lowerLimit + " - " + upperLimit + "\033[0m");
+		        } else {
+		        	return inputValue;
+		        }
+	        } catch (NumberFormatException e) {
+				System.out.println("\033[31mPlease enter a numerical value between " + lowerLimit + " - " + upperLimit + "\033[0m");
+	        	
+	        }
+	    }
 	}
 	
 	public static void main(String[] args) {
