@@ -87,8 +87,8 @@ public class Athlete extends Purchasable {
 	 * @return a String representing a random name generated from pre-defined arrays.
 	 */
 	public String generateName() {
-		String[] firstNames = {"james", "Mary", "Robert", "John", "Linda", "David"};
-		String[] lastNames = {"Smith", "Johnson", "Brown", "Jones" , "Garcia","Miller"};
+		String[] firstNames = {"Alastair", "Ambrosius", "Archibald", "Augustus", "Belladonna", "Balthazar", "Caspian", "Cedric", "Celestina", "Cornelius", "Cyprian", "Desdemona", "Darian", "Draco", "Drusilla", "Endora", "Fabian", "Gideon", "Ginevra", "Hadrian", "Hecate", "Hyacinth", "Ignatius", "Isadora", "Leopold", "Lucian", "Magnus", "Merlin", "Morgana", "Niamh", "Oberon", "Percival", "Phineas", "Remus", "Rowena", "Sabrina", "Salazar", "Seraphina", "Silas", "Sybill", "Thaddeus", "Uriel", "Ursula", "Xanthe"};
+		String[] lastNames = {"Aberforth", "Blackwood", "Bones", "Chaucer", "Crewe", "Davenport", "Eldritch", "Fairweather", "Fawley", "Flamel", "Gammidge", "Goshawk", "Greengrass", "Holloway", "Iscariot", "Jorkins", "Kettleburn", "Lestrange", "Macnair", "Malkin", "Montague", "Nott", "Ogden", "Peverell", "Prewett", "Quesne", "Rosier", "Sacharissa", "Skeeter", "Slytherin", "Sparks", "Travers", "Umbridge", "Vablatsky", "Van Helsing", "Weasley", "Wilberforce", "Xenophilius", "Yaxley", "Zabini".};
 		
 		Random random = new Random();
 		String randomName = firstNames[random.nextInt(firstNames.length)] + " " + lastNames[random.nextInt(lastNames.length)];
