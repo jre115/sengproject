@@ -162,6 +162,28 @@ public class SetupScreen2 {
 		frame.getContentPane().add(athletesViewPanel);
 		athletesViewPanel.setLayout(null);
 		
+		JLabel infoText = new JLabel("Now you need a team! Please purchase one of the following four athletes:");
+		infoText.setBounds(35, 27, 869, 24);
+		athletesViewPanel.add(infoText);
+		infoText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		infoText.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		if (gameEnvironment.getTeamList().size() > 0) {
+			infoText.setVisible(false);
+			
+			JLabel playerBalance = new JLabel("Your balance: " + gameEnvironment.getMoneyFormatted());
+			playerBalance.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+			playerBalance.setBounds(650, 11, 273, 59);
+			athletesViewPanel.add(playerBalance);
+			
+			JLabel teamSize = new JLabel("Team filled: " + gameEnvironment.getTeamList().size() + "/4 players");
+			teamSize.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+			teamSize.setBounds(100, 11, 400, 59);
+			athletesViewPanel.add(teamSize);
+			
+			
+		}
+		
 		
 		JPanel panelAthlete1 = new JPanel();
 		panelAthlete1.setBounds(186, 84, 245, 274);
@@ -178,7 +200,7 @@ public class SetupScreen2 {
 		infoAthlete1.setBounds(0, 158, 245, 116);
 		panelAthlete1.add(infoAthlete1);
 		
-		JLabel nameAthlete1 = new JLabel("Name athlete1");
+		JLabel nameAthlete1 = new JLabel("");
 		nameAthlete1.setForeground(new Color(0, 0, 0));
 		nameAthlete1.setBackground(new Color(255, 255, 255));
 		nameAthlete1.setFont(new Font("Cooper Black", Font.PLAIN, 15));
@@ -186,12 +208,6 @@ public class SetupScreen2 {
 		nameAthlete1.setBounds(10, 11, 225, 32);
 		panelAthlete1.add(nameAthlete1);
 		nameAthlete1.setOpaque(true);
-		
-		JLabel infoText = new JLabel("Now you need a team! Please purchase one of the following four athletes:");
-		infoText.setBounds(35, 27, 869, 24);
-		athletesViewPanel.add(infoText);
-		infoText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-		infoText.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JPanel panelAthlete2 = new JPanel();
 		panelAthlete2.setLayout(null);
@@ -208,7 +224,7 @@ public class SetupScreen2 {
 		infoAthlete2.setBounds(0, 158, 245, 116);
 		panelAthlete2.add(infoAthlete2);
 		
-		JLabel nameAthlete2 = new JLabel("Name athlete1");
+		JLabel nameAthlete2 = new JLabel("");
 		nameAthlete2.setOpaque(true);
 		nameAthlete2.setHorizontalAlignment(SwingConstants.CENTER);
 		nameAthlete2.setForeground(Color.BLACK);
@@ -232,7 +248,7 @@ public class SetupScreen2 {
 		infoAthlete3.setBounds(0, 158, 245, 116);
 		panelAthlete3.add(infoAthlete3);
 		
-		JLabel nameAthlete3 = new JLabel("Name athlete1");
+		JLabel nameAthlete3 = new JLabel("");
 		nameAthlete3.setOpaque(true);
 		nameAthlete3.setHorizontalAlignment(SwingConstants.CENTER);
 		nameAthlete3.setForeground(Color.BLACK);
@@ -256,7 +272,7 @@ public class SetupScreen2 {
 		infoAthlete4.setBounds(0, 158, 245, 116);
 		panelAthlete4.add(infoAthlete4);
 		
-		JLabel nameAthlete4 = new JLabel("Name athlete1");
+		JLabel nameAthlete4 = new JLabel("");
 		nameAthlete4.setOpaque(true);
 		nameAthlete4.setHorizontalAlignment(SwingConstants.CENTER);
 		nameAthlete4.setForeground(Color.BLACK);
@@ -267,23 +283,29 @@ public class SetupScreen2 {
 		
 		
 	    /**
-		* Set the text of jlabel to the information from toStringHTML for each athlete
+		* Set the text of jlabel to the information from toStringHTML for each athlete and set name of each athlete
 	    */
 		
 		ArrayList<Athlete> athletes = gameEnvironment.getStartingAthletes();
 		
 		for (int i = 0; i < athletes.size(); i++) {
 		    JLabel infoAthlete = null;
+		    JLabel nameAthlete = null;
 		    if (i == 0) {
 		        infoAthlete = infoAthlete1;
+		        nameAthlete = nameAthlete1;
 		    } else if (i == 1) {
 		        infoAthlete = infoAthlete2;
+		        nameAthlete = nameAthlete2;
 		    } else if (i == 2) {
 		        infoAthlete = infoAthlete3;
+		        nameAthlete = nameAthlete3;
 		    } else if (i == 3) {
 		        infoAthlete = infoAthlete4;
+		        nameAthlete = nameAthlete4;
 		    }
 		    infoAthlete.setText(athletes.get(i).toStringHTML());
+		    nameAthlete.setText(athletes.get(i).getName());
 		}
 		
 	    /**
@@ -329,7 +351,7 @@ public class SetupScreen2 {
 		athletePanel.add(athleteImage);
 		
 		JLabel athleteInfo = new JLabel(athlete.toStringHTML());
-		athleteInfo.setFont(new Font("Calibiri", Font.PLAIN, 17));
+		athleteInfo.setFont(new Font("Calibiri", Font.BOLD, 17));
 		athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		athleteInfo.setBounds(23, 305, 311, 143);
 		athletePanel.add(athleteInfo);
@@ -362,5 +384,105 @@ public class SetupScreen2 {
 	    		buyAthletes();
 	    		}
 	    });
+		
+		attackerButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent a) {
+	    		singleAthletePanel.setVisible(false);
+	    		gameEnvironment.addToTeam(athlete, "Attacker");
+	    		if (gameEnvironment.getTeamList().size() == 4) {
+	    			singleAthletePanel.setVisible(false);
+	    			gameDifficulty();
+	    		} else {
+	    			buyAthletes();
+	    		}
+	    		}
+	    });
+		
+		defenderButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent a) {
+	    		singleAthletePanel.setVisible(false);
+	    		gameEnvironment.addToTeam(athlete, "Defender");
+	    		if (gameEnvironment.getTeamList().size() == 4) {
+	    			singleAthletePanel.setVisible(false);
+	    			gameDifficulty();
+	    		} else {
+	    			buyAthletes();
+	    		}
+	    		}
+	    });
 	}
+	
+	private void gameDifficulty() {
+		
+		JPanel difficultyPanel = new JPanel();
+		difficultyPanel.setBackground(new Color(255, 255, 255));
+		difficultyPanel.setBounds(0, 0, 923, 680);
+		frame.getContentPane().add(difficultyPanel);
+		difficultyPanel.setLayout(null);
+		
+		JButton normalButton = new JButton("Normal");
+		normalButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		normalButton.setBounds(268, 321, 192, 48);
+		difficultyPanel.add(normalButton);
+		
+		JButton hardButton = new JButton("Hard");
+		hardButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		hardButton.setBounds(476, 321, 192, 48);
+		difficultyPanel.add(hardButton);
+		
+		JLabel infoText = new JLabel("Choose a difficulty setting");
+		infoText.setBounds(0, 55, 923, 429);
+		difficultyPanel.add(infoText);
+		infoText.setFont(new Font("Cooper Black", Font.PLAIN, 30));
+		infoText.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		normalButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent a) {
+	    		difficultyPanel.setVisible(false);
+	    		gameEnvironment.setGameDifficulty("Normal");
+	    		finishSetup();
+	    	}
+		});
+		
+		hardButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent a) {
+	    		difficultyPanel.setVisible(false);
+	    		gameEnvironment.setGameDifficulty("Hard");
+	    		finishSetup();
+	    	}
+		});
+		
+	}
+	
+	private void finishSetup() {
+		JPanel finishSetupPanel = new JPanel();
+		finishSetupPanel.setBackground(new Color(255, 255, 255));
+		finishSetupPanel.setBounds(0, 0, 923, 680);
+		frame.getContentPane().add(finishSetupPanel);
+		finishSetupPanel.setLayout(null);
+		
+		JLabel infoText = new JLabel("Great! Ready to start the game?");
+		infoText.setBounds(0, 0, 923, 135);
+		finishSetupPanel.add(infoText);
+		infoText.setFont(new Font("Cooper Black", Font.PLAIN, 30));
+		infoText.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JButton startButton = new JButton("Start Game");
+		startButton.setForeground(new Color(0, 0, 0));
+		startButton.setBackground(new Color(0, 171, 58));
+		startButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		startButton.setBounds(385, 456, 168, 77);
+		finishSetupPanel.add(startButton);
+		
+		JLabel lblPlayerInfo = new JLabel(gameEnvironment.toStringHTML());
+		lblPlayerInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPlayerInfo.setFont(new Font("Cooper Black", Font.PLAIN, 30));
+		lblPlayerInfo.setBounds(0, 135, 923, 322);
+		finishSetupPanel.add(lblPlayerInfo);
+
+	}
+
+		
+	
 }
+

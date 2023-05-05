@@ -12,6 +12,7 @@ public class GameEnvironment {
 	int playerMoney;
     private SetupScreen2 setupWindow;
     private ArrayList<Athlete> startingAthleteOptions;
+    private String gameDifficulty;
 	
 	public GameEnvironment() {
 		team = new Team();
@@ -86,6 +87,35 @@ public class GameEnvironment {
 		return startingAthleteOptions;
 	}
 	
+	public void addToTeam(Athlete athlete, String position) {
+		team.addToTeam(athlete);
+		athlete.setPosition(position);
+		modifyPlayerMoney(- athlete.getContractPrice());
+		refreshStartingAthletes();
+	}
+	
+	public ArrayList<Athlete> getTeamList() {
+		return team.getTeamList();
+	}
+	
+	private void modifyPlayerMoney(int money) {
+		playerMoney += money;
+	}
+	
+	public void setGameDifficulty(String difficultyInput) {
+		gameDifficulty = difficultyInput;
+		if (gameDifficulty == "Normal") {
+			playerMoney = 20000;
+		}
+		else if (gameDifficulty == "Hard") {
+			playerMoney = 0;
+		}
+	}
+	
+	public String getGameDifficulty( ) {
+		return gameDifficulty;
+	}
+	
 	public void launchSetupScreen() {
 		 setupWindow = new SetupScreen2(this);
 		 
@@ -100,6 +130,23 @@ public class GameEnvironment {
 		GameEnvironment game = new GameEnvironment();
 		game.launchSetupScreen();
 	}
+	
+    /**
+	* Returns a string representation in HTML of the GameEnvironment object, including the difficulty, season length, team name, and starting money value.
+    * @return a String containing the difficulty, season length, team name, and player money value.
+    */
+    public String toStringHTML() {
+    	//result += ("\nPosition: " + this.getPosition());
+    	String result = "<html>" + ("Team name: " + this.getTeamName());
+        result += ("<br>Season length: " + this.getSeasonLength());
+        result += ("<br>Difficulty: " + this.getGameDifficulty());
+        result += ("<br>Team balance: " + this.getMoneyFormatted()) + "</html>";
+        
+        return result;
+        
+    }
+    
+	
 	
 	
 }
