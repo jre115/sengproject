@@ -388,6 +388,7 @@ public class SetupScreen2 {
 		attackerButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
+	    		athlete.setName(athleteName.getText());
 	    		gameEnvironment.purchaseAthlete(athlete, "Attacker");
 	    		if (gameEnvironment.getTeamList().size() == 4) {
 	    			singleAthletePanel.setVisible(false);
@@ -401,6 +402,7 @@ public class SetupScreen2 {
 		defenderButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
+	    		athlete.setName(athleteName.getText());
 	    		gameEnvironment.purchaseAthlete(athlete, "Defender");
 	    		if (gameEnvironment.getTeamList().size() == 4) {
 	    			singleAthletePanel.setVisible(false);
