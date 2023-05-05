@@ -65,7 +65,7 @@ public class GameEnvironment {
 
 
 	
-	public ArrayList<Athlete> startingList() {
+	public ArrayList<Athlete> generateStartingAthletes() {
 		ArrayList<Athlete> availableAthletes = new ArrayList<Athlete>();
 		
 		

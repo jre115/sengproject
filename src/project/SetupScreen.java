@@ -13,6 +13,7 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JSlider;
@@ -146,7 +147,6 @@ public class SetupScreen {
 	}
 	
 	private void buyAthletes() {
-		gameEnvironment.startingList();
 		
 		JPanel panelAthlete1 = new JPanel();
 		panelAthlete1.setBounds(150, 83, 245, 274);
@@ -209,5 +209,26 @@ public class SetupScreen {
 		infoAthlete4.setHorizontalAlignment(SwingConstants.CENTER);
 		infoAthlete4.setBounds(24, 169, 197, 81);
 		panelAthlete4.add(infoAthlete4);
+		
+		
+	    /**
+		* Set the text of jlabel to the information from toStringHTML for each athlete
+	    */
+		
+		ArrayList<Athlete> athletes = gameEnvironment.generateStartingAthletes();
+		
+		for (int i = 0; i < athletes.size(); i++) {
+		    JLabel infoAthlete = null;
+		    if (i == 0) {
+		        infoAthlete = infoAthlete1;
+		    } else if (i == 1) {
+		        infoAthlete = infoAthlete2;
+		    } else if (i == 2) {
+		        infoAthlete = infoAthlete3;
+		    } else if (i == 3) {
+		        infoAthlete = infoAthlete4;
+		    }
+		    infoAthlete.setText(athletes.get(i).toStringHTML());
+		}
 	}
 }

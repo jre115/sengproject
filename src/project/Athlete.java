@@ -201,6 +201,22 @@ public class Athlete extends Purchasable {
     }
     
     
+    /**
+	* Returns a string representation in HTML of the Athlete object, including the athlete's name, contract price, and offensive, defensive, and stamina statistics.
+    * @return a String containing the athlete's name, contract price, and statistics.
+    */
+    public String toStringHTML() {
+    	String result = "<html>" + ("Athlete name: " + athleteName);
+    	//result += ("\nPosition: " + this.getPosition());
+    	result += ("<br>Price: " + this.getContractPriceFormatted());
+        result += ("<br>Offensive Statistic: " + this.getOffensive());
+        result += ("<br>Defensive Statistic: " + this.getDefensive());
+        result += ("<br>Stamina Statistic: " + this.getStamina()) + "</html>";
+        
+        return result;
+        
+    }
+    
 	
 	
 	
