@@ -183,6 +183,15 @@ public class Athlete extends Purchasable {
     	return athletePosition;
     }
     
+	/**
+	 * Returns the name of the athlete.
+	 *
+	 * @return a String representing the athlete's name.
+	 */
+    public String getName() {
+    	return athleteName;
+    }
+    
     /**
 	* Returns a string representation of the Athlete object, including the athlete's name, contract price, and offensive, defensive, and stamina statistics.
     * @return a String containing the athlete's name, contract price, and statistics.
@@ -206,9 +215,8 @@ public class Athlete extends Purchasable {
     * @return a String containing the athlete's name, contract price, and statistics.
     */
     public String toStringHTML() {
-    	String result = "<html>" + ("Athlete name: " + athleteName);
     	//result += ("\nPosition: " + this.getPosition());
-    	result += ("<br>Price: " + this.getContractPriceFormatted());
+    	String result = "<html>" + ("Price: " + this.getContractPriceFormatted());
         result += ("<br>Offensive Statistic: " + this.getOffensive());
         result += ("<br>Defensive Statistic: " + this.getDefensive());
         result += ("<br>Stamina Statistic: " + this.getStamina()) + "</html>";

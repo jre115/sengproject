@@ -58,7 +58,7 @@ public class CommandLineUI {
 		System.out.println("You have " + game.getMoneyFormatted());
 		System.out.println("Input any key to view the list of purchaseable athletes");
 		scanner.nextLine();
-		ArrayList<Athlete> startingList = game.generateStartingAthletes();
+		ArrayList<Athlete> startingList = game.getStartingAthletes();
 		
 		int i = 1;
 		for (Athlete athlete: startingList) {

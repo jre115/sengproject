@@ -10,7 +10,8 @@ public class GameEnvironment {
 	Team team;
 	int seasonLength;
 	int playerMoney;
-    private SetupScreen setupWindow;
+    private SetupScreen2 setupWindow;
+    private ArrayList<Athlete> startingAthleteOptions;
 	
 	public GameEnvironment() {
 		team = new Team();
@@ -65,7 +66,7 @@ public class GameEnvironment {
 
 
 	
-	public ArrayList<Athlete> generateStartingAthletes() {
+	public void refreshStartingAthletes() {
 		ArrayList<Athlete> availableAthletes = new ArrayList<Athlete>();
 		
 		
@@ -75,13 +76,18 @@ public class GameEnvironment {
 			availableAthletes.add(athlete);
 		}
 		
-		return availableAthletes;
-		
-		
+		startingAthleteOptions = availableAthletes;
+	}
+	
+	public ArrayList<Athlete> getStartingAthletes() {
+		if (startingAthleteOptions == null) {
+			refreshStartingAthletes();
+		}
+		return startingAthleteOptions;
 	}
 	
 	public void launchSetupScreen() {
-		 setupWindow = new SetupScreen(this);
+		 setupWindow = new SetupScreen2(this);
 		 
 	}
 	
