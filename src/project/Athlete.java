@@ -160,9 +160,15 @@ public class Athlete extends Purchasable {
      *
      * @param nameInput a string representing the new name of the athlete.
      */
-    public void setName(String nameInput) {
-    	athleteName = nameInput;
-    }
+	public void setName(String nameInput) throws NameException {
+		if (nameInput.length() < 3 || nameInput.length() > 30) {
+			throw new NameException("Player nickname must be between 1 - 30 characters long");
+		}
+		else if (nameInput.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~]+.*")) {
+			throw new NameException("Nickname must not include any special characters");
+		}
+		athleteName = nameInput;
+	}
     
     /**
      * Sets the position of the athlete. 
@@ -192,14 +198,33 @@ public class Athlete extends Purchasable {
     	return athleteName;
     }
     
+	public void changeAthletePosition() {
+		this.setPosition(getAlternatePosition());
+	}
+	
+	public String getAlternatePosition() {
+		String position = null;
+		if (this.getPosition() == "Attacker") {
+			position = "Defender";
+		} else if (this.getPosition() == "Defender") {
+			position = "Attacker";
+		}
+		return position;
+	}
+	
+	
+    
     /**
 	* Returns a string representation of the Athlete object, including the athlete's name, contract price, and offensive, defensive, and stamina statistics.
     * @return a String containing the athlete's name, contract price, and statistics.
     */
     public String toString() {
     	String result = ("Athlete name: " + athleteName);
-    	//result += ("\nPosition: " + this.getPosition());
-    	result += ("\nPrice: " + this.getContractPriceFormatted());
+    	if (this.getPosition() != null) {
+    		result += ("\nPosition: " + this.getPosition());
+    	} else {
+    		result += ("\nPrice: " + this.getContractPriceFormatted());
+    	}
         result += ("\nOffensive Statistic: " + this.getOffensive());
         result += ("\nDefensive Statistic: " + this.getDefensive());
         result += ("\nStamina Statistic: " + this.getStamina());

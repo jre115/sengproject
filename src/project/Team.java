@@ -1,6 +1,9 @@
 package project;
 
 import java.util.ArrayList;
+
+/// TEAM CLASS TO BE REMOVED DO NOT USE
+
 import java.util.Scanner;
 
 public class Team {

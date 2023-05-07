@@ -57,14 +57,19 @@ public class Market extends GameEnvironment {
 		/// to do test if works, make items, random array list of items
 	}
 	
-	public void purchaseAthlete(Athlete athlete) throws Exception {
-	    if (teamList.size() >= 4) {
-	        throw new Exception("Team is already full, cannot add more athletes!");
-	    }
+	public void purchaseAthlete(Athlete athlete, String purchaseType) throws Exception {
 	    if (playerMoney < athlete.getContractPrice()) {
 	        throw new Exception("Not enough money to purchase athlete's contract!");
+	    } 
+	    if (reservesList.size() >= 5) {
+	        throw new Exception("Reserves List is already full, cannot add more athletes!");
 	    }
-	    teamList.add(athlete);
+	    if (purchaseType == "Reserve") {
+	    	reservesList.add(athlete);
+	    } else {
+	    	teamList.add(athlete);
+	    	athlete.setPosition(purchaseType);
+	    }
 	    playerMoney -= athlete.getContractPrice();
 	}
 

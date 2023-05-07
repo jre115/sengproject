@@ -2,21 +2,31 @@ package project;
 
 import java.util.ArrayList;
 
-import lab.RocketManager;
-import lab.SetupScreen;
-
 public class GameEnvironment {
 	
-	Team team;
 	int seasonLength;
 	int playerMoney;
     private SetupScreen2 setupWindow;
-    private ArrayList<Athlete> startingAthleteOptions;
+    private ArrayList<Athlete> initialAthleteOptions;
     private String gameDifficulty;
+    int currentWeek;
+    
+	private String teamName;
+	protected ArrayList<Athlete> teamList;
+	protected ArrayList<Athlete> reservesList;
 	
 	public GameEnvironment() {
-		team = new Team();
 		playerMoney = 20000;
+		teamList = new ArrayList<Athlete>();
+		reservesList = new ArrayList<Athlete>();
+		
+		// this is for a test
+		Athlete athlete = new Athlete();
+		reservesList.add(athlete); // THIS IS FOR TESTIGN!!
+	}
+	
+	public String getTeamName() {
+		return teamName;
 	}
 	
 	public void setTeamName(String teamName) throws NameException {
@@ -27,11 +37,7 @@ public class GameEnvironment {
 			throw new NameException("Team name must not include any special characters");
 		}
 			
-		team.setTeamName(teamName);
-	}
-	
-	public String getTeamName() {
-		return team.getTeamName();
+		this.teamName = teamName;
 	}
 	
 	public void setSeasonLength(int length) {
@@ -64,10 +70,8 @@ public class GameEnvironment {
 	    return formatted;
 	}
 
-
-
 	
-	public void refreshStartingAthletes() {
+	public void refreshInitialAthletes() {
 		ArrayList<Athlete> availableAthletes = new ArrayList<Athlete>();
 		
 		
@@ -77,25 +81,33 @@ public class GameEnvironment {
 			availableAthletes.add(athlete);
 		}
 		
-		startingAthleteOptions = availableAthletes;
+		initialAthleteOptions = availableAthletes;
 	}
 	
-	public ArrayList<Athlete> getStartingAthletes() {
-		if (startingAthleteOptions == null) {
-			refreshStartingAthletes();
+	public ArrayList<Athlete> getInitialAthletes() {
+		if (initialAthleteOptions == null) {
+			refreshInitialAthletes();
 		}
-		return startingAthleteOptions;
+		return initialAthleteOptions;
 	}
 	
-	public void purchaseAthlete(Athlete athlete, String position) {
-		team.addToTeam(athlete);
+	public void purchaseInitialAthlete(Athlete athlete, String position) {
+		addToInitialTeam(athlete);
 		athlete.setPosition(position);
 		modifyPlayerMoney(- athlete.getContractPrice());
-		refreshStartingAthletes();
+		refreshInitialAthletes();
+	}
+	
+	public void addToInitialTeam(Athlete athlete) {
+		teamList.add(athlete);
 	}
 	
 	public ArrayList<Athlete> getTeamList() {
-		return team.getTeamList();
+		return teamList;
+	}
+	
+	public ArrayList<Athlete> getReservesList() {
+		return reservesList;
 	}
 	
 	private void modifyPlayerMoney(int money) {
@@ -104,12 +116,6 @@ public class GameEnvironment {
 	
 	public void setGameDifficulty(String difficultyInput) {
 		gameDifficulty = difficultyInput;
-		if (gameDifficulty == "Normal") {
-			playerMoney = 20000;
-		}
-		else if (gameDifficulty == "Hard") {
-			playerMoney = 0;
-		}
 	}
 	
 	public String getGameDifficulty( ) {
@@ -131,6 +137,52 @@ public class GameEnvironment {
 		game.launchSetupScreen();
 	}
 	
+	private void increaseWeek() {
+		if (currentWeek < seasonLength) {
+			currentWeek += 1;
+		}
+		else {
+			endGame();
+		}
+	}
+	
+	public int getCurrentWeek() {
+		return currentWeek;
+	}
+	
+	private void endGame() {
+		// insert code here
+	}
+	
+	public void startGame() {
+		currentWeek = 0;
+		increaseWeek();
+		
+		if (gameDifficulty == "Normal") {
+			setPlayerMoney(20000);
+		}
+		else if (gameDifficulty == "Hard") {
+			setPlayerMoney(0);
+		}
+	}
+	
+	public void swapAthletes(Athlete playerAthlete, Athlete reserveAthlete) {
+		int playerIndex = this.getTeamList().indexOf(playerAthlete);
+		int reserveIndex = this.getReservesList().indexOf(reserveAthlete);
+		String position = playerAthlete.getPosition();
+		
+		playerAthlete.setPosition("Null");
+		reserveAthlete.setPosition(position);
+		
+		this.getTeamList().set(playerIndex, reserveAthlete);
+		this.getReservesList().set(reserveIndex, playerAthlete);
+	}
+	
+	
+	
+	
+	
+	
     /**
 	* Returns a string representation in HTML of the GameEnvironment object, including the difficulty, season length, team name, and starting money value.
     * @return a String containing the difficulty, season length, team name, and player money value.
@@ -139,8 +191,7 @@ public class GameEnvironment {
     	//result += ("\nPosition: " + this.getPosition());
     	String result = "<html>" + ("Team name: " + this.getTeamName());
         result += ("<br>Season length: " + this.getSeasonLength() + " weeks");
-        result += ("<br>Difficulty: " + this.getGameDifficulty());
-        result += ("<br>Team balance: " + this.getMoneyFormatted()) + "</html>";
+        result += ("<br>Difficulty: " + this.getGameDifficulty() + "</html>");
         
         return result;
         
@@ -155,12 +206,12 @@ public class GameEnvironment {
     	String result = ("Team name: " + this.getTeamName());
         result += ("\nSeason length: " + this.getSeasonLength() + " weeks");
         result += ("\nDifficulty: " + this.getGameDifficulty());
-        result += ("\nTeam balance: " + this.getMoneyFormatted());
         
         return result;
         
     }
-    
+
+
 	
 	
 	

@@ -286,7 +286,7 @@ public class SetupScreen2 {
 		* Set the text of jlabel to the information from toStringHTML for each athlete and set name of each athlete
 	    */
 		
-		ArrayList<Athlete> athletes = gameEnvironment.getStartingAthletes();
+		ArrayList<Athlete> athletes = gameEnvironment.getInitialAthletes();
 		
 		for (int i = 0; i < athletes.size(); i++) {
 		    JLabel infoAthlete = null;
@@ -389,7 +389,7 @@ public class SetupScreen2 {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
 	    		athlete.setName(athleteName.getText());
-	    		gameEnvironment.purchaseAthlete(athlete, "Attacker");
+	    		gameEnvironment.purchaseInitialAthlete(athlete, "Attacker");
 	    		if (gameEnvironment.getTeamList().size() == 4) {
 	    			singleAthletePanel.setVisible(false);
 	    			gameDifficulty();
@@ -403,7 +403,7 @@ public class SetupScreen2 {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
 	    		athlete.setName(athleteName.getText());
-	    		gameEnvironment.purchaseAthlete(athlete, "Defender");
+	    		gameEnvironment.purchaseInitialAthlete(athlete, "Defender");
 	    		if (gameEnvironment.getTeamList().size() == 4) {
 	    			singleAthletePanel.setVisible(false);
 	    			gameDifficulty();
