@@ -2,7 +2,7 @@ package project;
 
 import java.util.ArrayList;
 import java.util.Random;
-public class Market {
+public class Market extends GameEnvironment {
 	// Creates new items
 	public Item Broom = new Item("Nimbus2023", 5, 5, 1000, 200, "The newest model of broom currently avialble on the market");
 	public Item LuckPotion = new Item("LiquidLuck", 7, 7, 1500, 200, "A potion that increaes your Luck");
@@ -55,8 +55,19 @@ public class Market {
 		return ShopAthletes;
 		
 		/// to do test if works, make items, random array list of items
-		
+	}
 	
+	public void purchaseAthlete(Athlete athlete) throws Exception {
+	    if (teamList.size() >= 4) {
+	        throw new Exception("Team is already full, cannot add more athletes!");
+	    }
+	    if (playerMoney < athlete.getContractPrice()) {
+	        throw new Exception("Not enough money to purchase athlete's contract!");
+	    }
+	    teamList.add(athlete);
+	    playerMoney -= athlete.getContractPrice();
+	}
 
-}}
+	
+}
 
