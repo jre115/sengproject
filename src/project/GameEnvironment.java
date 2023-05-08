@@ -11,6 +11,8 @@ public class GameEnvironment {
     private String gameDifficulty;
     int currentWeek;
     Team team;
+    Market market;
+
     
 	
 	public GameEnvironment() {
@@ -79,6 +81,11 @@ public class GameEnvironment {
 	public ArrayList<Athlete> getReservesList() {
 		return team.getReservesList();
 	}
+	//*cpe81 added get player shop
+	public ArrayList<Athlete> getShopAthletes() {
+        return market.playerShop();
+    }
+    
 	
 	private void modifyPlayerMoney(int money) {
 		playerMoney += money;

@@ -24,7 +24,7 @@ public class Market extends GameEnvironment {
 	    shopItems.add(fiveSensePotion);
 
 	    ArrayList<Item> selectedItems = new ArrayList<Item>();
-	    Random random = new Random();
+	    Random random = new Random();g
 	    while (selectedItems.size() < 3) {
 	        int index = random.nextInt(shopItems.size());
 	        if (!selectedItems.contains(shopItems.get(index))) {
@@ -38,7 +38,7 @@ public class Market extends GameEnvironment {
 
 	
 	///array list of athletes between 3-5 athletes
-	public ArrayList<Athlete> Shop() {
+	public ArrayList<Athlete> playerShop() {
 		Random R = new Random();
 		int min = 3;
 		int max = 5;
@@ -56,7 +56,12 @@ public class Market extends GameEnvironment {
 		
 		return ShopAthletes;
 		
+		
+		
 		/// to do test if works, make items, random array list of items
+	}
+	public ArrayList<Athlete> getShopAthletes() {
+		return playerShop();
 	}
 	
 	public void purchaseAthlete(Athlete athlete, String purchaseType) throws Exception {
