@@ -7,26 +7,19 @@ public class GameEnvironment {
 	int seasonLength;
 	int playerMoney;
     private SetupScreen2 setupWindow;
-    private ArrayList<Athlete> initialAthleteOptions;
+
     private String gameDifficulty;
     int currentWeek;
+    Team team;
     
-	private String teamName;
-	protected ArrayList<Athlete> teamList;
-	protected ArrayList<Athlete> reservesList;
 	
 	public GameEnvironment() {
 		playerMoney = 20000;
-		teamList = new ArrayList<Athlete>();
-		reservesList = new ArrayList<Athlete>();
-		
-		// this is for a test
-		Athlete athlete = new Athlete();
-		reservesList.add(athlete); // THIS IS FOR TESTIGN!!
+		team = new Team();
 	}
 	
 	public String getTeamName() {
-		return teamName;
+		return team.getTeamName();
 	}
 	
 	public void setTeamName(String teamName) throws NameException {
@@ -37,7 +30,7 @@ public class GameEnvironment {
 			throw new NameException("Team name must not include any special characters");
 		}
 			
-		this.teamName = teamName;
+		team.setTeamName(teamName);
 	}
 	
 	public void setSeasonLength(int length) {
@@ -70,44 +63,21 @@ public class GameEnvironment {
 	    return formatted;
 	}
 
-	
-	public void refreshInitialAthletes() {
-		ArrayList<Athlete> availableAthletes = new ArrayList<Athlete>();
-		
-		
-		for (int i = 1; i <= 4; i ++) {
-			Athlete athlete = new Athlete();
-			athlete.setContractPrice(5000);
-			availableAthletes.add(athlete);
-		}
-		
-		initialAthleteOptions = availableAthletes;
-	}
-	
 	public ArrayList<Athlete> getInitialAthletes() {
-		if (initialAthleteOptions == null) {
-			refreshInitialAthletes();
-		}
-		return initialAthleteOptions;
+		return team.getInitialAthletes();
 	}
 	
 	public void purchaseInitialAthlete(Athlete athlete, String position) {
-		addToInitialTeam(athlete);
-		athlete.setPosition(position);
+		team.addToTeam(athlete, position);
 		modifyPlayerMoney(- athlete.getContractPrice());
-		refreshInitialAthletes();
-	}
-	
-	public void addToInitialTeam(Athlete athlete) {
-		teamList.add(athlete);
 	}
 	
 	public ArrayList<Athlete> getTeamList() {
-		return teamList;
+		return team.getTeamList();
 	}
 	
 	public ArrayList<Athlete> getReservesList() {
-		return reservesList;
+		return team.getReservesList();
 	}
 	
 	private void modifyPlayerMoney(int money) {
@@ -167,18 +137,8 @@ public class GameEnvironment {
 	}
 	
 	public void swapAthletes(Athlete playerAthlete, Athlete reserveAthlete) {
-		int playerIndex = this.getTeamList().indexOf(playerAthlete);
-		int reserveIndex = this.getReservesList().indexOf(reserveAthlete);
-		String position = playerAthlete.getPosition();
-		
-		playerAthlete.setPosition("Null");
-		reserveAthlete.setPosition(position);
-		
-		this.getTeamList().set(playerIndex, reserveAthlete);
-		this.getReservesList().set(reserveIndex, playerAthlete);
+		team.swapAthletes(playerAthlete, reserveAthlete);
 	}
-	
-	
 	
 	
 	

@@ -11,6 +11,7 @@ public class Team {
 	private String teamName;
 	private ArrayList<Athlete> teamList;
 	private ArrayList<Athlete> reservesList;
+    private ArrayList<Athlete> initialAthleteOptions;
 	
 	public Team() {
 		teamList = new ArrayList<Athlete>();
@@ -35,49 +36,54 @@ public class Team {
 		return teamList;
 	}
 	
-
-	
-	public void setPositions() {
-		for (Athlete athlete: teamList) {
-			Scanner myObj = new Scanner(System.in);
-			System.out.println(athlete);
-			System.out.println("Enter the following number for positions: 1. Offensive, 2. Defensive");
-			int position = myObj.nextInt();
-			//myObj.close();
-			// JR NOTE: need to create exceptions here in case it isnt one of the two options.. potentially or replace with buttons later?
-			
-			if (position == 1) {
-					athlete.setPosition("Offensive");
-			}
-			else {
-				athlete.setPosition("Defensive");
-			}
-			
-			System.out.println(athlete);
-			System.out.println("\n");
-		}
-
-	}
 	
 	public void addReserve(Athlete athlete) {
 		reservesList.add(athlete);
 	}
 	
-	public void addToTeam(Athlete athlete) {
+	public void addToTeam(Athlete athlete, String position) {
+		if (teamList.size() < 4) {
+			refreshInitialAthletes();
+		}
 		teamList.add(athlete);
+		athlete.setPosition(position);
 	}
 	
-	public static void main(String[] args) {
-		Athlete athlete1 = new Athlete();
-		Athlete athlete2 = new Athlete();
-		Athlete athlete3 = new Athlete();	
-		Team team = new Team();
-		team.addToTeam(athlete1);
-		team.addToTeam(athlete2);
-		team.addReserve(athlete3);
+
+	public void refreshInitialAthletes() {
+		ArrayList<Athlete> availableAthletes = new ArrayList<Athlete>();
 		
-		team.setPositions();
+		
+		for (int i = 1; i <= 4; i ++) {
+			Athlete athlete = new Athlete();
+			athlete.setContractPrice(5000);
+			availableAthletes.add(athlete);
+		}
+		
+		initialAthleteOptions = availableAthletes;
 	}
+	
+	public ArrayList<Athlete> getInitialAthletes() {
+		if (initialAthleteOptions == null) {
+			refreshInitialAthletes();
+		}
+		return initialAthleteOptions;
+	}
+	
+	public void swapAthletes(Athlete playerAthlete, Athlete reserveAthlete) {
+		int playerIndex = teamList.indexOf(playerAthlete);
+		int reserveIndex = reservesList.indexOf(reserveAthlete);
+		String position = playerAthlete.getPosition();
+		
+		playerAthlete.setPosition("Null");
+		reserveAthlete.setPosition(position);
+		
+		teamList.set(playerIndex, reserveAthlete);
+		reservesList.set(reserveIndex, playerAthlete);
+	}
+	
+	
+	
 	
 
 

@@ -4,6 +4,7 @@ package project;
  * item class for athletes 
  * increase stats: offense defense
  * one time use
+ * JR NOTE NEED 4 different types of items e.g. training equipment and foods
  */
 
 public class Item extends Purchasable {
