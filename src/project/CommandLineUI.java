@@ -163,6 +163,31 @@ public class CommandLineUI {
 	        // 
 	        break;
 		}
+		
+		
+			
+		
+	}
+	
+	public void goToMarket() {
+		System.out.print("\nMARKET");
+		System.out.print("\n1. Sell\n2. Buy item\n3. Buy Player");
+		
+		int marketValue = scanNumericalValue(1, 3);
+		switch(marketValue) {
+		
+		case 1:
+			break;
+		
+		case 2:
+			 
+			ArrayList<Athlete> marketAthletes = market.Shop();
+			
+			
+			
+		}
+			
+			
 	}
 	
 	public void goToClub() {
