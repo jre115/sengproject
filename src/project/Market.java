@@ -35,14 +35,16 @@ public class Market extends GameEnvironment {
 	}
 	
 	/// generates random number between 3,5
-	Random R = new Random();
-	int min = 3;
-	int max = 5;
-	
-	int Num = R.nextInt(max - min + 1) + min;
+
 	
 	///array list of athletes between 3-5 athletes
 	public ArrayList<Athlete> Shop() {
+		Random R = new Random();
+		int min = 3;
+		int max = 5;
+		
+		int Num = R.nextInt(max - min + 1) + min;
+		
 		ArrayList<Athlete> ShopAthletes = new ArrayList<Athlete>();
 		
 		
@@ -68,6 +70,7 @@ public class Market extends GameEnvironment {
 	    	reservesList.add(athlete);
 	    } else {
 	    	teamList.add(athlete);
+	    	
 	    	athlete.setPosition(purchaseType);
 	    }
 	    playerMoney -= athlete.getContractPrice();
