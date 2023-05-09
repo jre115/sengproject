@@ -7,9 +7,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import lab.RocketManager;
+import lab.Athlete;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -19,8 +20,12 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JSlider;
+import javax.swing.ImageIcon;
 
 public class SetupScreen2 {
+	
+	int width = 984;
+	int height = 711;
 
 	private JFrame frame;
 	private JTextField textField;
@@ -42,31 +47,50 @@ public class SetupScreen2 {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
-		frame.setBounds(100, 100, 949, 719);
+		frame.setSize(1000, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		
 		JPanel startPanel = new JPanel();
 		startPanel.setBackground(new Color(255, 255, 255));
-		startPanel.setBounds(0, 0, 923, 680);
+		startPanel.setBounds(0, 0, 984, 711);
 		frame.getContentPane().add(startPanel);
 		startPanel.setLayout(null);
 		
 		
-		JLabel welcomeText = new JLabel("Welcome!");
-		welcomeText.setFont(new Font("Cooper Black", Font.PLAIN, 50));
-		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
-		welcomeText.setBounds(309, 192, 298, 90);
-		startPanel.add(welcomeText);
+		JLabel titleText1 = new JLabel("Broomstick");
+		titleText1.setFont(new Font("Cooper Black", Font.PLAIN, 60));
+		titleText1.setHorizontalAlignment(SwingConstants.CENTER);
+		titleText1.setSize(359, 70);
+		titleText1.setLocation((width - titleText1.getWidth()) / 2, 200);
+		startPanel.add(titleText1);
+		
+		JLabel titleText2 = new JLabel("Blitz");
+		titleText2.setHorizontalAlignment(SwingConstants.CENTER);
+		titleText2.setFont(new Font("Cooper Black", Font.PLAIN, 60));
+		titleText2.setSize(145, 70);
+		titleText2.setLocation(((width - titleText2.getWidth()) / 2) - 20, 270);
+		startPanel.add(titleText2);
 		
 		JButton startButton = new JButton("Start Game");
 		startButton.setForeground(new Color(0, 0, 0));
 		startButton.setBackground(new Color(0, 171, 58));
 		startButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-		startButton.setBounds(385, 311, 168, 77);
+		startButton.setSize(168, 77);
+		startButton.setLocation((width - startButton.getWidth())/ 2, 370);
 		startPanel.add(startButton);
-
+		
+		ImageIcon icon = new ImageIcon(SetupScreen2.class.getResource("/Pictures/broomstick.jpg"));
+		Image originalImage = icon.getImage();
+		int scaledWidth = (int) (icon.getIconWidth() * 0.2);
+		int scaledHeight = (int) (icon.getIconHeight() * 0.15);
+		Image scaledImage = originalImage.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+		ImageIcon scaledIcon = new ImageIcon(scaledImage);
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(scaledIcon);
+		lblNewLabel.setBounds(545, 265, scaledWidth, scaledHeight);
+		startPanel.add(lblNewLabel);
 
 	   
 	    /** 
@@ -88,27 +112,30 @@ public class SetupScreen2 {
 	private void setupInput() {
 		JPanel setupInputPanel = new JPanel();
 		setupInputPanel.setBackground(new Color(255, 255, 255));
-		setupInputPanel.setBounds(0, 0, 923, 680);
+		setupInputPanel.setBounds(0, 0, width, height);
 		frame.getContentPane().add(setupInputPanel);
 		setupInputPanel.setLayout(null);
 		
 	    JLabel teamLabel = new JLabel("Please input a team name");
 	    teamLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	    teamLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-	    teamLabel.setBounds(33, 148, 847, 90);
+	    teamLabel.setSize(255, 24);
+	    teamLabel.setLocation((width - teamLabel.getWidth()) / 2, 167);
 	    setupInputPanel.add(teamLabel);
 
 	    
 	    JTextField teamNameInput = new JTextField();
 	    teamNameInput.setHorizontalAlignment(SwingConstants.CENTER);
 		teamNameInput.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-		teamNameInput.setBounds(249, 242, 442, 40);
+		teamNameInput.setSize(442, 40);
+		teamNameInput.setLocation((width - teamNameInput.getWidth())/ 2, 242);
 		setupInputPanel.add(teamNameInput);
 		teamNameInput.setColumns(10);
 
 	    JSlider weeksSlider = new JSlider(JSlider.HORIZONTAL, 5, 15, 10);
 	    weeksSlider.setFont(new Font("Cooper Black", Font.PLAIN, 15));
-	    weeksSlider.setBounds(309, 430, 338, 66);
+	    weeksSlider.setSize(338, 66);
+	    weeksSlider.setLocation((width - weeksSlider.getWidth())/2, 430);
 	    weeksSlider.setMajorTickSpacing(1);
 	    weeksSlider.setPaintTicks(true);
 	    weeksSlider.setPaintLabels(true);
@@ -119,14 +146,16 @@ public class SetupScreen2 {
 	    nextButton.setForeground(Color.BLACK);
 	    nextButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 	    nextButton.setBackground(new Color(0, 171, 58));
-	    nextButton.setBounds(385, 561, 168, 46);
+	    nextButton.setSize(168, 46);
+	    nextButton.setLocation((width - nextButton.getWidth()) / 2, 561);
 	    setupInputPanel.add(nextButton);
 	    
 	    
 	    JLabel weeksLabel = new JLabel("How many weeks would you like the season to last?");
 	    weeksLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	    weeksLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-	    weeksLabel.setBounds(33, 329, 847, 90);
+	    weeksLabel.setSize(528, 24);
+	    weeksLabel.setLocation((width - weeksLabel.getWidth())/2, 356);
 	    setupInputPanel.add(weeksLabel);
 
 	    
@@ -134,7 +163,8 @@ public class SetupScreen2 {
 		errorText.setHorizontalAlignment(SwingConstants.CENTER);
 		errorText.setForeground(new Color(255, 0, 0));
 		errorText.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		errorText.setBounds(249, 304, 442, 14);
+		errorText.setSize(442, 20);
+		errorText.setLocation((width - errorText.getWidth()) /2, 304);
 		setupInputPanel.add(errorText);
 		
 	    nextButton.addActionListener(new ActionListener() {
@@ -158,12 +188,13 @@ public class SetupScreen2 {
 		
 		JPanel athletesViewPanel = new JPanel();
 		athletesViewPanel.setBackground(new Color(255, 255, 255));
-		athletesViewPanel.setBounds(0, 0, 923, 680);
+		athletesViewPanel.setBounds(0, 0, width, height);
 		frame.getContentPane().add(athletesViewPanel);
 		athletesViewPanel.setLayout(null);
 		
 		JLabel infoText = new JLabel("Now you need a team! Please purchase one of the following four athletes:");
-		infoText.setBounds(35, 27, 869, 24);
+		infoText.setSize(742, 24);
+		infoText.setLocation((width - infoText.getWidth())/2, 27);
 		athletesViewPanel.add(infoText);
 		infoText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		infoText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -173,7 +204,7 @@ public class SetupScreen2 {
 			
 			JLabel playerBalance = new JLabel("Your balance: " + gameEnvironment.getMoneyFormatted());
 			playerBalance.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-			playerBalance.setBounds(650, 11, 273, 59);
+			playerBalance.setBounds(650, 11, 291, 59);
 			athletesViewPanel.add(playerBalance);
 			
 			JLabel teamSize = new JLabel("Team filled: " + gameEnvironment.getTeamList().size() + "/4 players");
@@ -186,7 +217,7 @@ public class SetupScreen2 {
 		
 		
 		JPanel panelAthlete1 = new JPanel();
-		panelAthlete1.setBounds(186, 84, 245, 274);
+		panelAthlete1.setBounds(226, 84, 245, 274);
 		athletesViewPanel.add(panelAthlete1);
 		panelAthlete1.setLayout(null);
 		
@@ -211,7 +242,7 @@ public class SetupScreen2 {
 		
 		JPanel panelAthlete2 = new JPanel();
 		panelAthlete2.setLayout(null);
-		panelAthlete2.setBounds(481, 84, 245, 274);
+		panelAthlete2.setBounds(521, 84, 245, 274);
 		athletesViewPanel.add(panelAthlete2);
 		
 		JPanel pictureAthlete2 = new JPanel();
@@ -235,7 +266,7 @@ public class SetupScreen2 {
 		
 		JPanel panelAthlete3 = new JPanel();
 		panelAthlete3.setLayout(null);
-		panelAthlete3.setBounds(186, 383, 245, 274);
+		panelAthlete3.setBounds(226, 383, 245, 274);
 		athletesViewPanel.add(panelAthlete3);
 		
 		JPanel pictureAthlete3 = new JPanel();
@@ -259,7 +290,7 @@ public class SetupScreen2 {
 		
 		JPanel panelAthlete4 = new JPanel();
 		panelAthlete4.setLayout(null);
-		panelAthlete4.setBounds(481, 383, 245, 274);
+		panelAthlete4.setBounds(521, 383, 245, 274);
 		athletesViewPanel.add(panelAthlete4);
 		
 		JPanel pictureAthlete4 = new JPanel();
@@ -330,12 +361,13 @@ public class SetupScreen2 {
 		
 		JPanel singleAthletePanel = new JPanel();
 		singleAthletePanel.setBackground(new Color(255, 255, 255));
-		singleAthletePanel.setBounds(0, 0, 923, 680);
+		singleAthletePanel.setBounds(0, 0, width, height);
 		frame.getContentPane().add(singleAthletePanel);
 		singleAthletePanel.setLayout(null);
 		
 		JPanel athletePanel = new JPanel();
-		athletePanel.setBounds(282, 88, 360, 459);
+		athletePanel.setSize(360, 459);
+		athletePanel.setLocation(312, 98);
 		singleAthletePanel.add(athletePanel);
 		athletePanel.setLayout(null);
 		
@@ -356,27 +388,28 @@ public class SetupScreen2 {
 		athleteInfo.setBounds(23, 305, 311, 143);
 		athletePanel.add(athleteInfo);
 		
-		JButton attackerButton = new JButton("<html><center>"+"Buy as"+"<br>"+"attacker"+"</center></html>");
-		attackerButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
-		attackerButton.setBounds(282, 586, 168, 48);
-		singleAthletePanel.add(attackerButton);
-		
 		JLabel playerBalance = new JLabel("Your balance: " + gameEnvironment.getMoneyFormatted());
 		playerBalance.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-		playerBalance.setBounds(650, 11, 273, 59);
+		playerBalance.setBounds(650, 11, 291, 59);
 		singleAthletePanel.add(playerBalance);
-		
-		JButton defenderButton = new JButton("<html><center>Buy as<br>defender</center></html>");
-		defenderButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
-		defenderButton.setBounds(474, 586, 168, 48);
-		singleAthletePanel.add(defenderButton);
 		
 		JButton backButton = new JButton("Back");
 		backButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
 		backButton.setBounds(10, 11, 81, 48);
 		singleAthletePanel.add(backButton);
-		//frame.setBounds(100, 100, 949, 719);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JButton attackerButton = new JButton("<html><center>"+"Buy as"+"<br>"+"attacker"+"</center></html>");
+		attackerButton.setSize((athletePanel.getWidth()/2) - 10, 50);
+		attackerButton.setLocation(312, 581);
+		singleAthletePanel.add(attackerButton);
+		attackerButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+		
+		JButton defenderButton = new JButton("<html><center>"+"Buy as"+"<br>"+"defender"+"</center></html>");
+		defenderButton.setSize((athletePanel.getWidth()/2) - 10, 50);
+		defenderButton.setLocation(502, 581);
+		singleAthletePanel.add(defenderButton);
+		defenderButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+		
 		
 		backButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
@@ -418,26 +451,28 @@ public class SetupScreen2 {
 		
 		JPanel difficultyPanel = new JPanel();
 		difficultyPanel.setBackground(new Color(255, 255, 255));
-		difficultyPanel.setBounds(0, 0, 923, 680);
+		difficultyPanel.setBounds(0, 0, width, height);
 		frame.getContentPane().add(difficultyPanel);
 		difficultyPanel.setLayout(null);
 		
 		JButton normalButton = new JButton("Normal");
 		normalButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-		normalButton.setBounds(268, 321, 192, 48);
+		normalButton.setBounds(290, 321, 192, 48);
 		difficultyPanel.add(normalButton);
 		
 		JButton hardButton = new JButton("Hard");
 		hardButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-		hardButton.setBounds(476, 321, 192, 48);
+		hardButton.setBounds(501, 321, 192, 48);
 		difficultyPanel.add(hardButton);
 		
 		JLabel infoText = new JLabel("Choose a difficulty setting");
-		infoText.setBounds(0, 55, 923, 429);
+		infoText.setSize(403, 35);
+		infoText.setLocation((width - infoText.getWidth())/2, 252);
 		difficultyPanel.add(infoText);
 		infoText.setFont(new Font("Cooper Black", Font.PLAIN, 30));
 		infoText.setHorizontalAlignment(SwingConstants.CENTER);
 		
+
 		normalButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		difficultyPanel.setVisible(false);
@@ -459,12 +494,13 @@ public class SetupScreen2 {
 	private void finishSetup() {
 		JPanel finishSetupPanel = new JPanel();
 		finishSetupPanel.setBackground(new Color(255, 255, 255));
-		finishSetupPanel.setBounds(0, 0, 923, 680);
+		finishSetupPanel.setBounds(0, 0, width, height);
 		frame.getContentPane().add(finishSetupPanel);
 		finishSetupPanel.setLayout(null);
 		
 		JLabel infoText = new JLabel("Great! Ready to start the game?");
-		infoText.setBounds(0, 0, 923, 135);
+		infoText.setSize(481, 35);
+		infoText.setLocation((width - infoText.getWidth())/2, 59);
 		finishSetupPanel.add(infoText);
 		infoText.setFont(new Font("Cooper Black", Font.PLAIN, 30));
 		infoText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -473,14 +509,15 @@ public class SetupScreen2 {
 		startButton.setForeground(new Color(0, 0, 0));
 		startButton.setBackground(new Color(0, 171, 58));
 		startButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-		startButton.setBounds(385, 456, 168, 77);
+		startButton.setSize(168, 77);
+		startButton.setLocation((width - startButton.getWidth())/2, 456);
 		finishSetupPanel.add(startButton);
 		
-		JLabel lblPlayerInfo = new JLabel(gameEnvironment.toStringHTML());
-		lblPlayerInfo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPlayerInfo.setFont(new Font("Cooper Black", Font.PLAIN, 30));
-		lblPlayerInfo.setBounds(0, 135, 923, 322);
-		finishSetupPanel.add(lblPlayerInfo);
+		JLabel playerInfo = new JLabel(gameEnvironment.toStringHTML());
+		playerInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		playerInfo.setFont(new Font("Cooper Black", Font.PLAIN, 30));
+		playerInfo.setBounds(0, 123, 984, 322);
+		finishSetupPanel.add(playerInfo);
 
 	}
 
