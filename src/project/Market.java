@@ -24,7 +24,7 @@ public class Market extends GameEnvironment {
 	    shopItems.add(fiveSensePotion);
 
 	    ArrayList<Item> selectedItems = new ArrayList<Item>();
-	    Random random = new Random();g
+	    Random random = new Random();
 	    while (selectedItems.size() < 3) {
 	        int index = random.nextInt(shopItems.size());
 	        if (!selectedItems.contains(shopItems.get(index))) {
