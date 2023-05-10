@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JSlider;
 
+///// DO NOT USE THIS CLASS USE SETUP SCREEN 2!!! THIS IS NO LONGER A JAVA FILE
 public class SetupScreen {
 
 	private JFrame frame;

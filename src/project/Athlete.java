@@ -1,5 +1,7 @@
 package project;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Athlete extends Purchasable {
@@ -28,6 +30,11 @@ public class Athlete extends Purchasable {
 	 * The position of the athlete
 	 */
     private String athletePosition;
+    
+	/**
+	 * The string for the name of the athlete's associated image
+	 */
+    private String athleteImage;
 	
     
     /** 
@@ -60,6 +67,9 @@ public class Athlete extends Purchasable {
         this.defensiveStatistic = defensiveStatistic;
         this.staminaStatistic = staminaStatistic;
         this.athleteName = athleteName;
+        
+        athleteImage = new String();
+        
     }
 
     /**
@@ -95,6 +105,39 @@ public class Athlete extends Purchasable {
 		
 		return randomName;
 		
+	}
+	
+
+	/**
+	 * Sets athleteImage to a random string for the athlete image name based on whether the athlete name is traditionally female or male
+	 *
+	 */
+	public void setRandomImage() {
+		List<String> femaleNames = Arrays.asList("Belladonna", "Celestina", "Desdemona", "Drusilla", "Endora", "Ginevra", "Hecate", "Isadora", "Morgana", "Niamh", "Rowena", "Sabrina", "Seraphina", "Sybill", "Ursula", "Xanthe");
+		Random randomNumber = new Random();
+		int imageNumber = randomNumber.nextInt(24 - 1 + 1) + 1;
+		String imageName;
+		String firstName = athleteName.split(" ")[0];
+		
+		if (femaleNames.contains(firstName)) {
+			imageName = "female" + (imageNumber);
+		} else {
+			imageName = "male" + imageNumber;
+		}
+		
+		athleteImage = imageName;
+	}
+	
+	/**
+	 * Returns the name of the image for the athlete. If an image string has not been generated then it sets the athlete image first.
+	 *
+	 * @return a String representing the image name for the athlete.
+	 */
+	public String getImageName() {
+		if (athleteImage == null) {
+			this.setRandomImage();
+		} 
+		return athleteImage;
 	}
 	
 	

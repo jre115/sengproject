@@ -11,6 +11,7 @@ import lab.Athlete;
 
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -221,9 +222,11 @@ public class SetupScreen2 {
 		athletesViewPanel.add(panelAthlete1);
 		panelAthlete1.setLayout(null);
 		
-		JPanel pictureAthlete1 = new JPanel();
-		pictureAthlete1.setBounds(48, 55, 151, 93);
-		panelAthlete1.add(pictureAthlete1);
+		JPanel picturePanelAthlete1 = new JPanel();
+		picturePanelAthlete1.setBounds(48, 55, 151, 93);
+		panelAthlete1.add(picturePanelAthlete1);
+		picturePanelAthlete1.setBackground(Color.WHITE);
+		picturePanelAthlete1.setLayout(new BorderLayout(0, 0));
 		
 		JLabel infoAthlete1 = new JLabel("");
 		infoAthlete1.setFont(new Font("Calibri", Font.BOLD, 15));
@@ -245,9 +248,12 @@ public class SetupScreen2 {
 		panelAthlete2.setBounds(521, 84, 245, 274);
 		athletesViewPanel.add(panelAthlete2);
 		
-		JPanel pictureAthlete2 = new JPanel();
-		pictureAthlete2.setBounds(48, 55, 151, 93);
-		panelAthlete2.add(pictureAthlete2);
+		JPanel picturePanelAthlete2 = new JPanel();
+		picturePanelAthlete2.setBounds(48, 55, 151, 93);
+		panelAthlete2.add(picturePanelAthlete2);
+		picturePanelAthlete2.setBackground(Color.WHITE);
+		picturePanelAthlete2.setLayout(new BorderLayout(0, 0));
+		
 		
 		JLabel infoAthlete2 = new JLabel("");
 		infoAthlete2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -269,9 +275,11 @@ public class SetupScreen2 {
 		panelAthlete3.setBounds(226, 383, 245, 274);
 		athletesViewPanel.add(panelAthlete3);
 		
-		JPanel pictureAthlete3 = new JPanel();
-		pictureAthlete3.setBounds(48, 55, 151, 93);
-		panelAthlete3.add(pictureAthlete3);
+		JPanel picturePanelAthlete3 = new JPanel();
+		picturePanelAthlete3.setBounds(48, 55, 151, 93);
+		panelAthlete3.add(picturePanelAthlete3);
+		picturePanelAthlete3.setBackground(Color.WHITE);
+		picturePanelAthlete3.setLayout(new BorderLayout(0, 0));
 		
 		JLabel infoAthlete3 = new JLabel("");
 		infoAthlete3.setHorizontalAlignment(SwingConstants.CENTER);
@@ -293,9 +301,11 @@ public class SetupScreen2 {
 		panelAthlete4.setBounds(521, 383, 245, 274);
 		athletesViewPanel.add(panelAthlete4);
 		
-		JPanel pictureAthlete4 = new JPanel();
-		pictureAthlete4.setBounds(48, 55, 151, 93);
-		panelAthlete4.add(pictureAthlete4);
+		JPanel picturePanelAthlete4 = new JPanel();
+		picturePanelAthlete4.setBounds(48, 55, 151, 93);
+		panelAthlete4.add(picturePanelAthlete4);
+		picturePanelAthlete4.setBackground(Color.WHITE);
+		picturePanelAthlete4.setLayout(new BorderLayout(0, 0));
 		
 		JLabel infoAthlete4 = new JLabel("");
 		infoAthlete4.setHorizontalAlignment(SwingConstants.CENTER);
@@ -322,21 +332,35 @@ public class SetupScreen2 {
 		for (int i = 0; i < athletes.size(); i++) {
 		    JLabel infoAthlete = null;
 		    JLabel nameAthlete = null;
+		    JPanel picturePanelAthlete = null;
+		    
 		    if (i == 0) {
 		        infoAthlete = infoAthlete1;
 		        nameAthlete = nameAthlete1;
+		        picturePanelAthlete = picturePanelAthlete1;
 		    } else if (i == 1) {
 		        infoAthlete = infoAthlete2;
 		        nameAthlete = nameAthlete2;
+		        picturePanelAthlete = picturePanelAthlete2;
 		    } else if (i == 2) {
 		        infoAthlete = infoAthlete3;
 		        nameAthlete = nameAthlete3;
+		        picturePanelAthlete = picturePanelAthlete3;
 		    } else if (i == 3) {
 		        infoAthlete = infoAthlete4;
 		        nameAthlete = nameAthlete4;
+		        picturePanelAthlete = picturePanelAthlete4;
 		    }
 		    infoAthlete.setText(athletes.get(i).toStringHTML());
 		    nameAthlete.setText(athletes.get(i).getName());
+		    
+		    
+			JLabel athleteImage = new JLabel("");
+			ImageIcon icon = new ImageIcon(Temp.class.getResource("/Pictures/" + athletes.get(i).getImageName() + ".png"));
+			Image image = icon.getImage().getScaledInstance((int)(icon.getIconWidth()*0.7), (int)(icon.getIconHeight()*0.7), Image.SCALE_SMOOTH);
+			athleteImage.setIcon(new ImageIcon(image));
+			athleteImage.setHorizontalAlignment(SwingConstants.CENTER);
+			picturePanelAthlete.add(athleteImage, BorderLayout.CENTER);
 		}
 		
 	    /**
@@ -378,9 +402,17 @@ public class SetupScreen2 {
 		athletePanel.add(athleteName);
 		athleteName.setColumns(10);
 		
-		JPanel athleteImage = new JPanel();
-		athleteImage.setBounds(58, 79, 247, 203);
-		athletePanel.add(athleteImage);
+		JPanel athleteImagePanel = new JPanel();
+		athleteImagePanel.setBounds(58, 79, 247, 203);
+		athleteImagePanel.setBackground(Color.WHITE);
+		athletePanel.add(athleteImagePanel);
+		athleteImagePanel.setLayout(new BorderLayout(0, 0));
+		
+		
+		JLabel athleteImage = new JLabel("");
+		athleteImage.setIcon(new ImageIcon(Temp.class.getResource("/Pictures/" + athlete.getImageName() + ".png")));
+		athleteImage.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteImagePanel.add(athleteImage, BorderLayout.CENTER);
 		
 		JLabel athleteInfo = new JLabel(athlete.toStringHTML());
 		athleteInfo.setFont(new Font("Calibiri", Font.BOLD, 17));
