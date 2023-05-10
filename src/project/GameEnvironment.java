@@ -12,12 +12,15 @@ public class GameEnvironment {
     int currentWeek;
     Team team;
     Market market;
+    ArrayList<Athlete> reservesList;
+    ArrayList<Athlete> teamList;
 
     
 	
 	public GameEnvironment() {
 		playerMoney = 20000;
 		team = new Team();
+		
 	}
 	
 	public String getTeamName() {
@@ -85,6 +88,7 @@ public class GameEnvironment {
 	public ArrayList<Athlete> getShopAthletes() {
         return market.playerShop();
     }
+	
     
 	
 	private void modifyPlayerMoney(int money) {
@@ -177,7 +181,20 @@ public class GameEnvironment {
         return result;
         
     }
-
+    
+    public void purchaseAthlete(Athlete athlete, String purchaseType) {
+        if (playerMoney >= athlete.getContractPrice()) {
+            if (teamList.size() >= 4) {
+                reservesList.add(athlete);
+            } else {
+                teamList.add(athlete);
+                athlete.setPosition(purchaseType);
+            }
+            playerMoney -= athlete.getContractPrice();
+        } else {
+            System.out.println("Not enough money to purchase athlete's contract!");
+        }
+    }
 
 	
 	
