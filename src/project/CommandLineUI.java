@@ -154,6 +154,7 @@ public class CommandLineUI {
 	        goToClub();
 	        break;
 	    case 2:
+	    	goToMarket();
 	        // 
 	        break;
 	    case 3:
@@ -171,7 +172,7 @@ public class CommandLineUI {
 	
 	public void goToMarket() {
 		System.out.print("\nMARKET");
-		System.out.print("\n1. Sell\n2. Buy item\n3. Buy Player");
+		System.out.print("\n1. Sell\n2. Buy player\n3. Buy item");
 		
 		int marketValue = scanNumericalValue(1, 3);
 		switch(marketValue) {
@@ -180,15 +181,52 @@ public class CommandLineUI {
 			break;
 		
 		case 2:
+			   ArrayList<Athlete> marketPlayers = game.getShopAthletes();
+
+			    System.out.println("\nAvailable Players in the Market:");
+			    int value = 1;
+			    for (Athlete player : marketPlayers) {
+			        System.out.println("\nPlayer number " + value + ":");
+			        System.out.println(player);
+			        value++;
+			    }
+
+			    System.out.println("\nInput the player number to purchase:");
+			    int playerValue = scanNumericalValue(1, marketPlayers.size());
+			    Athlete player = marketPlayers.get(playerValue - 1);
+
+			    System.out.println("\nYou have purchased the following player:");
+			    System.out.println(player);
+
+			    System.out.println("\nSelect one of the following options");
+			    System.out.println("1. Add to team as attacker");
+			    System.out.println("2. Add to team as defender");
+
+			    int positionValue = scanNumericalValue(1, 2);
+			    String athletePosition = null;
+			    if (positionValue == 1) {
+			        athletePosition = "Attacker";
+			    } else if (positionValue == 2) {
+			        athletePosition = "Defender";
+			    }
+
+			    game.purchaseAthlete(player, athletePosition); /// Fix
+			    System.out.println("\033[32m" + "Great! Player " + player.getName() + " has been added to your team as a " + athletePosition + "\033[0m");
+			    break;
+			
+			}
+			
 			 
-			ArrayList<Athlete> marketAthletes = market.Shop();
+			
+            
 			
 			
 			
 		}
 			
 			
-	}
+	
+	
 	
 	public void goToClub() {
 		
