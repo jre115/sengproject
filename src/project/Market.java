@@ -2,7 +2,7 @@ package project;
 
 import java.util.ArrayList;
 import java.util.Random;
-public class Market extends GameEnvironment {
+public class Market extends GameEnvironment  {
 	// Creates new items
 	public Item Broom = new Item("Nimbus2023", 5, 5, 1000, 200, "The newest model of broom currently avialble on the market");
 	public Item LuckPotion = new Item("LiquidLuck", 7, 7, 1500, 200, "A potion that increaes your Luck");
@@ -64,22 +64,8 @@ public class Market extends GameEnvironment {
 		return playerShop();
 	}
 	
-	public void purchaseAthlete(Athlete athlete, String purchaseType) throws Exception {
-	    if (playerMoney < athlete.getContractPrice()) {
-	        throw new Exception("Not enough money to purchase athlete's contract!");
-	    } 
-	    if (reservesList.size() >= 5) {
-	        throw new Exception("Reserves List is already full, cannot add more athletes!");
-	    }
-	    if (purchaseType == "Reserve") {
-	    	reservesList.add(athlete);
-	    } else {
-	    	teamList.add(athlete);
-	    	
-	    	athlete.setPosition(purchaseType);
-	    }
-	    playerMoney -= athlete.getContractPrice();
-	}
+
+	
 
 	
 }
