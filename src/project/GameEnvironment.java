@@ -182,8 +182,8 @@ public class GameEnvironment {
         
     }
     
-    public void purchaseAthlete(Athlete athlete, String purchaseType) {
-        if (playerMoney >= athlete.getContractPrice()) {
+    public void purchaseAthlete(Athlete athlete, String purchaseType){
+    	if (playerMoney >= athlete.getContractPrice()) {
             if (teamList.size() >= 4) {
                 reservesList.add(athlete);
             } else {
