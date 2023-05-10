@@ -154,10 +154,11 @@ public class CommandLineUI {
 	        goToClub();
 	        break;
 	    case 2:
-	    	goToMarket();
+	    	
 	        // 
 	        break;
 	    case 3:
+	    	goToMarket();
 	        // 
 	        break;
 	    case 4:
@@ -210,9 +211,27 @@ public class CommandLineUI {
 			        athletePosition = "Defender";
 			    }
 
-			    game.purchaseAthlete(player, athletePosition); /// Fix
+			    game.purchaseAthlete(player, athletePosition, athletePosition); 
 			    System.out.println("\033[32m" + "Great! Player " + player.getName() + " has been added to your team as a " + athletePosition + "\033[0m");
 			    break;
+		case 3:
+			ArrayList<Item> marketItems = game.getShopItems();
+			System.out.println("\nAvailable Items in the Market:");
+		    int val = 1;
+		    for (Item equipment : marketItems) {
+		        System.out.println("\nItem number " + val + ":");
+		        System.out.println(equipment.getName() +": $" + equipment.getContractPrice() + " , "+ equipment.getDefence() +" Def "+ equipment.getOffence() +" Off");
+		        val++;
+		    }
+		        System.out.println("\nInput the item number to purchase:");
+		        int itemValue = scanNumericalValue(1, marketItems.size());
+			    Item equipment = marketItems.get(itemValue - 1);
+			    
+			    System.out.println(equipment.getName());
+			    game.purchaseItem(equipment);
+			    System.out.println("Great! "+ equipment.getName()+ " has been added to your inventory");
+			    System.out.println("$"+game.getPlayerMoney()+" left");
+		    
 			
 			}
 			
