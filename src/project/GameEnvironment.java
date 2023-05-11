@@ -203,9 +203,12 @@ public class GameEnvironment {
     }
     
     public void purchaseAthlete(Athlete athlete, String purchaseType,String position){
+    	
+    	
     	if (playerMoney >= athlete.getContractPrice()) {
-            if (teamList.size() >= 4) {
-                reservesList.add(athlete);
+            if( team.getTeamList().size() >= 4) {
+            	ArrayList<Athlete> reservesList = team.getReservesList();
+                reservesList.add(athlete); 
             } else {
             	team.addToTeam(athlete, position);;
                 athlete.setPosition(purchaseType);

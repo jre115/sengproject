@@ -210,6 +210,7 @@ public class CommandLineUI {
 			    } else if (positionValue == 2) {
 			        athletePosition = "Defender";
 			    }
+			    
 
 			    game.purchaseAthlete(player, athletePosition, athletePosition); 
 			    System.out.println("\033[32m" + "Great! Player " + player.getName() + " has been added to your team as a " + athletePosition + "\033[0m");
@@ -230,7 +231,7 @@ public class CommandLineUI {
 			    System.out.println(equipment.getName());
 			    game.purchaseItem(equipment);
 			    System.out.println("Great! "+ equipment.getName()+ " has been added to your inventory");
-			    System.out.println("$"+game.getPlayerMoney()+" left");
+			    System.out.println(game.getMoneyFormatted()+" left");
 		    
 			
 			}
