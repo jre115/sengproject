@@ -550,8 +550,24 @@ public class SetupScreen2 {
 		playerInfo.setFont(new Font("Cooper Black", Font.PLAIN, 30));
 		playerInfo.setBounds(0, 123, 984, 322);
 		finishSetupPanel.add(playerInfo);
+		
+		startButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent a) {
+	    		finishSetupPanel.setVisible(false);
+				finishedWindow();
+	    	}
+		});
 
 	}
+	
+	public void closeWindow() {
+		frame.dispose();
+	}
+	
+	public void finishedWindow() {
+		gameEnvironment.closeSetupScreen();
+	}
+
 
 		
 	

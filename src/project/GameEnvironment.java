@@ -2,11 +2,14 @@ package project;
 
 import java.util.ArrayList;
 
+import lab.MainScreen;
+
 public class GameEnvironment {
 	
 	int seasonLength;
 	int playerMoney;
     private SetupScreen2 setupWindow;
+    private MainGame mainGame;
 
     private String gameDifficulty;
     int currentWeek;
@@ -115,8 +118,14 @@ public class GameEnvironment {
 	}
 	
 	public void closeSetupScreen() {
-		//setupWindow.closeWindow();
-		//launchMainScreen();
+		setupWindow.closeWindow();
+		launchMainScreen();
+	}
+	
+	
+	public void launchMainScreen() {
+		 mainGame = new MainGame(this);
+		 
 	}
 	
 	public static void main(String[] args) {
