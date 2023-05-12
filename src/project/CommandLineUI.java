@@ -173,7 +173,7 @@ public class CommandLineUI {
 	
 	public void goToMarket() {
 		System.out.print("\nMARKET");
-		System.out.print("\n1. Sell\n2. Buy player\n3. Buy item");
+		System.out.print("\n1. Sell\n2. Buy player\n3. Buy item\n4. Back");
 		
 		int marketValue = scanNumericalValue(1, 3);
 		switch(marketValue) {
@@ -232,6 +232,9 @@ public class CommandLineUI {
 			    game.purchaseItem(equipment);
 			    System.out.println("Great! "+ equipment.getName()+ " has been added to your inventory");
 			    System.out.println(game.getMoneyFormatted()+" left");
+		case 4:
+			mainMenu();
+			    
 		    
 			
 			}

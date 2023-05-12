@@ -209,6 +209,7 @@ public class GameEnvironment {
             if( team.getTeamList().size() >= 4) {
             	ArrayList<Athlete> reservesList = team.getReservesList();
                 reservesList.add(athlete); 
+                System.out.println("this player has been added to the reserve list, you can sawp him into the team at the club. ");
             } else {
             	team.addToTeam(athlete, position);;
                 athlete.setPosition(purchaseType);
