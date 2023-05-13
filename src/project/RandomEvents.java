@@ -11,7 +11,7 @@ public class RandomEvents {
 	    }
 	
 	
-	public void athletejoins(Team team) {
+	public void athleteJoins(Team team) {
 		ArrayList<Athlete> teamList = team.getTeamList();
 		ArrayList<Athlete> reservesList = team.getReservesList();
 		Athlete athlete = new Athlete();
