@@ -1,6 +1,7 @@
 package project;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import lab.MainScreen;
 
@@ -31,18 +32,7 @@ public class GameEnvironment {
 		
 	}
 	
-	public void performRandomEvent() {
-	    Random random = new Random();
-	    int eventChance = random.nextInt(100); 
-
-	    if (eventChance < 5) { // 5% chance for athletejoins() event
-	        athleteJoins(team);
-	    } else if (eventChance < 15) { // 10% chance for increaseRandomPlayerStat() event
-	        increaseRandomPlayerStat(team);
-	    } else {
-	        // Do nothing (85% chance for no event)
-	    }
-	}
+	
 	
 	public String getTeamName() {
 		return team.getTeamName();
@@ -291,9 +281,23 @@ public class GameEnvironment {
             }
         }
     }
+    public void performRandomEvent() {
+	    Random random = new Random();
+	    int eventChance = random.nextInt(100); 
+
+	    if (eventChance < 5) { // 5% chance for athlete joins
+	        randomEvents.athleteJoins(team);
+	    } else if (eventChance < 15) { // 10% chance for increase Random Player Stat
+	        randomEvents.increaseRandomPlayerStat(team);
+	    } else {
+	        // Do nothing 85% 
+	    }
+	}
 
     
 }
+
+
     
 
 	
