@@ -26,6 +26,13 @@ public class Team {
 		return teamName;
 	}
 	
+	public void removeFromTeam(Athlete athlete) {
+		teamList.remove(athlete);
+	}
+	public void removeFromReserve(Athlete athlete) {
+		reservesList.remove(athlete);
+	}
+	
 	
 	public ArrayList<Athlete> getReservesList() {
 		return reservesList;

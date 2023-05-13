@@ -173,13 +173,88 @@ public class CommandLineUI {
 	
 	public void goToMarket() {
 		System.out.print("\nMARKET");
-		System.out.print("\n1. Sell\n2. Buy player\n3. Buy item\n4. Back");
+		System.out.print("\n1. Sell\n2. Buy player\n3. Buy item\n4. Back\n5");
 		
 		int marketValue = scanNumericalValue(1, 3);
 		switch(marketValue) {
 		
 		case 1:
-			break;
+			Scanner scanner = new Scanner(System.in);
+	        boolean selling = true;
+
+	        while (selling) {
+	            System.out.println("1. Sell Player");
+	            System.out.println("2. Sell Reserve Player");
+	            System.out.println("3. Sell Item");
+	            System.out.println("4. Go back");
+	            System.out.print("Enter your choice: ");
+	            int choice = scanner.nextInt();
+// need to fix index of selling
+	            switch (choice) {
+	                case 1:
+	                	System.out.println("Your Team List:");
+	                    game.displayPlayerList(game.getTeamList());
+	                    System.out.print("Enter the index of the player to sell: ");
+	                    int index = scanner.nextInt();
+	                    
+	                    index--;
+	                    
+	                    if (index >= 0 && index < game.getTeamList().size()) {
+	                        Athlete player = game.getTeamList().get(index);
+	                        game.sellPlayer(player);
+	                        System.out.println(player.getName() + " has been sold.");
+	                    } else {
+	                        System.out.println("Invalid player index or you have no players.");
+	                    }
+	                
+	                	
+	                    
+	                case 2:
+	                	System.out.println("Your Reserves List:");
+	                    game.displayPlayerList(game.getReservesList());
+	                    System.out.print("Enter the index of the player to sell: ");
+	                    int index2 = scanner.nextInt();
+	                    index2--;
+
+	                    if (index2 >= 0 && index2 < game.getReservesList().size()) {
+	                        Athlete player = game.getReservesList().get(index2);
+	                        game.sellReservePlayer(player);
+	                        System.out.println(player.getName() + " has been sold.");
+	                    } else {
+	                        System.out.println("Invalid player index or you have no player, push any key to return\n.");
+	                    }
+	                
+	                    
+	                    break;
+	                case 3:
+	                	
+	                    System.out.println("Your Inventory:");
+	                    game.displayItemList(game.getInventory());
+	                    System.out.print("Enter the index of the item to sell: ");
+	                    int index3 = scanner.nextInt();
+	                    index3--;
+
+	                    if (index3 >= 0 && index3 < game.getInventory().size()) {
+	                        Item item = game.getInventory().get(index3);
+	                        game.sellItem(item);
+	                        System.out.println(item.getName() + " has been sold.");
+	                    } else {
+	                        System.out.println("Invalid item index.");
+	                    }
+	                	
+	                    
+	                    break;
+	                case 4:
+	                    mainMenu();
+	                    break;
+	                default:
+	                    System.out.println("Invalid choice. Please try again.");
+	                    break;
+	            }
+	        }
+	        scanner.close();
+	    
+			
 		
 		case 2:
 			   ArrayList<Athlete> marketPlayers = game.getShopAthletes();
@@ -238,6 +313,7 @@ public class CommandLineUI {
 		    
 			
 			}
+		
 			
 			 
 			
@@ -246,6 +322,7 @@ public class CommandLineUI {
 			
 			
 		}
+	
 			
 			
 	
