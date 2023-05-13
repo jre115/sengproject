@@ -228,9 +228,62 @@ public class GameEnvironment {
             System.out.println("Not enough money to purchase athlete's contract!");
         }
     }
+    public void sellItem(Item item) {
+        if (inventory.contains(item)) {
+            modifyPlayerMoney(item.getSellBackPrice());
+            inventory.remove(item);
+        } else {
+            System.out.println("Item not found in inventory!");
+        }
+    }
+
+    public void sellPlayer(Athlete athlete) {
+        if (team.getTeamList().contains(athlete)) {
+            modifyPlayerMoney(athlete.getSellBackPrice());
+            team.removeFromTeam(athlete);
+        } else {
+            System.out.println("Player not found in team list!");
+        }
+    }
+
+    public void sellReservePlayer(Athlete athlete) {
+        if (team.getReservesList().contains(athlete)) {
+            modifyPlayerMoney(athlete.getSellBackPrice());
+            team.removeFromReserve(athlete);
+        } else {
+            System.out.println("Player not found in reserves list!");
+        }
+    }
+    public void displayPlayerList(ArrayList<Athlete> playerList) {
+        int index = 1;
+        System.out.println("\nPlayer List:");
+        for (Athlete player : playerList) {
+            System.out.println(index + ". " + player.getName());
+            index++;
+        }
+    }
+    public void displayItemList(ArrayList<Item> itemList) {
+        if (itemList.isEmpty()) {
+            System.out.println("Your inventory is empty.");
+        } else {
+            for (int i = 0; i < itemList.size(); i++) {
+                Item item = itemList.get(i);
+                System.out.println("Item number " + (i + 1) + ":");
+                System.out.println("Name: " + item.getName());
+                System.out.println("Price: $" + item.getSellBackPrice());
+                System.out.println("Description: " + item.getDescription());
+                System.out.println("-------------");
+            }
+        }
+    }
+
+    
+}
     
 
 	
 	
 	
-}
+
+
+
