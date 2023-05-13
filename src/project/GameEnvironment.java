@@ -15,6 +15,7 @@ public class GameEnvironment {
     int currentWeek;
     Team team;
     Market market;
+    RandomEvents randomEvents; 
     
     ArrayList<Athlete> reservesList;
     ArrayList<Athlete> teamList;
@@ -23,10 +24,24 @@ public class GameEnvironment {
     
 	
 	public GameEnvironment() {
+		randomEvents = new RandomEvents();
 		inventory = new ArrayList<>();
 		playerMoney = 20000;
 		team = new Team();
 		
+	}
+	
+	public void performRandomEvent() {
+	    Random random = new Random();
+	    int eventChance = random.nextInt(100); 
+
+	    if (eventChance < 5) { // 5% chance for athletejoins() event
+	        athleteJoins(team);
+	    } else if (eventChance < 15) { // 10% chance for increaseRandomPlayerStat() event
+	        increaseRandomPlayerStat(team);
+	    } else {
+	        // Do nothing (85% chance for no event)
+	    }
 	}
 	
 	public String getTeamName() {
