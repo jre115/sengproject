@@ -175,7 +175,7 @@ public class CommandLineUI {
 		System.out.print("\nMARKET");
 		System.out.print("\n1. Sell\n2. Buy player\n3. Buy item\n4. Back\n5");
 		
-		int marketValue = scanNumericalValue(1, 3);
+		int marketValue = scanNumericalValue(1, 4);
 		switch(marketValue) {
 		
 		case 1:
@@ -289,6 +289,7 @@ public class CommandLineUI {
 
 			    game.purchaseAthlete(player, athletePosition, athletePosition); 
 			    System.out.println("\033[32m" + "Great! Player " + player.getName() + " has been added to your team as a " + athletePosition + "\033[0m");
+			    goToMarket();
 			    break;
 		case 3:
 			ArrayList<Item> marketItems = game.getShopItems();
@@ -307,6 +308,9 @@ public class CommandLineUI {
 			    game.purchaseItem(equipment);
 			    System.out.println("Great! "+ equipment.getName()+ " has been added to your inventory");
 			    System.out.println(game.getMoneyFormatted()+" left");
+			    goToMarket();
+			    break;
+			    
 		case 4:
 			mainMenu();
 			    
