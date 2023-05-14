@@ -189,11 +189,6 @@ public class MainGame {
         teamNameText.setBorder(border);
         teamPropertiesPanel.add(teamNameText);
 
-        frame.getContentPane().add(teamPropertiesPanel);
-        frame.setSize(1000, 750);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-
                                 
         JLabel teamText = new JLabel("Team");
         teamText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -296,6 +291,8 @@ public class MainGame {
                                    athletePanelWidth, athletePanelHeight);
             reservesPanel.add(athletePanel);
             athletePanel.setLayout(null);
+            
+            panels.add(athletePanel);
 
             JLabel athleteName = new JLabel(athlete.getName());
             athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 11));
@@ -334,7 +331,7 @@ public class MainGame {
 	    });
 		
 	    /**
-		* Go to singleAthleteView display depends on which of the 4 athlete panels in team is selected.
+		* Go to singleAthleteView display depends on which of the athlete panels is selected
 	    */
 
 		for (int i = 0; i < panels.size(); i++) {
@@ -344,7 +341,12 @@ public class MainGame {
 		        @Override
 		        public void mouseClicked(MouseEvent e) {
 		            teamPropertiesPanel.setVisible(false);
-		            singleAthleteView(gameEnvironment.getTeamList().get(index));
+		            if (index >= gameEnvironment.getTeamList().size()) {
+		            	singleAthleteView(gameEnvironment.getReservesList().get(index - gameEnvironment.getTeamList().size()));
+		            } else {
+		            	singleAthleteView(gameEnvironment.getTeamList().get(index));
+		            }
+		            
 		        }
 		    });
 		}
@@ -352,6 +354,7 @@ public class MainGame {
 		
 	}
 	
+
 	private void singleAthleteView(Athlete athlete) {
 		
 		JPanel singleAthletePanel = new JPanel();
@@ -366,9 +369,12 @@ public class MainGame {
 		singleAthletePanel.add(athletePanel);
 		athletePanel.setLayout(null);
 		
-        if (athlete.getPosition() == "Attacker") {
+		// Checking whether athlete is a reserve or player - display and options depends on which type
+		Boolean isReserve = gameEnvironment.athleteIsReserve(athlete);
+
+        if (isReserve == false && athlete.getPosition() == "Attacker") {
         	athletePanel.setBackground(new Color(173, 216, 230)); // sets background color to light blue
-        } else {
+        } else if (isReserve == false && athlete.getPosition() == "Defender") {
         	athletePanel.setBackground(new Color(255, 204, 204)); // light red
 
         }
@@ -426,25 +432,51 @@ public class MainGame {
         int buttonWidth = (athletePanel.getWidth()/2) - 10;
         int buttonHeight = 50;
         int buttonY = 590;
+        int centreButtonX = (width - buttonWidth)/2;
         
-		
-		JButton swapPositionButton = new JButton("<html><center>"+"Swap position"+"<br>"+"to " + athlete.getAlternatePosition() +"</center></html>");
-		swapPositionButton.setSize(buttonWidth, buttonHeight);
-		swapPositionButton.setLocation((width - swapPositionButton.getWidth())/2, buttonY);
-		singleAthletePanel.add(swapPositionButton);
-		swapPositionButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
-		
-		JButton swapButton = new JButton("<html><center>"+"Swap player"+"<br>"+"with reserve"+"</center></html>");
+		JButton swapButton = new JButton("<html><center>"+"Swap reserve"+"<br>"+"with player"+"</center></html>");
 		swapButton.setSize(buttonWidth, buttonHeight);
-		swapButton.setLocation(swapPositionButton.getX() - buttonWidth - 20, buttonY);
+		swapButton.setLocation(312, buttonY);
 		singleAthletePanel.add(swapButton);
 		swapButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
 		
 		JButton setAthleteNameButton = new JButton("<html><center>"+"Set athlete"+"<br>"+"name"+"</center></html>");
 		setAthleteNameButton.setSize(buttonWidth, buttonHeight);
-		setAthleteNameButton.setLocation(swapPositionButton.getX() + buttonWidth + 20, buttonY);
+		setAthleteNameButton.setLocation(502, buttonY);
 		singleAthletePanel.add(setAthleteNameButton);
 		setAthleteNameButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+        
+		// If the athlete is not a reserve player, the swap athlete position button is added with corresponding action listener and athlete name and swap buttons are moved to make space for the new button
+		if (isReserve == false) {
+			swapButton.setText("<html><center>"+"Swap player"+"<br>"+"with reserve"+"</center></html>");
+			
+			JButton swapPositionButton = new JButton("<html><center>"+"Swap position"+"<br>"+"to " + athlete.getAlternatePosition() +"</center></html>");
+			swapPositionButton.setSize(buttonWidth, buttonHeight);
+			swapPositionButton.setLocation(centreButtonX, buttonY);
+			singleAthletePanel.add(swapPositionButton);
+			swapPositionButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+			
+			swapPositionButton.addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent a) {
+		    		athlete.setPosition(athlete.getAlternatePosition());
+		    		resultText.setText("Athlete position updated");
+	    			errorText.setVisible(false); 
+	    			resultText.setVisible(true);
+	    			swapPositionButton.setText("<html><center>"+"Swap position"+"<br>"+"to " + athlete.getAlternatePosition() +"</center></html>");
+	    	        if (athlete.getPosition() == "Attacker") {
+	    	        	athletePanel.setBackground(new Color(173, 216, 230)); // sets background color to light blue
+	    	        } else {
+	    	        	athletePanel.setBackground(new Color(255, 204, 204)); // light red
+	    	        }
+	    	        athleteInfo.setText(athlete.toStringHTML());
+		    		}
+		    });
+			
+			// Moves buttons to be on either sides of the swapPositionButton
+			swapButton.setLocation(centreButtonX - buttonWidth - 20, buttonY);
+			setAthleteNameButton.setLocation(centreButtonX + buttonWidth + 20, buttonY);
+		}
+
 		
 		
 		backButton.addActionListener(new ActionListener() {
@@ -472,42 +504,197 @@ public class MainGame {
 	    		}
 	    });
 		
-		swapPositionButton.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent a) {
-	    		athlete.setPosition(athlete.getAlternatePosition());
-	    		resultText.setText("Athlete position updated");
-    			errorText.setVisible(false); 
-    			resultText.setVisible(true);
-    			swapPositionButton.setText("<html><center>"+"Swap position"+"<br>"+"to " + athlete.getAlternatePosition() +"</center></html>");
-    	        if (athlete.getPosition() == "Attacker") {
-    	        	athletePanel.setBackground(new Color(173, 216, 230)); // sets background color to light blue
-    	        } else {
-    	        	athletePanel.setBackground(new Color(255, 204, 204)); // light red
-    	        	//testing
 
-    	        }
-    	        athleteInfo.setText(athlete.toStringHTML());
-	    		}
-	    });
 		
 		// gives view of reserves to swap with player
 		swapButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		try {
 	    			gameEnvironment.checkSwappable();
+		    		singleAthletePanel.setVisible(false);
+		    		athleteSwapPanel(athlete);
+		    		
 	    		} catch(NoReserveAthletesException e) {
 	    			errorText.setText(e.getMessage());
 	    			errorText.setVisible(true);
 	    		}
-		
-
-	    		//singleAthletePanel.setVisible(false);
 	    		
 	    		}
 	    });
-
 		
 	}
+	
+	public void athleteSwapPanel(Athlete athlete) {
+		JPanel athleteSwapPanel = new JPanel();
+		athleteSwapPanel.setBackground(new Color(255, 255, 255));
+		athleteSwapPanel.setBounds(0, 0, width, height);
+		frame.getContentPane().add(athleteSwapPanel);
+		athleteSwapPanel.setLayout(null);
+		
+		JLabel swapText = new JLabel("Select a player to swap with");
+		swapText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		swapText.setHorizontalAlignment(SwingConstants.CENTER);
+		swapText.setSize(width, 70);
+		swapText.setLocation((width - swapText.getWidth())/2, 29);
+		athleteSwapPanel.add(swapText);
+		
+		JButton backButton = new JButton("Back");
+		backButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+		backButton.setBounds(10, 11, 81, 48);
+		athleteSwapPanel.add(backButton);
+		
+		// The athlete that you are wanting to swap
+		
+		JPanel mainAthletePanel = new JPanel();
+		mainAthletePanel.setSize((int)(360*0.75), (int)(459*0.75));
+		mainAthletePanel.setLocation((width - mainAthletePanel.getWidth())/2, 98);
+		athleteSwapPanel.add(mainAthletePanel);
+		mainAthletePanel.setLayout(null);
+
+		Boolean isReserve = gameEnvironment.athleteIsReserve(athlete);
+
+		if (isReserve == false && athlete.getPosition() == "Attacker") {
+		    mainAthletePanel.setBackground(new Color(173, 216, 230)); // sets background color to light blue
+		} else if (isReserve == false && athlete.getPosition() == "Defender") {
+		    mainAthletePanel.setBackground(new Color(255, 204, 204)); // light red
+		}
+
+		JTextField mainAthleteName = new JTextField(athlete.getName());
+		mainAthleteName.setFont(new Font("Cooper Black", Font.PLAIN, (int)(20*0.75)));
+		mainAthleteName.setHorizontalAlignment(SwingConstants.CENTER);
+		mainAthleteName.setBounds((int)(10*0.75), (int)(11*0.75), (int)(340*0.75), (int)(57*0.75));
+		mainAthletePanel.add(mainAthleteName);
+		mainAthleteName.setColumns(10);
+
+		JPanel mainAthleteImagePanel = new JPanel();
+		mainAthleteImagePanel.setBounds((int)(58*0.75), (int)(79*0.75), (int)(247*0.75), (int)(203*0.75));
+		mainAthleteImagePanel.setBackground(Color.WHITE);
+		mainAthletePanel.add(mainAthleteImagePanel);
+		mainAthleteImagePanel.setLayout(new BorderLayout(0, 0));
+
+		JLabel mainAthleteImage = new JLabel("");
+		mainAthleteImage.setIcon(new ImageIcon(Temp.class.getResource("/Pictures/" + athlete.getImageName() + ".png")));
+		mainAthleteImage.setHorizontalAlignment(SwingConstants.CENTER);
+		mainAthleteImagePanel.add(mainAthleteImage, BorderLayout.CENTER);
+
+		JLabel mainAthleteInfo = new JLabel(athlete.toStringHTML());
+		mainAthleteInfo.setFont(new Font("Calibiri", Font.BOLD, (int)(17*0.75)));
+		mainAthleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		mainAthleteInfo.setBounds((int)(23*0.75), (int)(305*0.75), (int)(311*0.75), (int)(143*0.75));
+		mainAthletePanel.add(mainAthleteInfo);
+
+		
+		
+		// Reserves athletes displayed
+		
+        int panelSpacing = 20; 
+		int athletePanelWidth = 144;
+		int athletePanelHeight = 183;
+		
+		// if we are swapping a reserve athlete with a player from the team list
+		int numAthletesPerRow = 4; 
+		ArrayList<Athlete> swappableList = gameEnvironment.getTeamList();
+		
+		// if we are swapping the player athlete with a reserve athlete
+		if (isReserve == false) {
+			swapText.setText("Select a reserve player to swap with");
+			numAthletesPerRow = 5; 
+			swappableList = gameEnvironment.getReservesList();
+		}
+		
+		JPanel athletesPanel = new JPanel();
+		athletesPanel.setLayout(null);
+		athletesPanel.setSize((athletePanelWidth + 20)*numAthletesPerRow + 20, athletePanelHeight + 40);
+		athletesPanel.setLocation((width - athletesPanel.getWidth())/2, 460);
+		athletesPanel.setBackground(Color.WHITE);
+		athletesPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		athleteSwapPanel.add(athletesPanel);
+		
+		ArrayList<JPanel> panels = new ArrayList<JPanel>();
+        
+		
+        for (int i = 0; i < swappableList.size(); i++) {
+            Athlete swappable = swappableList.get(i);
+            
+            // evenly spaces athletePanels on the teamPanel
+            JPanel athletePanel = new JPanel();
+            athletePanel.setBounds((athletePanelWidth + panelSpacing) * (i % numAthletesPerRow) + panelSpacing, 
+                                   (athletePanelHeight + panelSpacing) * (i / numAthletesPerRow) + panelSpacing, 
+                                   athletePanelWidth, athletePanelHeight);
+            athletesPanel.add(athletePanel);
+            athletePanel.setLayout(null);
+            
+            panels.add(athletePanel);
+            
+            if (isReserve == true && swappable.getPosition() == "Attacker") {
+            	athletePanel.setBackground(new Color(173, 216, 230)); // sets background color to light blue
+            } else if (isReserve == true && swappable.getPosition() == "Defender") {
+            	athletePanel.setBackground(new Color(255, 204, 204)); // light red
+
+            }
+
+            JLabel athleteName = new JLabel(swappable.getName());
+            athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 11));
+            athleteName.setHorizontalAlignment(SwingConstants.CENTER);
+            athleteName.setBounds(4, 4, 136, 23);
+            athleteName.setOpaque(true);
+            athleteName.setBackground(Color.WHITE);
+            athletePanel.add(athleteName);
+            
+
+            JPanel athleteImagePanel = new JPanel();
+            athleteImagePanel.setSize(82, 66);
+            athleteImagePanel.setLocation((athletePanel.getWidth() - athleteImagePanel.getWidth())/2, 35);
+            athleteImagePanel.setBackground(Color.WHITE);
+            athletePanel.add(athleteImagePanel);
+            athleteImagePanel.setLayout(new BorderLayout(0, 0));
+
+            ImageIcon icon = new ImageIcon(Temp.class.getResource("/Pictures/" + swappable.getImageName() + ".png"));
+            // reduce athlete image by 50%
+            Image img = icon.getImage().getScaledInstance(72, 48, Image.SCALE_SMOOTH); 
+            JLabel athleteImage = new JLabel(new ImageIcon(img));
+            athleteImagePanel.add(athleteImage, BorderLayout.CENTER);
+            athleteImage.setHorizontalAlignment(SwingConstants.CENTER);
+                
+            JLabel athleteInfo = new JLabel(swappable.toStringHTML());
+            athleteInfo.setFont(new Font("Calibiri", Font.BOLD, 10));
+            athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
+            athleteInfo.setBounds(4, 98, 136, 85);
+            athletePanel.add(athleteInfo);
+        }
+		
+		backButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent a) {
+	    		athleteSwapPanel.setVisible(false);
+	    		singleAthleteView(athlete);
+	    		}
+	    });
+		
+	    /**
+		* Select athlete to swap with
+	    */
+
+		for (int i = 0; i < panels.size(); i++) {
+			final int index = i;
+		    JPanel panel = panels.get(i);
+		    panel.addMouseListener(new MouseAdapter() {
+		        @Override
+		        public void mouseClicked(MouseEvent e) {
+		        	athleteSwapPanel.setVisible(false);
+		            if (isReserve == false) {
+		            	Athlete swappedAthlete = (gameEnvironment.getReservesList().get(index));
+		            	gameEnvironment.swapAthletes(athlete, swappedAthlete);
+		            } else {
+		            	Athlete swappedAthlete = (gameEnvironment.getTeamList().get(index));
+		            	gameEnvironment.swapAthletes(swappedAthlete, athlete);
+		            }
+		            teamPropertiesScreen();
+		        }
+		    });
+		}
+		
+	}
+	
 
 	
 	private void marketScreen() {

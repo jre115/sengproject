@@ -84,7 +84,7 @@ public class GameEnvironment {
 	}
 	
 	public void purchaseInitialAthlete(Athlete athlete, String position) {
-		team.addToTeam(athlete, position);
+		team.addToInitialTeam(athlete, position);
 		modifyPlayerMoney(- athlete.getContractPrice());
 	}
 	
@@ -107,6 +107,9 @@ public class GameEnvironment {
 	
 	private void modifyPlayerMoney(int money) {
 		playerMoney += money;
+		if (playerMoney < 0) {
+			playerMoney = 0;
+		}
 	}
 	
 	public void setGameDifficulty(String difficultyInput) {
@@ -179,8 +182,15 @@ public class GameEnvironment {
 	    }
 	    return true;
 	}
-
 	
+	public boolean athleteIsReserve(Athlete athlete) {
+		for (Athlete reserve : team.getReservesList()) {
+		    if (athlete == reserve) {
+		    	return true;
+		    }
+		}
+		return false;
+	}
 	
 	
 	
@@ -224,23 +234,17 @@ public class GameEnvironment {
         }
     }
     
-    public void purchaseAthlete(Athlete athlete, String purchaseType,String position){
+    public void purchaseAthlete(Athlete athlete, String position) throws InsufficientFundsException, ReservesLimitException {
     	
-    	
-    	if (playerMoney >= athlete.getContractPrice()) {
-            if( team.getTeamList().size() >= 4) {
-            	ArrayList<Athlete> reservesList = team.getReservesList();
-                reservesList.add(athlete); 
-                System.out.println("this player has been added to the reserve list, you can sawp him into the team at the club. ");
-            } else {
-            	team.addToTeam(athlete, position);;
-                athlete.setPosition(purchaseType);
-            }
-            playerMoney -= athlete.getContractPrice();
-        } else {
-            System.out.println("Not enough money to purchase athlete's contract!");
-        }
+    	if (playerMoney < athlete.getContractPrice()) {
+    		throw new InsufficientFundsException();
+    	} else {
+    		modifyPlayerMoney(-athlete.getContractPrice());
+    		team.addToTeam(athlete, position);
+    	}
     }
+    
+
     public void sellItem(Item item) {
         if (inventory.contains(item)) {
             modifyPlayerMoney(item.getSellBackPrice());

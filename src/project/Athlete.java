@@ -293,7 +293,11 @@ public class Athlete extends Purchasable {
     public String toStringHTML() {
     	String result;
     	if (this.getPosition() != null) {
-    		result = "<html>" + ("Position: " + this.getPosition());
+    		if (this.getPosition() == "Reserve") {
+    			result = "<html>" + ("Reserve player");
+    		} else {
+        		result = "<html>" + ("Position: " + this.getPosition());
+    		}
     	} else {
     		result = "<html>" + ("Price: " + this.getContractPriceFormatted());
     	}

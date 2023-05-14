@@ -16,6 +16,15 @@ public class Team {
 	public Team() {
 		teamList = new ArrayList<Athlete>();
 		reservesList = new ArrayList<Athlete>();
+		
+		/// TEST
+		Athlete athlete = new Athlete();
+		athlete.setPosition("Reserve");
+		reservesList.add(athlete);
+		Athlete athlete1 = new Athlete();
+		athlete1.setPosition("Reserve");
+		reservesList.add(athlete1);
+		
 	}
 	
 	public void setTeamName(String nameInput) {
@@ -43,18 +52,32 @@ public class Team {
 		return teamList;
 	}
 	
-	
-	public void addReserve(Athlete athlete) {
-		reservesList.add(athlete);
-	}
-	
-	public void addToTeam(Athlete athlete, String position) {
+	public void addToInitialTeam(Athlete athlete, String position) {
 		if (teamList.size() < 4) {
 			refreshInitialAthletes();
+			teamList.add(athlete);
+			athlete.setPosition(position);
 		}
-		teamList.add(athlete);
-		athlete.setPosition(position);
 	}
+	
+	
+	
+	public void addToTeam(Athlete athlete, String position) throws ReservesLimitException {
+		if (teamList.size() < 4) {
+			teamList.add(athlete);
+			athlete.setPosition(position);
+
+		} else {
+			if (reservesList.size() == 5) {
+				throw new ReservesLimitException();
+			} else {
+				athlete.setPosition("Reserve");
+				reservesList.add(athlete);
+			}
+		}
+
+	}
+
 	
 
 	public void refreshInitialAthletes() {
@@ -82,7 +105,7 @@ public class Team {
 		int reserveIndex = reservesList.indexOf(reserveAthlete);
 		String position = playerAthlete.getPosition();
 		
-		playerAthlete.setPosition("Null");
+		playerAthlete.setPosition("Reserve");
 		reserveAthlete.setPosition(position);
 		
 		teamList.set(playerIndex, reserveAthlete);
