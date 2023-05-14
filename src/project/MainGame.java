@@ -740,10 +740,11 @@ public class MainGame {
 	    		marketScreen();
 	    		}
 	    });
-		
+		/// bug money not updating
 		sellButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		gameEnvironment.sellPlayer(athlete);
+	    		sellSingleAthletePanel.setVisible(false);
 	    		marketScreen();
 	    		}
 	    });
