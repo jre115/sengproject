@@ -188,12 +188,12 @@ public class MainGame {
         Border border = BorderFactory.createLineBorder(Color.BLACK, 4);
         teamNameText.setBorder(border);
         teamPropertiesPanel.add(teamNameText);
-<<<<<<< HEAD
+
         frame.getContentPane().add(teamPropertiesPanel);
         frame.setSize(1000, 750);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-=======
+
                                 
         JLabel teamText = new JLabel("Team");
         teamText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -455,72 +455,108 @@ public class MainGame {
 	    		
 	    		}
 	    });
->>>>>>> branch 'main' of https://eng-git.canterbury.ac.nz/jre115/project.git
-		
-	}
-<<<<<<< HEAD
-	private void marketScreen() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 693, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		
-		JButton Back = new JButton("back");
-		Back.setFont(new Font("Cooper Black", Font.PLAIN, 11));
-		Back.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-	    		mainMenu();
-				
-			}
-		});
-		Back.setBounds(10, 11, 89, 23);
-		frame.getContentPane().add(Back);
-		
-		JLabel lblNewLabel = new JLabel("Market");
-		lblNewLabel.setFont(new Font("Cooper Black", Font.PLAIN, 11));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(220, 15, 190, 23);
-		frame.getContentPane().add(lblNewLabel);
-		
-		JLabel Money = new JLabel(gameEnvironment.getMoneyFormatted());
-		Money.setBounds(390, 11, 110, 23);
-		frame.getContentPane().add(Money);
-		
-		JLabel Week = new JLabel("Week: " + gameEnvironment.getCurrentWeek() + " of " + gameEnvironment.getSeasonLength());
-		Week.setBounds(535, 11, 105, 23);
-		frame.getContentPane().add(Week);
-		
-		JButton btnNewButton_1 = new JButton("Sell");
-		btnNewButton_1.setFont(new Font("Cooper Black", Font.PLAIN, 11));
-		btnNewButton_1.setBounds(264, 76, 110, 37);
-		frame.getContentPane().add(btnNewButton_1);
-		
-		JButton Buyplayerbutton = new JButton("Buy Player");
-		Buyplayerbutton.setFont(new Font("Cooper Black", Font.PLAIN, 11));
-		Buyplayerbutton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		Buyplayerbutton.setBounds(264, 134, 110, 42);
-		frame.getContentPane().add(Buyplayerbutton);
-		
-		JButton btnNewButton_3 = new JButton("Buy Item");
-		btnNewButton_3.setFont(new Font("Cooper Black", Font.PLAIN, 11));
-		btnNewButton_3.setBounds(264, 191, 110, 37);
-		frame.getContentPane().add(btnNewButton_3);
-	}
-=======
-	
-	
-	
->>>>>>> branch 'main' of https://eng-git.canterbury.ac.nz/jre115/project.git
-}
-<<<<<<< HEAD
-	
-	
-=======
 
->>>>>>> branch 'main' of https://eng-git.canterbury.ac.nz/jre115/project.git
+		
+	}
+
+	
+	private void marketScreen() {
+		
+		JPanel marketpanel = new JPanel();
+		marketpanel.setBackground(new Color(255, 255, 255));
+		marketpanel.setBounds(0, 0, width, height);
+		frame.getContentPane().add(marketpanel);
+		marketpanel.setLayout(null);
+		
+		
+		JButton backButton = new JButton("Back");
+		backButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+		backButton.setBounds(10, 11, 81, 48);
+		marketpanel.add(backButton);
+		
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				marketpanel.setVisible(false);
+				mainMenu();
+			}
+		});
+		
+		
+		JLabel marketlabel = new JLabel("Market");
+		marketlabel.setHorizontalAlignment(SwingConstants.CENTER);
+		marketlabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		marketlabel.setBounds(260, 12, 459, 48);
+		marketpanel.add(marketlabel);
+		
+		JButton sellButton = new JButton("SELL");
+		sellButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		sellButton.setBounds(72, 325, 267, 111);
+		marketpanel.add(sellButton);
+		
+		sellButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				marketpanel.setVisible(false);
+				sellScreen();
+			}
+		});
+		
+		
+			
+		
+		
+		JButton Buyplayerbutton = new JButton("BUY PLAYER");
+		Buyplayerbutton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		Buyplayerbutton.setBounds(626, 325, 267, 111);
+		marketpanel.add(Buyplayerbutton);
+		
+		JButton buyItemButton = new JButton("BUY ITEM");
+		buyItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		buyItemButton.setBounds(349, 325, 267, 111);
+		marketpanel.add(buyItemButton);
+		
+		JLabel moneyLabel = new JLabel(gameEnvironment.getMoneyFormatted());
+		moneyLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		moneyLabel.setBounds(121, 9, 201, 48);
+		marketpanel.add(moneyLabel);
+		
+		
+	}
+	
+	private void sellScreen(){
+		JPanel sellScreenpannel = new JPanel();
+		sellScreenpannel.setBackground(new Color(255, 255, 255));
+		sellScreenpannel.setBounds(0, 0, width, height);
+		frame.getContentPane().add(sellScreenpannel);
+		sellScreenpannel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("What Do You Want To Sell");
+		lblNewLabel.setFont(new Font("Cooper Black", Font.PLAIN, 26));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(265, 11, 364, 51);
+		sellScreenpannel.add(lblNewLabel);
+		
+		JButton sellPlayer = new JButton("SellPlayer");
+		sellPlayer.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		sellPlayer.setBounds(297, 107, 308, 122);
+		sellScreenpannel.add(sellPlayer);
+		
+		JButton sellItemButton = new JButton("SellItem");
+		sellItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		sellItemButton.setBounds(297, 264, 308, 122);
+		sellScreenpannel.add(sellItemButton);
+		
+		JButton backbutton = new JButton("Back");
+		backbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sellScreenpannel.setVisible(false);
+				marketScreen();
+			}
+		});
+		backbutton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		backbutton.setBounds(10, 11, 141, 51);
+		sellScreenpannel.add(backbutton);
+		
+	}
+}
+
 
