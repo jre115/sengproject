@@ -118,12 +118,13 @@ public class Temp {
 		reservesPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		teamPropertiesPanel.add(reservesPanel);
 		
-        JLabel errorText = new JLabel("There are no reserve athletes to swap with.");
-        errorText.setHorizontalAlignment(SwingConstants.LEFT);
+        JLabel errorText = new JLabel("fdsgdfg");
+        errorText.setHorizontalAlignment(SwingConstants.CENTER);
         errorText.setFont(new Font("Calibri", Font.PLAIN, 20));
-        errorText.setSize(364, 25);
+        errorText.setSize(width, 24);
         errorText.setLocation((width - errorText.getWidth())/2, 668);
 		errorText.setForeground(new Color(255, 0, 0));
+		
 		teamPropertiesPanel.add(errorText);
         //errorText.setVisible(false);
 		

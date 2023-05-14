@@ -368,6 +368,7 @@ public class MainGame {
 		athletePanel.add(athleteName);
 		athleteName.setColumns(10);
 		
+		
 		JPanel athleteImagePanel = new JPanel();
 		athleteImagePanel.setBounds(58, 79, 247, 203);
 		athleteImagePanel.setBackground(Color.WHITE);
@@ -393,23 +394,43 @@ public class MainGame {
 		singleAthletePanel.add(backButton);
 		
         JLabel errorText = new JLabel("");
-        errorText.setHorizontalAlignment(SwingConstants.LEFT);
+        errorText.setHorizontalAlignment(SwingConstants.CENTER);
         errorText.setFont(new Font("Calibri", Font.PLAIN, 20));
-        errorText.setSize(364, 24);
+        errorText.setSize(width, 24);
         errorText.setLocation((width - errorText.getWidth())/2, 668);
 		errorText.setForeground(new Color(255, 0, 0));
         singleAthletePanel.add(errorText);
         errorText.setVisible(false);
+        
+        JLabel resultText = new JLabel("");
+        resultText.setHorizontalAlignment(SwingConstants.CENTER);
+        resultText.setFont(new Font("Calibri", Font.PLAIN, 20));
+        resultText.setSize(width, 24);
+        resultText.setLocation((width - errorText.getWidth())/2, 668);
+        resultText.setForeground(new Color(0, 255, 0));
+        singleAthletePanel.add(resultText);
+        resultText.setVisible(false);
+        
+        int buttonWidth = (athletePanel.getWidth()/2) - 10;
+        int buttonHeight = 50;
+        int buttonY = 590;
+        
+		
+		JButton swapPositionButton = new JButton("<html><center>"+"Swap position"+"<br>"+"to " + athlete.getAlternatePosition() +"</center></html>");
+		swapPositionButton.setSize(buttonWidth, buttonHeight);
+		swapPositionButton.setLocation((width - swapPositionButton.getWidth())/2, buttonY);
+		singleAthletePanel.add(swapPositionButton);
+		swapPositionButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
 		
 		JButton swapButton = new JButton("<html><center>"+"Swap player"+"<br>"+"with reserve"+"</center></html>");
-		swapButton.setSize((athletePanel.getWidth()/2) - 10, 50);
-		swapButton.setLocation(312, 581);
+		swapButton.setSize(buttonWidth, buttonHeight);
+		swapButton.setLocation(swapPositionButton.getX() - buttonWidth - 20, buttonY);
 		singleAthletePanel.add(swapButton);
 		swapButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
 		
 		JButton setAthleteNameButton = new JButton("<html><center>"+"Set athlete"+"<br>"+"name"+"</center></html>");
-		setAthleteNameButton.setSize((athletePanel.getWidth()/2) - 10, 50);
-		setAthleteNameButton.setLocation(502, 581);
+		setAthleteNameButton.setSize(buttonWidth, buttonHeight);
+		setAthleteNameButton.setLocation(swapPositionButton.getX() + buttonWidth + 20, buttonY);
 		singleAthletePanel.add(setAthleteNameButton);
 		setAthleteNameButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
 		
@@ -421,10 +442,38 @@ public class MainGame {
 	    		}
 	    });
 		
-		// updates name of athlete to the input from JTextField
+		// updates name of athlete to the input from JTextField - shows error text if name input does not meet requirements
 		setAthleteNameButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
-	    		athlete.setName(athleteName.getText());
+	    		try {
+	    			boolean nameChanged = athlete.setName(athleteName.getText());
+	    			if (nameChanged == true) {
+		    			resultText.setText("Athlete nickname updated");
+		    			errorText.setVisible(false); 
+		    			resultText.setVisible(true);
+	    			}
+	    		} catch (NameException e) {
+	    			errorText.setText(e.getMessage());
+	    			resultText.setVisible(false);
+	    			errorText.setVisible(true); 
+	    		}
+	    		}
+	    });
+		
+		swapPositionButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent a) {
+	    		athlete.setPosition(athlete.getAlternatePosition());
+	    		resultText.setText("Athlete position updated");
+    			errorText.setVisible(false); 
+    			resultText.setVisible(true);
+    			swapPositionButton.setText("<html><center>"+"Swap position"+"<br>"+"to " + athlete.getAlternatePosition() +"</center></html>");
+    	        if (athlete.getPosition() == "Attacker") {
+    	        	athletePanel.setBackground(new Color(173, 216, 230)); // sets background color to light blue
+    	        } else {
+    	        	athletePanel.setBackground(new Color(255, 204, 204)); // light red
+
+    	        }
+    	        athleteInfo.setText(athlete.toStringHTML());
 	    		}
 	    });
 		

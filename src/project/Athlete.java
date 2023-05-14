@@ -199,18 +199,26 @@ public class Athlete extends Purchasable {
 
     
     /**
-     * Sets the name for the athlete
+     * Sets the name for the athlete, if the athlete name is over 20 characters and includes any special characters it will throw NameException
+     * Does not throw name exceptions for previously generated names, only inputted nicknames. Returns true if the name was updated and false
+     * if there was no change between nameInput and the athlete's name.
      *
+     *@return boolean representing whether the name was changed
      * @param nameInput a string representing the new name of the athlete.
      */
-	public void setName(String nameInput) throws NameException {
-		if (nameInput.length() < 3 || nameInput.length() > 30) {
-			throw new NameException("Player nickname must be between 1 - 30 characters long");
-		}
-		else if (nameInput.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~]+.*")) {
-			throw new NameException("Nickname must not include any special characters");
+	public boolean setName(String nameInput) throws NameException {
+		if (athleteName != null) {
+			if (nameInput.matches(athleteName)) {
+				return false;
+			} else if (nameInput.length() < 3 || nameInput.length() > 20) {
+				throw new NameException("Player nickname must be between 1 - 20 characters long");
+			}
+			else if (nameInput.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~]+.*")) {
+				throw new NameException("Nickname must not include any special characters");
+			}
 		}
 		athleteName = nameInput;
+		return true;
 	}
     
     /**

@@ -395,12 +395,13 @@ public class SetupScreen2 {
 		singleAthletePanel.add(athletePanel);
 		athletePanel.setLayout(null);
 		
-		JTextField athleteName = new JTextField(athlete.getName());
+		JLabel athleteName = new JLabel(athlete.getName());
 		athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		athleteName.setHorizontalAlignment(SwingConstants.CENTER);
 		athleteName.setBounds(10, 11, 340, 57);
-		athletePanel.add(athleteName);
-		athleteName.setColumns(10);
+		athleteName.setOpaque(true);
+        athleteName.setBackground(Color.WHITE);
+        athletePanel.add(athleteName);
 		
 		JPanel athleteImagePanel = new JPanel();
 		athleteImagePanel.setBounds(58, 79, 247, 203);
@@ -453,7 +454,6 @@ public class SetupScreen2 {
 		attackerButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
-	    		athlete.setName(athleteName.getText());
 	    		gameEnvironment.purchaseInitialAthlete(athlete, "Attacker");
 	    		if (gameEnvironment.getTeamList().size() == 4) {
 	    			singleAthletePanel.setVisible(false);
@@ -467,7 +467,6 @@ public class SetupScreen2 {
 		defenderButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
-	    		athlete.setName(athleteName.getText());
 	    		gameEnvironment.purchaseInitialAthlete(athlete, "Defender");
 	    		if (gameEnvironment.getTeamList().size() == 4) {
 	    			singleAthletePanel.setVisible(false);
