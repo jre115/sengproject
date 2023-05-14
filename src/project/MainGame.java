@@ -471,6 +471,7 @@ public class MainGame {
     	        	athletePanel.setBackground(new Color(173, 216, 230)); // sets background color to light blue
     	        } else {
     	        	athletePanel.setBackground(new Color(255, 204, 204)); // light red
+    	        	//testing
 
     	        }
     	        athleteInfo.setText(athlete.toStringHTML());
