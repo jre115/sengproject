@@ -1,6 +1,7 @@
 package project;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import lab.MainScreen;
 
@@ -15,6 +16,7 @@ public class GameEnvironment {
     int currentWeek;
     Team team;
     Market market;
+    RandomEvents randomEvents; 
     
     ArrayList<Athlete> reservesList;
     ArrayList<Athlete> teamList;
@@ -23,11 +25,14 @@ public class GameEnvironment {
     
 	
 	public GameEnvironment() {
+		randomEvents = new RandomEvents();
 		inventory = new ArrayList<>();
 		playerMoney = 20000;
 		team = new Team();
 		
 	}
+	
+	
 	
 	public String getTeamName() {
 		return team.getTeamName();
@@ -284,9 +289,23 @@ public class GameEnvironment {
             }
         }
     }
+    public void performRandomEvent() {
+	    Random random = new Random();
+	    int eventChance = random.nextInt(100); 
+
+	    if (eventChance < 5) { // 5% chance for athlete joins
+	        randomEvents.athleteJoins(team);
+	    } else if (eventChance < 15) { // 10% chance for increase Random Player Stat
+	        randomEvents.increaseRandomPlayerStat(team);
+	    } else {
+	        // Do nothing 85% 
+	    }
+	}
 
     
 }
+
+
     
 
 	
