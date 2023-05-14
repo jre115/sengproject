@@ -403,8 +403,9 @@ public class CommandLineUI {
 							}
 							break;
 						case 3:
-							System.out.println("\nWhich reserve would you like to swap with " + athlete.getName() + "?");
 							try {
+								game.checkSwappable();
+								System.out.println("\nWhich reserve would you like to swap with " + athlete.getName() + "?");
 								int reservePosition = 1;
 								for (Athlete reserve : game.getReservesList()) {
 									System.out.println("\n" + reservePosition + ". " + reserve);
@@ -417,9 +418,9 @@ public class CommandLineUI {
 									game.swapAthletes(athlete, reserve);
 									System.out.println("\n\033[32m" + "Great! " + athlete.getName() + "swapped with " + reserve.getName() + "\033[0m");
 								}
-							} catch (IllegalStateException e) {
+							} catch (NoReserveAthletesException e) {
 								System.out.println("\033[31m" + e.getMessage() + "\033[0m");
-								athleteView = false;
+								athleteView = true;
 							}
 							break;
 						case 4:

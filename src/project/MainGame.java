@@ -1,18 +1,24 @@
 package project;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-
+import java.util.ArrayList;
 
 public class MainGame {
 	
@@ -165,29 +171,294 @@ public class MainGame {
 		teamPropertiesPanel.setBounds(0, 0, width, height);
 		frame.getContentPane().add(teamPropertiesPanel);
 		teamPropertiesPanel.setLayout(null);
-		
+		frame.add(teamPropertiesPanel);
+		 
 		JButton backButton = new JButton("Back");
 		backButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
 		backButton.setBounds(10, 11, 81, 48);
 		teamPropertiesPanel.add(backButton);
+
 		
         JLabel teamNameText = new JLabel(gameEnvironment.getTeamName());
         teamNameText.setHorizontalAlignment(SwingConstants.CENTER);
         teamNameText.setFont(new Font("Cooper Black", Font.PLAIN, 40));
-        teamNameText.setSize(469, 100);
-        teamNameText.setLocation((width - teamNameText.getWidth())/2, 100);
-        
-        // Create a LineBorder with black color and 5 pixels of thickness
-        Border border = BorderFactory.createLineBorder(Color.BLACK, 5);
+        teamNameText.setSize(450, 100);
+        teamNameText.setLocation((width - teamNameText.getWidth())/2, 29);
+        // Create a LineBorder with black color and 4 pixels of thickness
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 4);
         teamNameText.setBorder(border);
-        
         teamPropertiesPanel.add(teamNameText);
+<<<<<<< HEAD
         frame.getContentPane().add(teamPropertiesPanel);
         frame.setSize(1000, 750);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+=======
+                                
+        JLabel teamText = new JLabel("Team");
+        teamText.setHorizontalAlignment(SwingConstants.CENTER);
+        teamText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+        teamText.setBounds(155, 160, 55, 24);
+        teamPropertiesPanel.add(teamText);
+        
+        
+        JLabel reservesText = new JLabel("Reserves: " + gameEnvironment.getReservesList().size() + "/5");
+        reservesText.setHorizontalAlignment(SwingConstants.LEFT);
+        reservesText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+        reservesText.setBounds(72, 425, 200, 24);
+        teamPropertiesPanel.add(reservesText);
+        
+		int athletePanelWidth = 144;
+		int athletePanelHeight = 183;
+		
+		JPanel teamPanel = new JPanel();
+		teamPanel.setLayout(null);
+		teamPanel.setSize((athletePanelWidth + 20)*4 + 20, athletePanelHeight + 40);
+		teamPanel.setLocation(155, 191);
+		teamPanel.setBackground(Color.WHITE);
+		teamPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		teamPropertiesPanel.add(teamPanel);
+
+		JPanel reservesPanel = new JPanel();
+		reservesPanel.setLayout(null);
+		reservesPanel.setSize((athletePanelWidth + 20)*5 + 20, athletePanelHeight + 40);
+		reservesPanel.setLocation((width - reservesPanel.getWidth())/2, 460);
+		reservesPanel.setBackground(Color.WHITE);
+		reservesPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		teamPropertiesPanel.add(reservesPanel);
+
+        
+        
+        int panelSpacing = 20; 
+        int numAthletesPerRow = 4; 
+        
+        ArrayList<JPanel> panels = new ArrayList<JPanel>();
+        
+        for (int i = 0; i < gameEnvironment.getTeamList().size(); i++) {
+            Athlete athlete = gameEnvironment.getTeamList().get(i);
+            
+            // evenly spaces athletePanels on the teamPanel
+            JPanel athletePanel = new JPanel();
+            athletePanel.setBounds((athletePanelWidth + panelSpacing) * (i % numAthletesPerRow) + panelSpacing, 
+                                   (athletePanelHeight + panelSpacing) * (i / numAthletesPerRow) + panelSpacing, 
+                                   athletePanelWidth, athletePanelHeight);
+            teamPanel.add(athletePanel);
+            athletePanel.setLayout(null);
+            
+            if (athlete.getPosition() == "Attacker") {
+            	athletePanel.setBackground(new Color(173, 216, 230)); // sets background color to light blue
+            } else {
+            	athletePanel.setBackground(new Color(255, 204, 204)); // light red
+
+            }
+            
+            panels.add(athletePanel);
+
+
+            JLabel athleteName = new JLabel(athlete.getName());
+            athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 11));
+            athleteName.setHorizontalAlignment(SwingConstants.CENTER);
+            athleteName.setBounds(4, 4, 136, 23);
+            athleteName.setOpaque(true);
+            athleteName.setBackground(Color.WHITE);
+            athletePanel.add(athleteName);
+
+            JPanel athleteImagePanel = new JPanel();
+            athleteImagePanel.setSize(82, 66);
+            athleteImagePanel.setLocation((athletePanel.getWidth() - athleteImagePanel.getWidth())/2, 35);
+            athleteImagePanel.setBackground(Color.WHITE);
+            athletePanel.add(athleteImagePanel);
+            athleteImagePanel.setLayout(new BorderLayout(0, 0));
+
+            ImageIcon icon = new ImageIcon(Temp.class.getResource("/Pictures/" + athlete.getImageName() + ".png"));
+            // reduce athlete image by 50%
+            Image img = icon.getImage().getScaledInstance(72, 48, Image.SCALE_SMOOTH); 
+            JLabel athleteImage = new JLabel(new ImageIcon(img));
+            athleteImagePanel.add(athleteImage, BorderLayout.CENTER);
+            athleteImage.setHorizontalAlignment(SwingConstants.CENTER);
+                
+            JLabel athleteInfo = new JLabel(athlete.toStringHTML());
+            athleteInfo.setFont(new Font("Calibiri", Font.BOLD, 10));
+            athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
+            athleteInfo.setBounds(4, 98, 136, 85);
+            athletePanel.add(athleteInfo);
+        }
+        
+        numAthletesPerRow = 5; 
+        
+        for (int i = 0; i < gameEnvironment.getReservesList().size(); i++) {
+            Athlete athlete = gameEnvironment.getReservesList().get(i);
+            
+            // evenly spaces athletePanels on the teamPanel
+            JPanel athletePanel = new JPanel();
+            athletePanel.setBounds((athletePanelWidth + panelSpacing) * (i % numAthletesPerRow) + panelSpacing, 
+                                   (athletePanelHeight + panelSpacing) * (i / numAthletesPerRow) + panelSpacing, 
+                                   athletePanelWidth, athletePanelHeight);
+            reservesPanel.add(athletePanel);
+            athletePanel.setLayout(null);
+
+            JLabel athleteName = new JLabel(athlete.getName());
+            athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 11));
+            athleteName.setHorizontalAlignment(SwingConstants.CENTER);
+            athleteName.setBounds(4, 4, 136, 23);
+            athleteName.setOpaque(true);
+            athleteName.setBackground(Color.WHITE);
+            athletePanel.add(athleteName);
+
+            JPanel athleteImagePanel = new JPanel();
+            athleteImagePanel.setSize(82, 66);
+            athleteImagePanel.setLocation((athletePanel.getWidth() - athleteImagePanel.getWidth())/2, 35);
+            athleteImagePanel.setBackground(Color.WHITE);
+            athletePanel.add(athleteImagePanel);
+            athleteImagePanel.setLayout(new BorderLayout(0, 0));
+
+            ImageIcon icon = new ImageIcon(Temp.class.getResource("/Pictures/" + athlete.getImageName() + ".png"));
+            // reduce athlete image by 50%
+            Image img = icon.getImage().getScaledInstance(72, 48, Image.SCALE_SMOOTH); 
+            JLabel athleteImage = new JLabel(new ImageIcon(img));
+            athleteImagePanel.add(athleteImage, BorderLayout.CENTER);
+            athleteImage.setHorizontalAlignment(SwingConstants.CENTER);
+                
+            JLabel athleteInfo = new JLabel(athlete.toStringHTML());
+            athleteInfo.setFont(new Font("Calibiri", Font.BOLD, 10));
+            athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
+            athleteInfo.setBounds(4, 98, 136, 85);
+            athletePanel.add(athleteInfo);
+        }
+
+		backButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent a) {
+	    		teamPropertiesPanel.setVisible(false);
+	    		clubScreen();
+	    		}
+	    });
+		
+	    /**
+		* Go to singleAthleteView display depends on which of the 4 athlete panels in team is selected.
+	    */
+
+		for (int i = 0; i < panels.size(); i++) {
+			final int index = i;
+		    JPanel panel = panels.get(i);
+		    panel.addMouseListener(new MouseAdapter() {
+		        @Override
+		        public void mouseClicked(MouseEvent e) {
+		            teamPropertiesPanel.setVisible(false);
+		            singleAthleteView(gameEnvironment.getTeamList().get(index));
+		        }
+		    });
+		}
+		
 		
 	}
+	
+	private void singleAthleteView(Athlete athlete) {
+		
+		JPanel singleAthletePanel = new JPanel();
+		singleAthletePanel.setBackground(new Color(255, 255, 255));
+		singleAthletePanel.setBounds(0, 0, width, height);
+		frame.getContentPane().add(singleAthletePanel);
+		singleAthletePanel.setLayout(null);
+		
+		JPanel athletePanel = new JPanel();
+		athletePanel.setSize(360, 459);
+		athletePanel.setLocation(312, 98);
+		singleAthletePanel.add(athletePanel);
+		athletePanel.setLayout(null);
+		
+        if (athlete.getPosition() == "Attacker") {
+        	athletePanel.setBackground(new Color(173, 216, 230)); // sets background color to light blue
+        } else {
+        	athletePanel.setBackground(new Color(255, 204, 204)); // light red
+
+        }
+		
+		JTextField athleteName = new JTextField(athlete.getName());
+		athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		athleteName.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteName.setBounds(10, 11, 340, 57);
+		athletePanel.add(athleteName);
+		athleteName.setColumns(10);
+		
+		JPanel athleteImagePanel = new JPanel();
+		athleteImagePanel.setBounds(58, 79, 247, 203);
+		athleteImagePanel.setBackground(Color.WHITE);
+		athletePanel.add(athleteImagePanel);
+		athleteImagePanel.setLayout(new BorderLayout(0, 0));
+		
+		
+		JLabel athleteImage = new JLabel("");
+		athleteImage.setIcon(new ImageIcon(Temp.class.getResource("/Pictures/" + athlete.getImageName() + ".png")));
+		athleteImage.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteImagePanel.add(athleteImage, BorderLayout.CENTER);
+		
+		JLabel athleteInfo = new JLabel(athlete.toStringHTML());
+		athleteInfo.setFont(new Font("Calibiri", Font.BOLD, 17));
+		athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteInfo.setBounds(23, 305, 311, 143);
+		athletePanel.add(athleteInfo);
+		
+		
+		JButton backButton = new JButton("Back");
+		backButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+		backButton.setBounds(10, 11, 81, 48);
+		singleAthletePanel.add(backButton);
+		
+        JLabel errorText = new JLabel("");
+        errorText.setHorizontalAlignment(SwingConstants.LEFT);
+        errorText.setFont(new Font("Calibri", Font.PLAIN, 20));
+        errorText.setSize(364, 24);
+        errorText.setLocation((width - errorText.getWidth())/2, 668);
+		errorText.setForeground(new Color(255, 0, 0));
+        singleAthletePanel.add(errorText);
+        errorText.setVisible(false);
+		
+		JButton swapButton = new JButton("<html><center>"+"Swap player"+"<br>"+"with reserve"+"</center></html>");
+		swapButton.setSize((athletePanel.getWidth()/2) - 10, 50);
+		swapButton.setLocation(312, 581);
+		singleAthletePanel.add(swapButton);
+		swapButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+		
+		JButton setAthleteNameButton = new JButton("<html><center>"+"Set athlete"+"<br>"+"name"+"</center></html>");
+		setAthleteNameButton.setSize((athletePanel.getWidth()/2) - 10, 50);
+		setAthleteNameButton.setLocation(502, 581);
+		singleAthletePanel.add(setAthleteNameButton);
+		setAthleteNameButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+		
+		
+		backButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent a) {
+	    		singleAthletePanel.setVisible(false);
+	    		teamPropertiesScreen();
+	    		}
+	    });
+		
+		// updates name of athlete to the input from JTextField
+		setAthleteNameButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent a) {
+	    		athlete.setName(athleteName.getText());
+	    		}
+	    });
+		
+		// gives view of reserves to swap with player
+		swapButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent a) {
+	    		try {
+	    			gameEnvironment.checkSwappable();
+	    		} catch(NoReserveAthletesException e) {
+	    			errorText.setText(e.getMessage());
+	    			errorText.setVisible(true);
+	    		}
+		
+
+	    		//singleAthletePanel.setVisible(false);
+	    		
+	    		}
+	    });
+>>>>>>> branch 'main' of https://eng-git.canterbury.ac.nz/jre115/project.git
+		
+	}
+<<<<<<< HEAD
 	private void marketScreen() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 693, 300);
@@ -240,7 +511,16 @@ public class MainGame {
 		btnNewButton_3.setBounds(264, 191, 110, 37);
 		frame.getContentPane().add(btnNewButton_3);
 	}
+=======
+	
+	
+	
+>>>>>>> branch 'main' of https://eng-git.canterbury.ac.nz/jre115/project.git
 }
+<<<<<<< HEAD
 	
 	
+=======
+
+>>>>>>> branch 'main' of https://eng-git.canterbury.ac.nz/jre115/project.git
 

@@ -283,8 +283,12 @@ public class Athlete extends Purchasable {
     * @return a String containing the athlete's name, contract price, and statistics.
     */
     public String toStringHTML() {
-    	//result += ("\nPosition: " + this.getPosition());
-    	String result = "<html>" + ("Price: " + this.getContractPriceFormatted());
+    	String result;
+    	if (this.getPosition() != null) {
+    		result = "<html>" + ("Position: " + this.getPosition());
+    	} else {
+    		result = "<html>" + ("Price: " + this.getContractPriceFormatted());
+    	}
         result += ("<br>Offensive Statistic: " + this.getOffensive());
         result += ("<br>Defensive Statistic: " + this.getDefensive());
         result += ("<br>Stamina Statistic: " + this.getStamina()) + "</html>";

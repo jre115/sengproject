@@ -57,7 +57,7 @@ public class testgui {
 		frame.getContentPane().add(Back);
 		
 		JLabel lblNewLabel = new JLabel("Market");
-		lblNewLabel.setFont(new Font("Cooper Black", Font.PLAIN, 11));
+		lblNewLabel.setFont(new Font("Cooper Black", Font.PLAIN, 17));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(220, 15, 190, 23);
 		frame.getContentPane().add(lblNewLabel);

@@ -173,6 +173,14 @@ public class GameEnvironment {
 		team.swapAthletes(playerAthlete, reserveAthlete);
 	}
 	
+	public Boolean checkSwappable() throws NoReserveAthletesException {
+	    if (getReservesList().isEmpty() == true) {
+	        throw new NoReserveAthletesException();
+	    }
+	    return true;
+	}
+
+	
 	
 	
 	
