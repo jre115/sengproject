@@ -41,7 +41,7 @@ public class Athlete extends Purchasable {
     * Class constructor.
     */
 	public Athlete() {
-		generateStatistics();
+		setGeneratedStatistics();
 		setName(generateName());
         setContractPrice(0); // initialize contract price to 0
         setSellBackPrice(0); // initialize sell-back price to 0
@@ -79,7 +79,7 @@ public class Athlete extends Purchasable {
      * The stamina statistic is generated as a random integer between 60 and 100.
      */
     
-	private void generateStatistics() {
+	private void setGeneratedStatistics() {
 		Random offensive = new Random();
 		int min = 30;
 		int max = 70;
@@ -309,6 +309,13 @@ public class Athlete extends Purchasable {
         
     }
     
+    public Boolean matchesAthlete(Athlete comparedAthlete) {
+    	if (comparedAthlete.getName() == athleteName && comparedAthlete.getDefensive() == defensiveStatistic && comparedAthlete.getOffensive() == offensiveStatistic && comparedAthlete.getStamina() == staminaStatistic) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
 	
 	
 	

@@ -62,14 +62,17 @@ public class Team {
 	
 	
 	
-	public void addToTeam(Athlete athlete, String position) throws ReservesLimitException {
+	public void addToTeam(Athlete athlete, String position) throws LimitException {
 		if (teamList.size() < 4) {
 			teamList.add(athlete);
 			athlete.setPosition(position);
-
+			for (int i = 0 ; i < reservesList.size(); i ++) {
+				if (athlete.matchesAthlete(reservesList.get(i)))
+				reservesList.remove(i);
+			}
 		} else {
 			if (reservesList.size() == 5) {
-				throw new ReservesLimitException();
+				throw new LimitException();
 			} else {
 				athlete.setPosition("Reserve");
 				reservesList.add(athlete);
@@ -77,6 +80,7 @@ public class Team {
 		}
 
 	}
+	
 
 	
 

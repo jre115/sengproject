@@ -439,7 +439,7 @@ public class MainGame {
 		swapButton.setLocation(312, buttonY);
 		singleAthletePanel.add(swapButton);
 		swapButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
-		
+				
 		JButton setAthleteNameButton = new JButton("<html><center>"+"Set athlete"+"<br>"+"name"+"</center></html>");
 		setAthleteNameButton.setSize(buttonWidth, buttonHeight);
 		setAthleteNameButton.setLocation(502, buttonY);
@@ -475,6 +475,8 @@ public class MainGame {
 			// Moves buttons to be on either sides of the swapPositionButton
 			swapButton.setLocation(centreButtonX - buttonWidth - 20, buttonY);
 			setAthleteNameButton.setLocation(centreButtonX + buttonWidth + 20, buttonY);
+		} else if (gameEnvironment.getTeamList().size() < 4) {
+			swapButton.setText("<html><center>"+"Add reserve"+"<br>"+"to team"+"</center></html>");
 		}
 
 		
@@ -506,19 +508,29 @@ public class MainGame {
 		
 
 		
-		// gives view of reserves to swap with player
+		// gives view of reserves to swap with player OR adds reserve to the team if there are less than 4 players in the team
 		swapButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
-	    		try {
-	    			gameEnvironment.checkSwappable();
-		    		singleAthletePanel.setVisible(false);
-		    		athleteSwapPanel(athlete);
-		    		
-	    		} catch(NoReserveAthletesException e) {
-	    			errorText.setText(e.getMessage());
-	    			errorText.setVisible(true);
+	    		if (gameEnvironment.getTeamList().size() < 4 && isReserve == true) {
+	    			try {
+	    				gameEnvironment.addReserveToTeam(athlete);
+	    				singleAthletePanel.setVisible(false);
+	    				teamPropertiesScreen();
+	    			} catch (LimitException e){
+		    			errorText.setText(e.getMessage());
+		    			errorText.setVisible(true);
+	    			}
+	    		} else {
+		    		try {
+		    			gameEnvironment.checkSwappable();
+			    		singleAthletePanel.setVisible(false);
+			    		athleteSwapPanel(athlete);
+			    		
+		    		} catch(NoReserveAthletesException e) {
+		    			errorText.setText(e.getMessage());
+		    			errorText.setVisible(true);
+		    		}
 	    		}
-	    		
 	    		}
 	    });
 		

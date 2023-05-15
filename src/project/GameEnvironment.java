@@ -88,6 +88,32 @@ public class GameEnvironment {
 		modifyPlayerMoney(- athlete.getContractPrice());
 	}
 	
+	/**
+	 * Adds reserve to the team automatically assigning them to the position there are less of in the team
+	 *
+	 * @param reserve the reserve athlete that is being added to the team 
+	 */
+	public void addReserveToTeam(Athlete reserve) throws LimitException {
+		if (getTeamList().size() >= 4) {
+			throw new LimitException("Cannot have more than 4 players in the playing team");
+		}
+		int defenderCount = 0;
+		int attackerCount = 0;
+		for (Athlete athlete : getTeamList()) {
+			if (athlete.getPosition() == "Defender") {
+				defenderCount += 1;
+			} else {
+				attackerCount += 1;
+			}
+		}
+		if (attackerCount < defenderCount) {
+			team.addToTeam(reserve, "Attacker");
+		} else {
+			team.addToTeam(reserve, "Defender");
+		}
+	}
+	
+	
 	public ArrayList<Athlete> getTeamList() {
 		return team.getTeamList();
 	}
@@ -234,7 +260,7 @@ public class GameEnvironment {
         }
     }
     
-    public void purchaseAthlete(Athlete athlete, String position) throws InsufficientFundsException, ReservesLimitException {
+    public void purchaseAthlete(Athlete athlete, String position) throws InsufficientFundsException, LimitException {
     	
     	if (playerMoney < athlete.getContractPrice()) {
     		throw new InsufficientFundsException();
