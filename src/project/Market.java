@@ -25,7 +25,7 @@ public class Market   {
 
 	    ArrayList<Item> selectedItems = new ArrayList<Item>();
 	    Random random = new Random();
-	    while (selectedItems.size() < 3) {
+	    while (selectedItems.size() < 4) {
 	        int index = random.nextInt(shopItems.size());
 	        if (!selectedItems.contains(shopItems.get(index))) {
 	            selectedItems.add(shopItems.get(index));
