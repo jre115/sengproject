@@ -757,11 +757,110 @@ public class MainGame {
 		buyItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		buyItemButton.setBounds(349, 325, 267, 111);
 		marketpanel.add(buyItemButton);
+		buyItemButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				marketpanel.setVisible(false);
+				buyItemScreen();
+				
+			}
+		});
 		
 		JLabel moneyLabel = new JLabel(gameEnvironment.getMoneyFormatted());
 		moneyLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		moneyLabel.setBounds(121, 9, 201, 48);
 		marketpanel.add(moneyLabel);
+		
+	
+		
+		
+	}
+	
+	
+	public void buyItemScreen() {
+		JPanel itemDisplayPanel = new JPanel();
+		itemDisplayPanel.setBackground(new Color(255, 255, 255));
+		itemDisplayPanel.setBounds(-76, 0, width, height);
+		frame.getContentPane().add(itemDisplayPanel);
+		itemDisplayPanel.setLayout(null);
+		frame.getContentPane().add(itemDisplayPanel);
+		 
+		JButton backButton = new JButton("Back");
+		backButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+		backButton.setBounds(108, 11, 81, 48);
+		itemDisplayPanel.add(backButton);
+
+		
+        JLabel buyItemText = new JLabel("Buy Items");
+        buyItemText.setHorizontalAlignment(SwingConstants.CENTER);
+        buyItemText.setFont(new Font("Cooper Black", Font.PLAIN, 40));
+        buyItemText.setSize(450, 100);
+        buyItemText.setLocation((width - buyItemText.getWidth())/2, 29);
+        // Create a LineBorder with black color and 4 pixels of thickness
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 4);
+        buyItemText.setBorder(border);
+        itemDisplayPanel.add(buyItemText);
+
+                                
+        JLabel ItemsText = new JLabel("Items");
+        ItemsText.setHorizontalAlignment(SwingConstants.CENTER);
+        ItemsText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+        ItemsText.setBounds(155, 160, 81, 24);
+        itemDisplayPanel.add(ItemsText);
+        
+		int athletePanelWidth = 144;
+		int athletePanelHeight = 183;
+		
+		JPanel ItemPanel = new JPanel();
+		ItemPanel.setLayout(null);
+		ItemPanel.setSize(677, 223);
+		ItemPanel.setLocation(154, 191);
+		ItemPanel.setBackground(Color.WHITE);
+		ItemPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		itemDisplayPanel.add(ItemPanel);
+
+        
+        
+        int panelSpacing = 20; 
+        int numAthletesPerRow = 5; 
+        
+        ArrayList<JPanel> panels = new ArrayList<JPanel>();
+        
+        for (int i = 0; i < gameEnvironment.getShopItems().size(); i++) {
+            Item item = gameEnvironment.getShopItems().get(i);
+            
+            // evenly spaces athletePanels on the teamPanel
+            JPanel athletePanel = new JPanel();
+            athletePanel.setBounds((athletePanelWidth + panelSpacing) * (i % numAthletesPerRow) + panelSpacing, 
+                                   (athletePanelHeight + panelSpacing) * (i / numAthletesPerRow) + panelSpacing, 
+                                   athletePanelWidth, athletePanelHeight);
+            ItemPanel.add(athletePanel);
+            athletePanel.setLayout(null);
+            
+           
+            
+            panels.add(athletePanel);
+
+
+            JLabel athleteName = new JLabel(item.getName());
+            athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 11));
+            athleteName.setHorizontalAlignment(SwingConstants.CENTER);
+            athleteName.setBounds(4, 4, 136, 23);
+            athleteName.setOpaque(true);
+            athleteName.setBackground(Color.WHITE);
+            athletePanel.add(athleteName);
+
+            
+
+            
+            // reduce athlete image by 50%
+            
+                
+            JLabel athleteInfo = new JLabel(item.toStringHTML());
+            athleteInfo.setFont(new Font("Calibiri", Font.BOLD, 10));
+            athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
+            athleteInfo.setBounds(4, 98, 136, 85);
+            athletePanel.add(athleteInfo);
+        }
 		
 		
 	}
