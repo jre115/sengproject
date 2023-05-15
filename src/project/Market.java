@@ -2,7 +2,7 @@ package project;
 
 import java.util.ArrayList;
 import java.util.Random;
-public class Market extends GameEnvironment  {
+public class Market   {
 	// Creates new items
 	public Item Broom = new Item("Nimbus2023", 5, 5, 1000, 200, "The newest model of broom currently avialble on the market");
 	public Item LuckPotion = new Item("LiquidLuck", 7, 7, 1500, 200, "A potion that increaes your Luck");
