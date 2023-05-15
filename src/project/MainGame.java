@@ -805,7 +805,7 @@ public class MainGame {
 		
 		ArrayList<JPanel> panels = new ArrayList<JPanel>();
 		int panelSpacing = 20; 
-		int numAthletesPerRow = 4;
+		int numAthletesPerRow = 5;
         
         for (int i = 0; i < gameEnvironment.getShopAthletes().size(); i++) {
             Athlete athlete = gameEnvironment.getShopAthletes().get(i);
@@ -871,7 +871,7 @@ public class MainGame {
 		        @Override
 		        public void mouseClicked(MouseEvent e) {
 		        	BuyPlayerPanel.setVisible(false);
-		        	BuySingleAthletePanel(gameEnvironment.getTeamList().get(index));
+		        	BuySingleAthletePanel(gameEnvironment.getShopAthletes().get(index));
 		        }
 		    });
 		}
