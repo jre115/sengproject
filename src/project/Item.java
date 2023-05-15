@@ -89,14 +89,37 @@ public class Item extends Purchasable {
 		this.defence = defence;
 	}
 	
-	public static void main(String[] args) {
-		EnergyDrink en = new EnergyDrink();
-		System.out.println(en.getName());
-		System.out.println(en.getDescription());
-		System.out.println(en.getDefence());
-		//System.out.println(en.getCost());}
+	public String toString() {
+		String result = null;
+    	result += (this.getName());
+    	result += (this.getDescription());
+    	
+        result += ("<br>Offensive Statistic: " + this.getOffence());
+        result += ("<br>Defensive Statistic: " + this.getDefence());
+        result += ("<br>Cost: " + this.getContractPrice());
+        result += ("<br>Sell price: " + this.getSellBackPrice());
+         
+        
+        return result;
+	}
 	
-}
+	
+
+	public String toStringHTML() {
+		String result = null;
+    	result += (this.getName());
+    	result += (this.getDescription());
+    	
+        result += ("<br>Offensive Statistic: " + this.getOffence());
+        result += ("<br>Defensive Statistic: " + this.getDefence());
+        result += ("<br>Cost: " + this.getContractPrice());
+        result += ("<br>Sell price: " + this.getSellBackPrice());
+         
+        
+        return result;
+	}
+        
+		
 
 
 }
