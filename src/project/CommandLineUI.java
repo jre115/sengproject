@@ -287,7 +287,17 @@ public class CommandLineUI {
 			    }
 			    
 
-			    game.purchaseAthlete(player, athletePosition, athletePosition); 
+			try {
+				game.purchaseAthlete(player, athletePosition);
+			} catch (InsufficientFundsException e) {
+				
+				// TODO Auto-generated catch block
+				System.out.print(e.getMessage());
+			} catch (ReservesLimitException e) {
+				System.out.print(e.getMessage());
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
 			    System.out.println("\033[32m" + "Great! Player " + player.getName() + " has been added to your team as a " + athletePosition + "\033[0m");
 			    goToMarket();
 			    break;
@@ -305,7 +315,12 @@ public class CommandLineUI {
 			    Item equipment = marketItems.get(itemValue - 1);
 			    
 			    System.out.println(equipment.getName());
-			    game.purchaseItem(equipment);
+			try {
+				game.purchaseItem(equipment);
+			} catch (InsufficientFundsException e) {
+				// TODO Auto-generated catch block
+				System.out.print(e.getMessage());
+			}
 			    System.out.println("Great! "+ equipment.getName()+ " has been added to your inventory");
 			    System.out.println(game.getMoneyFormatted()+" left");
 			    goToMarket();
