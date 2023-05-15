@@ -788,6 +788,7 @@ public class MainGame {
 			public void actionPerformed(ActionEvent e) {
 				BuyPlayerPanel.setVisible(false);
 				marketScreen();
+				
 			}
 		});
 		backButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
@@ -927,6 +928,18 @@ public class MainGame {
 		backButton.setBounds(10, 11, 81, 48);
 		BuySingleAthletePanel.add(backButton);
 		
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				marketScreen();
+				BuySingleAthletePanel.setVisible(false);
+				
+				
+			}
+		});
+		
+		
+		
+		
         JLabel errorText = new JLabel("");
         errorText.setHorizontalAlignment(SwingConstants.LEFT);
         errorText.setFont(new Font("Calibri", Font.PLAIN, 20));
@@ -941,6 +954,30 @@ public class MainGame {
 		BuyButton.setLocation(402, 568);
 		BuySingleAthletePanel.add(BuyButton);
 		BuyButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+		BuyButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				marketScreen();
+				BuySingleAthletePanel.setVisible(false);
+				
+				try {
+					gameEnvironment.purchaseAthlete(athlete, null);
+					
+				} catch (InsufficientFundsException e1) {
+					errorText.setText((e1.getMessage()));
+	    			errorText.setVisible(true);
+					e1.printStackTrace();
+				} catch (ReservesLimitException e2) {
+					errorText.setText((e2.getMessage()));
+	    			errorText.setVisible(true);
+					e2.printStackTrace();
+				}
+				
+			}
+		});
+		
+		
+		
 		
 	}
 	
