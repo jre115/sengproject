@@ -25,6 +25,7 @@ public class GameEnvironment {
     
 	
 	public GameEnvironment() {
+		market = new Market();
 		randomEvents = new RandomEvents();
 		inventory = new ArrayList<>();
 		playerMoney = 20000;
@@ -160,7 +161,7 @@ public class GameEnvironment {
 	
 	public void startGame() {
 		
-		market = new Market();
+		
 		currentWeek = 0;
 		increaseWeek();
 		
