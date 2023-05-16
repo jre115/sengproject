@@ -77,7 +77,7 @@ public class Team {
 		}
 
 	}
-
+	
 	
 
 	public void refreshInitialAthletes() {

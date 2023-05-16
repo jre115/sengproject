@@ -308,6 +308,11 @@ public class Athlete extends Purchasable {
         return result;
         
     }
+    public void useItem(Item item, List<Item> inventory) {
+        this.offensiveStatistic += item.getOffence();
+        this.defensiveStatistic += item.getDefence();
+        inventory.remove(item);
+    }
     
 	
 	
