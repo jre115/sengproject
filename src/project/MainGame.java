@@ -323,7 +323,7 @@ public class MainGame {
 		UseItemButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UseSingleItemPanel.setVisible(false);
-				useItemPlayersDisplay();
+				useItemPlayersDisplay(null, item);
 			}
 		});
 		UseItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
@@ -348,7 +348,7 @@ public class MainGame {
 		});
 	
 }
-	public void useItemPlayersDisplay() {
+	public void useItemPlayersDisplay(Athlete athlete, Item item) {
 		JPanel UseItemPlayerPanel = new JPanel();
 		UseItemPlayerPanel.setBackground(new Color(255, 255, 255));
 		UseItemPlayerPanel.setBounds(0, 0, width, height);
@@ -522,7 +522,7 @@ public class MainGame {
 		            if (index >= gameEnvironment.getTeamList().size()) {
 		            	useItemSingleAthleteViewReserve(gameEnvironment.getReservesList().get(index - gameEnvironment.getTeamList().size()));
 		            } else {
-		            	useItemSingleAthleteView(gameEnvironment.getTeamList().get(index));
+		            	useItemSingleAthleteView(gameEnvironment.getTeamList().get(index),item);
 		            }
 		            
 		        }
@@ -531,9 +531,83 @@ public class MainGame {
 		
 		
 	}
-	public void useItemSingleAthleteView() {
+	public void useItemSingleAthleteView(Athlete athlete, Item item) {
+		
+		
+		JPanel UseItemSingleAthletePanel = new JPanel();
+		UseItemSingleAthletePanel.setBackground(new Color(255, 255, 255));
+		UseItemSingleAthletePanel.setBounds(0, 0, width, height);
+		frame.getContentPane().add(UseItemSingleAthletePanel);
+		UseItemSingleAthletePanel.setLayout(null);
+		
+		JPanel UseItemSingleAthletePanel1 = new JPanel();
+		UseItemSingleAthletePanel1.setSize(360, 459);
+		UseItemSingleAthletePanel1.setLocation(312, 98);
+		UseItemSingleAthletePanel.add(UseItemSingleAthletePanel1);
+		UseItemSingleAthletePanel1.setLayout(null);
+		
+        if (athlete.getPosition() == "Attacker") {
+        	UseItemSingleAthletePanel1.setBackground(new Color(173, 216, 230)); // sets background color to light blue
+        } else {
+        	UseItemSingleAthletePanel1.setBackground(new Color(255, 204, 204)); // light red
+
+        }
+		
+		JTextField athleteName = new JTextField(athlete.getName());
+		athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		athleteName.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteName.setBounds(10, 11, 340, 57);
+		UseItemSingleAthletePanel1.add(athleteName);
+		athleteName.setColumns(10);
+		
+		JPanel athleteImagePanel = new JPanel();
+		athleteImagePanel.setBounds(58, 79, 247, 203);
+		athleteImagePanel.setBackground(Color.WHITE);
+		UseItemSingleAthletePanel1.add(athleteImagePanel);
+		athleteImagePanel.setLayout(new BorderLayout(0, 0));
+		
+		
+		JLabel athleteImage = new JLabel("");
+		athleteImage.setIcon(new ImageIcon(Temp.class.getResource("/Pictures/" + athlete.getImageName() + ".png")));
+		athleteImage.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteImagePanel.add(athleteImage, BorderLayout.CENTER);
+		
+		JLabel athleteInfo = new JLabel(athlete.toStringHTML());
+		athleteInfo.setFont(new Font("Calibiri", Font.BOLD, 17));
+		athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteInfo.setBounds(23, 305, 311, 143);
+		UseItemSingleAthletePanel1.add(athleteInfo);
+		
+		
+		
+		
+		
+        JLabel errorText = new JLabel("");
+        errorText.setHorizontalAlignment(SwingConstants.LEFT);
+        errorText.setFont(new Font("Calibri", Font.PLAIN, 20));
+        errorText.setSize(532, 48);
+        errorText.setLocation(230, 644);
+		errorText.setForeground(new Color(255, 0, 0));
+        UseItemSingleAthletePanel.add(errorText);
+        
+        JButton UseItemButton = new JButton("Use on" + athlete.getName());
+        UseItemButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		athlete.useItem(item);
+        		
+        		
+        	}
+        });
+        UseItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+        UseItemButton.setBounds(312, 586, 360, 47);
+        UseItemSingleAthletePanel.add(UseItemButton);
+        
+        
 		
 	}
+
+		
+	
 	public void useItemSingleAthleteViewReserve() {
 		/// TODO
 	}

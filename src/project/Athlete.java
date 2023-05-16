@@ -308,14 +308,18 @@ public class Athlete extends Purchasable {
         return result;
         
     }
-    public void useItem(Item item, List<Item> inventory) {
-        this.offensiveStatistic += item.getOffence();
-        this.defensiveStatistic += item.getDefence();
-        inventory.remove(item);
-    }
+    public void useItem(Item item) {
+        Add the defense and offense values from the item to the athlete
+        this.defensiveStatistic += item.getDefense();
+        this.offensiveStatistic += item.getOffense();
+
+        
+        Inventory.removeItem(item);
+    
+    }}
     
 	
 	
 	
 
-}
+
