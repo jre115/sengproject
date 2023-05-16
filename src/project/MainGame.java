@@ -323,7 +323,7 @@ public class MainGame {
 		UseItemButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UseSingleItemPanel.setVisible(false);
-				useItemPlayersDisplay(null, item);
+				useItemPlayersDisplay(item);
 			}
 		});
 		UseItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
@@ -348,7 +348,7 @@ public class MainGame {
 		});
 	
 }
-	public void useItemPlayersDisplay(Athlete athlete, Item item) {
+	public void useItemPlayersDisplay(Item item) {
 		JPanel UseItemPlayerPanel = new JPanel();
 		UseItemPlayerPanel.setBackground(new Color(255, 255, 255));
 		UseItemPlayerPanel.setBounds(0, 0, width, height);
@@ -520,7 +520,7 @@ public class MainGame {
 		        public void mouseClicked(MouseEvent e) {
 		            UseItemPlayerPanel.setVisible(false);
 		            if (index >= gameEnvironment.getTeamList().size()) {
-		            	useItemSingleAthleteViewReserve(gameEnvironment.getReservesList().get(index - gameEnvironment.getTeamList().size()));
+		            	useItemSingleAthleteViewReserve(gameEnvironment.getReservesList().get(index - gameEnvironment.getTeamList().size()),item);
 		            } else {
 		            	useItemSingleAthleteView(gameEnvironment.getTeamList().get(index),item);
 		            }
@@ -590,10 +590,14 @@ public class MainGame {
 		errorText.setForeground(new Color(255, 0, 0));
         UseItemSingleAthletePanel.add(errorText);
         
-        JButton UseItemButton = new JButton("Use on" + athlete.getName());
+        JButton UseItemButton = new JButton("Use on " + athlete.getName());
         UseItemButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		
         		athlete.useItem(item);
+        		UseItemSingleAthletePanel.setVisible(false);
+        		mainMenu();
+        		
         		
         		
         	}
@@ -608,9 +612,86 @@ public class MainGame {
 
 		
 	
-	public void useItemSingleAthleteViewReserve() {
-		/// TODO
+	public void useItemSingleAthleteViewReserve(Athlete athlete, Item item) {
+		
+		
+		JPanel UseItemSingleReservePanel = new JPanel();
+		UseItemSingleReservePanel.setBackground(new Color(255, 255, 255));
+		UseItemSingleReservePanel.setBounds(0, 0, width, height);
+		frame.getContentPane().add(UseItemSingleReservePanel);
+		UseItemSingleReservePanel.setLayout(null);
+		
+		JPanel UseItemSingleReservePanel1 = new JPanel();
+		UseItemSingleReservePanel1.setSize(360, 459);
+		UseItemSingleReservePanel1.setLocation(312, 98);
+		UseItemSingleReservePanel.add(UseItemSingleReservePanel1);
+		UseItemSingleReservePanel1.setLayout(null);
+		
+        if (athlete.getPosition() == "Attacker") {
+        	UseItemSingleReservePanel1.setBackground(new Color(173, 216, 230)); // sets background color to light blue
+        } else {
+        	UseItemSingleReservePanel1.setBackground(new Color(255, 204, 204)); // light red
+
+        }
+		
+		JTextField athleteName = new JTextField(athlete.getName());
+		athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		athleteName.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteName.setBounds(10, 11, 340, 57);
+		UseItemSingleReservePanel1.add(athleteName);
+		athleteName.setColumns(10);
+		
+		JPanel athleteImagePanel = new JPanel();
+		athleteImagePanel.setBounds(58, 79, 247, 203);
+		athleteImagePanel.setBackground(Color.WHITE);
+		UseItemSingleReservePanel1.add(athleteImagePanel);
+		athleteImagePanel.setLayout(new BorderLayout(0, 0));
+		
+		
+		JLabel athleteImage = new JLabel("");
+		athleteImage.setIcon(new ImageIcon(Temp.class.getResource("/Pictures/" + athlete.getImageName() + ".png")));
+		athleteImage.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteImagePanel.add(athleteImage, BorderLayout.CENTER);
+		
+		JLabel athleteInfo = new JLabel(athlete.toStringHTML());
+		athleteInfo.setFont(new Font("Calibiri", Font.BOLD, 17));
+		athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteInfo.setBounds(23, 305, 311, 143);
+		UseItemSingleReservePanel1.add(athleteInfo);
+		
+		
+		
+		
+		
+        JLabel errorText = new JLabel("");
+        errorText.setHorizontalAlignment(SwingConstants.LEFT);
+        errorText.setFont(new Font("Calibri", Font.PLAIN, 20));
+        errorText.setSize(532, 48);
+        errorText.setLocation(230, 644);
+		errorText.setForeground(new Color(255, 0, 0));
+        UseItemSingleReservePanel.add(errorText);
+        
+        JButton UseItemReserveButton = new JButton("Use on" + athlete.getName());
+        UseItemReserveButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		athlete.useItem(item);
+        		UseItemSingleReservePanel.setVisible(false);
+        		mainMenu();
+        		
+        		
+        		
+        	}
+        });
+        UseItemReserveButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+        UseItemReserveButton.setBounds(312, 586, 360, 47);
+        UseItemSingleReservePanel.add(UseItemReserveButton);
+        
+        
+		
 	}
+
+		
+	
 	
 		
 	
