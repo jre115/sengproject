@@ -906,8 +906,9 @@ public class MainGame {
 		int panelSpacing = 20; 
 		int numAthletesPerRow = 5;
         
-        for (int i = 0; i < gameEnvironment.getShopAthletes().size(); i++) {
-            Athlete athlete = gameEnvironment.getShopAthletes().get(i);
+		ArrayList<Athlete> shopAthletes = gameEnvironment.getShopAthletes();
+		for (int i = 0; i < shopAthletes.size(); i++) {
+		    Athlete athlete = shopAthletes.get(i);
             
             // evenly spaces athletePanels on the teamPanel
             JPanel athletePanel = new JPanel();
@@ -970,7 +971,7 @@ public class MainGame {
 		        @Override
 		        public void mouseClicked(MouseEvent e) {
 		        	BuyPlayerPanel.setVisible(false);
-		        	BuySingleAthletePanel(gameEnvironment.getShopAthletes().get(index));
+		        	BuySingleAthletePanel(shopAthletes.get(index));
 		        }
 		    });
 		}
