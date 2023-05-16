@@ -312,6 +312,8 @@ public class Athlete extends Purchasable {
         
         this.defensiveStatistic += item.getDefence();
         this.offensiveStatistic += item.getOffence();
+        
+        
 
         
         

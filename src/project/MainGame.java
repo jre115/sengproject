@@ -595,6 +595,7 @@ public class MainGame {
         	public void actionPerformed(ActionEvent e) {
         		
         		athlete.useItem(item);
+        		gameEnvironment.removeItem(item);
         		UseItemSingleAthletePanel.setVisible(false);
         		mainMenu();
         		
@@ -675,6 +676,8 @@ public class MainGame {
         UseItemReserveButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		athlete.useItem(item);
+        		gameEnvironment.removeItem(item);
+        		
         		UseItemSingleReservePanel.setVisible(false);
         		mainMenu();
         		

@@ -20,7 +20,7 @@ public class GameEnvironment {
     
     ArrayList<Athlete> reservesList;
     ArrayList<Athlete> teamList;
-    private ArrayList<Item> inventory;
+    ArrayList<Item> inventory;
 
     
 	
@@ -225,6 +225,8 @@ public class GameEnvironment {
     public ArrayList<Item> getInventory() {
         return inventory;
     }
+    
+    
 
     public void purchaseItem(Item item) throws InsufficientFundsException, InventoryFullException {
         if (playerMoney <= item.getContractPrice()) {
@@ -320,11 +322,18 @@ public class GameEnvironment {
 	}
     
     
+    public void removeItem(Item item) {
+    	inventory.remove(item);
+       
+        }
+    }
+    
+    
     
     
 
     
-}
+
 
 
     
