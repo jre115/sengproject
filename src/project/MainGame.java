@@ -825,8 +825,9 @@ public class MainGame {
         
         ArrayList<JPanel> panels = new ArrayList<JPanel>();
         
-        for (int i = 0; i < gameEnvironment.getShopItems().size(); i++) {
-            Item item = gameEnvironment.getShopItems().get(i);
+        ArrayList<Item> shopItems = gameEnvironment.getShopItems();
+        for (int i = 0; i < shopItems.size(); i++) {
+            final Item item = shopItems.get(i);
             
             // evenly spaces athletePanels on the teamPanel
             JPanel athletePanel = new JPanel();
@@ -858,12 +859,104 @@ public class MainGame {
             JLabel athleteInfo = new JLabel(item.toStringHTML());
             athleteInfo.setFont(new Font("Calibiri", Font.BOLD, 10));
             athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
-            athleteInfo.setBounds(4, 98, 136, 85);
+            athleteInfo.setVerticalAlignment(SwingConstants.TOP); // Align text to the top
+            athleteInfo.setVerticalTextPosition(SwingConstants.TOP);
+            athleteInfo.setBounds(4, 40, 136, 200);
             athletePanel.add(athleteInfo);
         }
+        for (int i = 0; i < panels.size(); i++) {
+			final int index = i;
+		    JPanel panel = panels.get(i);
+		    panel.addMouseListener(new MouseAdapter() {
+		        @Override
+		        public void mouseClicked(MouseEvent e) {
+		        	itemDisplayPanel.setVisible(false);
+		        	buySingleItemScreen(shopItems.get(index));
+		        }
+		    });
+		}
 		
 		
 	}
+	
+	public void buySingleItemScreen(Item item) {
+		
+		
+			
+			JPanel BuySingleItemPanel = new JPanel();
+			BuySingleItemPanel.setBackground(new Color(255, 255, 255));
+			BuySingleItemPanel.setBounds(0, 0, width, height);
+			frame.getContentPane().add(BuySingleItemPanel);
+			BuySingleItemPanel.setLayout(null);
+			
+			JPanel BuyItemPanel = new JPanel();
+			BuyItemPanel.setSize(360, 459);
+			BuyItemPanel.setLocation(312, 98);
+			BuySingleItemPanel.add(BuyItemPanel);
+			BuyItemPanel.setLayout(null);
+			
+			JTextField athleteName = new JTextField(item.getName());
+			athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+			athleteName.setHorizontalAlignment(SwingConstants.CENTER);
+			athleteName.setBounds(10, 11, 340, 57);
+			BuyItemPanel.add(athleteName);
+			athleteName.setColumns(10);
+			
+			JLabel athleteInfo = new JLabel(item.toStringHTML());
+			athleteInfo.setFont(new Font("Calibiri", Font.BOLD, 17));
+			athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
+			athleteInfo.setBounds(23, 305, 311, 143);
+			BuyItemPanel.add(athleteInfo);
+			
+			JLabel lblNewLabel = new JLabel("");
+			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
+			lblNewLabel.setBounds(23, 128, 311, 281);
+			BuyItemPanel.add(lblNewLabel);
+			
+			JLabel errorText = new JLabel("");
+			errorText.setHorizontalAlignment(SwingConstants.CENTER);
+			errorText.setBounds(236, 564, 567, 26);
+			BuySingleItemPanel.add(errorText);
+			errorText.setForeground(new Color(255, 0, 0));
+			 errorText.setVisible(false);
+			
+			JButton buySingleItemButton = new JButton("Buy");
+			buySingleItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+			buySingleItemButton.setBounds(392, 600, 166, 48);
+			BuySingleItemPanel.add(buySingleItemButton);
+			buySingleItemButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						gameEnvironment.purchaseItem(item);
+					} catch (InsufficientFundsException e1) {
+						// TODO Auto-generated catch block
+						errorText.setText(e1.getMessage());
+		    			errorText.setVisible(true);
+					}
+					BuySingleItemPanel.setVisible(false);
+					marketScreen();
+					
+				}
+			});
+			
+			JButton backButton = new JButton("Back");
+			backButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+			backButton.setBounds(10, 11, 81, 48);
+			BuySingleItemPanel.add(backButton);
+			
+			backButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					BuySingleItemPanel.setVisible(false);
+					marketScreen();
+					
+					
+				}
+			});
+		
+	}
+		
+	
 
 	public void  buyPlayerScreen(){
 		int athletePanelWidth = 144;

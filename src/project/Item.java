@@ -106,14 +106,13 @@ public class Item extends Purchasable {
 	
 
 	public String toStringHTML() {
-		String result = null;
-    	result += (this.getName());
+		String result = "<html>" +(this.getName());
     	result += (this.getDescription());
     	
         result += ("<br>Offensive Statistic: " + this.getOffence());
         result += ("<br>Defensive Statistic: " + this.getDefence());
         result += ("<br>Cost: " + this.getContractPrice());
-        result += ("<br>Sell price: " + this.getSellBackPrice());
+        result += ("<br>Sell price: " + this.getSellBackPrice()+"<html>");
          
         
         return result;
