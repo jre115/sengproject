@@ -928,7 +928,12 @@ public class MainGame {
 			buySingleItemButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
-						gameEnvironment.purchaseItem(item);
+						try {
+							gameEnvironment.purchaseItem(item);
+						} catch (InventoryFullException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					} catch (InsufficientFundsException e1) {
 						// TODO Auto-generated catch block
 						errorText.setText(e1.getMessage());
@@ -1204,6 +1209,18 @@ public class MainGame {
 		sellItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		sellItemButton.setBounds(297, 264, 308, 122);
 		sellScreenpannel.add(sellItemButton);
+		
+		sellItemButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sellScreenpannel.setVisible(false);
+				sellItemspanel();
+			}
+		});
+		
+		
+		
+			
+		
 		
 		JButton backbutton = new JButton("Back");
 		backbutton.addActionListener(new ActionListener() {
@@ -1544,12 +1561,193 @@ public class MainGame {
 	    		}
 	    });
 	}
+	
+	public void sellItemspanel() {
+		JPanel sellItemDisplayPanel = new JPanel();
+		sellItemDisplayPanel.setBackground(new Color(255, 255, 255));
+		sellItemDisplayPanel.setBounds(-76, 0, width, height);
+		frame.getContentPane().add(sellItemDisplayPanel);
+		sellItemDisplayPanel.setLayout(null);
+		frame.getContentPane().add(sellItemDisplayPanel);
+		 
+		JButton backButton = new JButton("Back");
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sellItemDisplayPanel.setVisible(false);
+				marketScreen();
+			}
+		});
+		backButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+		backButton.setBounds(108, 11, 81, 48);
+		sellItemDisplayPanel.add(backButton);
+
+		
+        JLabel SellItemText = new JLabel("Sell Items");
+        SellItemText.setHorizontalAlignment(SwingConstants.CENTER);
+        SellItemText.setFont(new Font("Cooper Black", Font.PLAIN, 40));
+        SellItemText.setSize(450, 100);
+        SellItemText.setLocation((width - SellItemText.getWidth())/2, 29);
+        // Create a LineBorder with black color and 4 pixels of thickness
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 4);
+        SellItemText.setBorder(border);
+        sellItemDisplayPanel.add(SellItemText);
+
+                                
+        JLabel ItemsText = new JLabel("Items");
+        ItemsText.setHorizontalAlignment(SwingConstants.CENTER);
+        ItemsText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+        ItemsText.setBounds(155, 160, 81, 24);
+        sellItemDisplayPanel.add(ItemsText);
+        
+		int athletePanelWidth = 144;
+		int athletePanelHeight = 183;
+		
+		JPanel sellItemPanel = new JPanel();
+		sellItemPanel.setLayout(null);
+		sellItemPanel.setSize(677, 223);
+		sellItemPanel.setLocation(154, 191);
+		sellItemPanel.setBackground(Color.WHITE);
+		sellItemPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		sellItemDisplayPanel.add(sellItemPanel);
+
+        
+        
+        int panelSpacing = 20; 
+        int numAthletesPerRow = 5; 
+        
+        ArrayList<JPanel> panels = new ArrayList<JPanel>();
+        
+        ArrayList<Item> inventoryItems = gameEnvironment.getInventory();
+        for (int i = 0; i < inventoryItems.size(); i++) {
+            final Item item = inventoryItems.get(i);
+            
+            // evenly spaces athletePanels on the teamPanel
+            JPanel athletePanel = new JPanel();
+            athletePanel.setBounds((athletePanelWidth + panelSpacing) * (i % numAthletesPerRow) + panelSpacing, 
+                                   (athletePanelHeight + panelSpacing) * (i / numAthletesPerRow) + panelSpacing, 
+                                   athletePanelWidth, athletePanelHeight);
+            sellItemPanel.add(athletePanel);
+            athletePanel.setLayout(null);
+            
+           
+            
+            panels.add(athletePanel);
+
+
+            JLabel athleteName = new JLabel(item.getName());
+            athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 11));
+            athleteName.setHorizontalAlignment(SwingConstants.CENTER);
+            athleteName.setBounds(4, 4, 136, 23);
+            athleteName.setOpaque(true);
+            athleteName.setBackground(Color.WHITE);
+            athletePanel.add(athleteName);
+
+            
+
+            
+            // reduce athlete image by 50%
+            
+                
+            JLabel athleteInfo = new JLabel(item.toStringHTML());
+            athleteInfo.setFont(new Font("Calibiri", Font.BOLD, 10));
+            athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
+            athleteInfo.setVerticalAlignment(SwingConstants.TOP); // Align text to the top
+            athleteInfo.setVerticalTextPosition(SwingConstants.TOP);
+            athleteInfo.setBounds(4, 40, 136, 200);
+            athletePanel.add(athleteInfo);
+        }
+        for (int i = 0; i < panels.size(); i++) {
+			final int index = i;
+		    JPanel panel = panels.get(i);
+		    panel.addMouseListener(new MouseAdapter() {
+		        @Override
+		        public void mouseClicked(MouseEvent e) {
+		        	sellItemDisplayPanel.setVisible(false);
+		        	sellSingleItemScreen(inventoryItems.get(index));
+		        }
+		    });
+		}
+		
+		
+	}
+	
+	public void sellSingleItemScreen(Item item) {
+		JPanel BuySingleItemPanel = new JPanel();
+		BuySingleItemPanel.setBackground(new Color(255, 255, 255));
+		BuySingleItemPanel.setBounds(0, 0, width, height);
+		frame.getContentPane().add(BuySingleItemPanel);
+		BuySingleItemPanel.setLayout(null);
+		
+		JPanel BuyItemPanel = new JPanel();
+		BuyItemPanel.setSize(360, 459);
+		BuyItemPanel.setLocation(312, 98);
+		BuySingleItemPanel.add(BuyItemPanel);
+		BuyItemPanel.setLayout(null);
+		
+		JTextField athleteName = new JTextField(item.getName());
+		athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		athleteName.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteName.setBounds(10, 11, 340, 57);
+		BuyItemPanel.add(athleteName);
+		athleteName.setColumns(10);
+		
+		JLabel athleteInfo = new JLabel(item.toStringHTML());
+		athleteInfo.setFont(new Font("Calibiri", Font.BOLD, 17));
+		athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteInfo.setBounds(23, 305, 311, 143);
+		BuyItemPanel.add(athleteInfo);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
+		lblNewLabel.setBounds(23, 128, 311, 281);
+		BuyItemPanel.add(lblNewLabel);
+		
+		JLabel errorText = new JLabel("");
+		errorText.setHorizontalAlignment(SwingConstants.CENTER);
+		errorText.setBounds(236, 564, 567, 26);
+		BuySingleItemPanel.add(errorText);
+		errorText.setForeground(new Color(255, 0, 0));
+		 errorText.setVisible(false);
+		
+		JButton SellSingleItemButton = new JButton("Sell");
+		SellSingleItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		SellSingleItemButton.setBounds(392, 600, 166, 48);
+		BuySingleItemPanel.add(SellSingleItemButton);
+		SellSingleItemButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gameEnvironment.sellItem(item);
+				BuySingleItemPanel.setVisible(false);
+				marketScreen();
+				
+			}
+		});
+		
+		JButton backButton = new JButton("Back");
+		backButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+		backButton.setBounds(10, 11, 81, 48);
+		BuySingleItemPanel.add(backButton);
+		
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BuySingleItemPanel.setVisible(false);
+				marketScreen();
+				
+				
+			}
+		});
+		
+	}
+	
+
+}
+
 		
 		
 		
 		
 
-}
+
 		
 		
 	
