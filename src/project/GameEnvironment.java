@@ -226,13 +226,14 @@ public class GameEnvironment {
         return inventory;
     }
 
-    public void purchaseItem(Item item) throws InsufficientFundsException {
+    public void purchaseItem(Item item) throws InsufficientFundsException, InventoryFullException {
         if (playerMoney <= item.getContractPrice()) {
-        	throw new InsufficientFundsException();
-           
+            throw new InsufficientFundsException();
+        } else if (inventory.size() >= 4) {
+            throw new InventoryFullException();
         } else {
-        	 modifyPlayerMoney(-item.getContractPrice());
-             inventory.add(item);
+            modifyPlayerMoney(-item.getContractPrice());
+            inventory.add(item);
         }
     }
     
