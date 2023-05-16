@@ -246,6 +246,16 @@ public class GameEnvironment {
     		team.addToTeam(athlete, position);
     	}
     }
+    public void purchaseReserveAthlete(Athlete athlete) throws InsufficientFundsException, ReservesLimitException {
+        if (playerMoney < athlete.getContractPrice()) {
+            throw new InsufficientFundsException();
+        } else {
+            modifyPlayerMoney(-athlete.getContractPrice());
+            reservesList.add(athlete);
+        }
+    }
+    
+    
     
 
     public void sellItem(Item item) {

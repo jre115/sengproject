@@ -940,10 +940,10 @@ public class MainGame {
 						// TODO Auto-generated catch block
 						errorText.setText(e1.getMessage());
 		    			errorText.setVisible(true);
-		    			return;
 					}
 					BuySingleItemPanel.setVisible(false);
 					marketScreen();
+					return;
 					
 				}
 			});
@@ -1158,21 +1158,20 @@ public class MainGame {
 		BuyButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				marketScreen();
-				BuySingleAthletePanel.setVisible(false);
 				
-				try {
-					gameEnvironment.purchaseAthlete(athlete, null);
+				
+				
+				if (gameEnvironment.getTeamList().size() < 4) {
+					BuySingleAthletePanel.setVisible(false);
+					BuySingleAthleteSetPostion(athlete);
 					
-				} catch (InsufficientFundsException e1) {
-					errorText.setText((e1.getMessage()));
-	    			errorText.setVisible(true);
-					e1.printStackTrace();
-				} catch (ReservesLimitException e2) {
-					errorText.setText((e2.getMessage()));
-	    			errorText.setVisible(true);
-					e2.printStackTrace();
+					
+					
+				}else {
+					
 				}
+				
+					
 				
 			}
 		});
@@ -1181,6 +1180,128 @@ public class MainGame {
 		
 		
 	}
+	
+	public void BuySingleAthleteSetPostion(Athlete athlete) {
+		JPanel BuySingleAthletePanel = new JPanel();
+		BuySingleAthletePanel.setBackground(new Color(255, 255, 255));
+		BuySingleAthletePanel.setBounds(0, 0, width, height);
+		frame.getContentPane().add(BuySingleAthletePanel);
+		BuySingleAthletePanel.setLayout(null);
+		
+		JPanel BuySingleAthletePanel1 = new JPanel();
+		BuySingleAthletePanel1.setSize(360, 459);
+		BuySingleAthletePanel1.setLocation(312, 98);
+		BuySingleAthletePanel.add(BuySingleAthletePanel1);
+		BuySingleAthletePanel1.setLayout(null);
+		
+        if (athlete.getPosition() == "Attacker") {
+        	BuySingleAthletePanel1.setBackground(new Color(173, 216, 230)); // sets background color to light blue
+        } else {
+        	BuySingleAthletePanel1.setBackground(new Color(255, 204, 204)); // light red
+
+        }
+		
+		JTextField athleteName = new JTextField(athlete.getName());
+		athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		athleteName.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteName.setBounds(10, 11, 340, 57);
+		BuySingleAthletePanel1.add(athleteName);
+		athleteName.setColumns(10);
+		
+		JPanel athleteImagePanel = new JPanel();
+		athleteImagePanel.setBounds(58, 79, 247, 203);
+		athleteImagePanel.setBackground(Color.WHITE);
+		BuySingleAthletePanel1.add(athleteImagePanel);
+		athleteImagePanel.setLayout(new BorderLayout(0, 0));
+		
+		
+		JLabel athleteImage = new JLabel("");
+		athleteImage.setIcon(new ImageIcon(Temp.class.getResource("/Pictures/" + athlete.getImageName() + ".png")));
+		athleteImage.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteImagePanel.add(athleteImage, BorderLayout.CENTER);
+		
+		JLabel athleteInfo = new JLabel(athlete.toStringHTML());
+		athleteInfo.setFont(new Font("Calibiri", Font.BOLD, 17));
+		athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		athleteInfo.setBounds(23, 305, 311, 143);
+		BuySingleAthletePanel1.add(athleteInfo);
+		
+		
+		JButton backButton = new JButton("Back");
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		backButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
+		backButton.setBounds(10, 11, 81, 48);
+		BuySingleAthletePanel.add(backButton);
+		
+        JLabel errorText = new JLabel("");
+        errorText.setHorizontalAlignment(SwingConstants.LEFT);
+        errorText.setFont(new Font("Calibri", Font.PLAIN, 20));
+        errorText.setSize(532, 48);
+        errorText.setLocation(230, 644);
+		errorText.setForeground(new Color(255, 0, 0));
+        BuySingleAthletePanel.add(errorText);
+        
+        JButton buyPlayerSetDefButton = new JButton("Set As Deffender");
+        buyPlayerSetDefButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		try {
+					gameEnvironment.purchaseAthlete(athlete, "Defender");
+				} catch (InsufficientFundsException e1) {
+					errorText.setText(e1.getMessage());
+	    			errorText.setVisible(true);
+	    			return;
+				} catch (ReservesLimitException e1) {
+					errorText.setText(e1.getMessage());
+	    			errorText.setVisible(true);
+	    			return;
+					
+				}
+        		BuySingleAthletePanel.setVisible(false);
+				marketScreen();
+				return;
+        	}
+        });
+        buyPlayerSetDefButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+        buyPlayerSetDefButton.setBounds(291, 568, 205, 65);
+        BuySingleAthletePanel.add(buyPlayerSetDefButton);
+        
+        JButton buyPlayerSetAtkButton = new JButton("Set As Attacker");
+        buyPlayerSetAtkButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		try {
+					gameEnvironment.purchaseAthlete(athlete, "Attacker");
+				} catch (InsufficientFundsException e1) {
+					errorText.setText(e1.getMessage());
+	    			errorText.setVisible(true);
+	    			return;
+					// TODO Auto-generated catch block
+					
+				} catch (ReservesLimitException e1) {
+					errorText.setText(e1.getMessage());
+	    			errorText.setVisible(true);
+	    			return;
+					// TODO Auto-generated catch block
+					
+				}
+        		BuySingleAthletePanel.setVisible(false);
+				marketScreen();
+				return;
+        		
+        	}});
+        
+        buyPlayerSetAtkButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+        buyPlayerSetAtkButton.setBounds(539, 568, 205, 65);
+        BuySingleAthletePanel.add(buyPlayerSetAtkButton);
+        errorText.setVisible(false);
+		
+	}
+	
+	
+		
+	
 	
 	private void sellScreen(){
 		JPanel sellScreenpannel = new JPanel();
