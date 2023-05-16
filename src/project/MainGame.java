@@ -1168,6 +1168,21 @@ public class MainGame {
 					
 					
 				}else {
+					try {
+						gameEnvironment.purchaseAthlete(athlete, null);
+						
+					} catch (InsufficientFundsException e1) {
+						errorText.setText(e1.getMessage());
+		    			errorText.setVisible(true);
+		    			return;
+					} catch (ReservesLimitException e1) {
+						errorText.setText(e1.getMessage());
+		    			errorText.setVisible(true);
+		    			return;
+					}
+					BuySingleAthletePanel.setVisible(false);
+					teamPropertiesScreen();
+					
 					
 				}
 				
@@ -1260,7 +1275,7 @@ public class MainGame {
 					
 				}
         		BuySingleAthletePanel.setVisible(false);
-				marketScreen();
+        		teamPropertiesScreen();
 				return;
         	}
         });
@@ -1287,7 +1302,7 @@ public class MainGame {
 					
 				}
         		BuySingleAthletePanel.setVisible(false);
-				marketScreen();
+        		teamPropertiesScreen();
 				return;
         		
         	}});
