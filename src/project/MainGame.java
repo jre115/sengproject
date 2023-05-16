@@ -787,7 +787,14 @@ public class MainGame {
 		JButton backButton = new JButton("Back");
 		backButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
 		backButton.setBounds(108, 11, 81, 48);
-		itemDisplayPanel.add(backButton);
+		
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				itemDisplayPanel.setVisible(false);
+				mainMenu();
+			}
+		});
+		
 
 		
         JLabel buyItemText = new JLabel("Buy Items");
@@ -1242,14 +1249,8 @@ public class MainGame {
 		BuySingleAthletePanel1.add(athleteInfo);
 		
 		
-		JButton backButton = new JButton("Back");
-		backButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		backButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
-		backButton.setBounds(10, 11, 81, 48);
-		BuySingleAthletePanel.add(backButton);
+		
+		
 		
         JLabel errorText = new JLabel("");
         errorText.setHorizontalAlignment(SwingConstants.LEFT);
