@@ -932,12 +932,15 @@ public class MainGame {
 							gameEnvironment.purchaseItem(item);
 						} catch (InventoryFullException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							errorText.setText(e1.getMessage());
+			    			errorText.setVisible(true);
+			    			return;
 						}
 					} catch (InsufficientFundsException e1) {
 						// TODO Auto-generated catch block
 						errorText.setText(e1.getMessage());
 		    			errorText.setVisible(true);
+		    			return;
 					}
 					BuySingleItemPanel.setVisible(false);
 					marketScreen();
