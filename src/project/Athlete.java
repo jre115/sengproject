@@ -240,6 +240,7 @@ public class Athlete extends Purchasable {
     	return athletePosition;
     }
     
+    
 	/**
 	 * Returns the name of the athlete.
 	 *

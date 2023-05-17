@@ -1476,13 +1476,13 @@ public class MainGame {
 						try {
 							gameEnvironment.purchaseItem(item);
 						} catch (InventoryFullException e1) {
-							// TODO Auto-generated catch block
+							
 							errorText.setText(e1.getMessage());
 			    			errorText.setVisible(true);
 			    			return;
 						}
 					} catch (InsufficientFundsException e1) {
-						// TODO Auto-generated catch block
+						
 						errorText.setText(e1.getMessage());
 		    			errorText.setVisible(true);
 					}
@@ -1564,12 +1564,7 @@ public class MainGame {
             teamPanel.add(athletePanel);
             athletePanel.setLayout(null);
             
-            if (athlete.getPosition() == "Attacker") {
-            	athletePanel.setBackground(new Color(173, 216, 230)); // sets background color to light blue
-            } else {
-            	athletePanel.setBackground(new Color(255, 204, 204)); // light red
-
-            }
+            
             
             panels.add(athletePanel);
 
@@ -1630,18 +1625,22 @@ public class MainGame {
 		frame.getContentPane().add(BuySingleAthletePanel);
 		BuySingleAthletePanel.setLayout(null);
 		
+		JLabel errorText = new JLabel("");
+        errorText.setHorizontalAlignment(SwingConstants.LEFT);
+        errorText.setFont(new Font("Calibri", Font.PLAIN, 20));
+        errorText.setSize(464, 24);
+        errorText.setLocation(264, 668);
+		errorText.setForeground(new Color(255, 0, 0));
+        BuySingleAthletePanel.add(errorText);
+        errorText.setVisible(false);
+		
 		JPanel BuyAthletePanel = new JPanel();
 		BuyAthletePanel.setSize(360, 459);
 		BuyAthletePanel.setLocation(312, 98);
 		BuySingleAthletePanel.add(BuyAthletePanel);
 		BuyAthletePanel.setLayout(null);
 		
-        if (athlete.getPosition() == "Attacker") {
-        	BuyAthletePanel.setBackground(new Color(173, 216, 230)); // sets background color to light blue
-        } else {
-        	BuyAthletePanel.setBackground(new Color(255, 204, 204)); // light red
-
-        }
+        
 		
 		JTextField athleteName = new JTextField(athlete.getName());
 		athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 20));
@@ -1668,8 +1667,86 @@ public class MainGame {
 		athleteInfo.setBounds(23, 305, 311, 143);
 		BuyAthletePanel.add(athleteInfo);
 		
+		JButton addToReservesButton = new JButton("Add To Reserve");
+		addToReservesButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (gameEnvironment.getTeamList().size() == 4) {
+					BuySingleAthletePanel.setVisible(false);
+					try {
+						gameEnvironment.purchaseAthlete(athlete, null);
+					} catch (InsufficientFundsException e1) {
+						
+						errorText.setText(e1.getMessage());
+		    			errorText.setVisible(true);
+		    			return;
+					} catch (ReservesLimitException e1) {
+						errorText.setText(e1.getMessage());
+		    			errorText.setVisible(true);
+		    			return;
+						
+					}
+					marketScreen();
+					
+					
+					
+					
+				
+						
+					
+					
+					
+				}
+				
+					
+				
+			}
+		});
 		
-		JButton backButton = new JButton("Back");
+		
+		
+		
+	
+			
+		addToReservesButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		addToReservesButton.setBounds(213, 595, 218, 55);
+		BuySingleAthletePanel.add(addToReservesButton);
+		
+		JButton addToTeamButton = new JButton("Add To Team");
+		addToTeamButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (gameEnvironment.getTeamList().size() == 4) {
+					BuySingleAthletePanel.setVisible(false);
+					try {
+						gameEnvironment.purchaseAthlete(athlete, null);
+					} catch (InsufficientFundsException e1) {
+						errorText.setText(e1.getMessage());
+		    			errorText.setVisible(true);
+		    			return;
+						
+					} catch (ReservesLimitException e1) {
+						errorText.setText(e1.getMessage());
+		    			errorText.setVisible(true);
+		    			return;
+						
+					}
+					singleAthleteView(athlete);
+				}else {
+					BuySingleAthletePanel.setVisible(false);
+					BuySingleAthleteSetPostion(athlete);
+				}
+				
+				
+				
+				
+			}
+		});
+		addToTeamButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		addToTeamButton.setBounds(496, 595, 218, 55);
+		BuySingleAthletePanel.add(addToTeamButton);
+		
+		
+        
+        JButton backButton = new JButton("Back");
 		backButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
 		backButton.setBounds(10, 11, 81, 48);
 		BuySingleAthletePanel.add(backButton);
@@ -1684,62 +1761,8 @@ public class MainGame {
 		});
 		
 		
-		
-		
-        JLabel errorText = new JLabel("");
-        errorText.setHorizontalAlignment(SwingConstants.LEFT);
-        errorText.setFont(new Font("Calibri", Font.PLAIN, 20));
-        errorText.setSize(364, 24);
-        errorText.setLocation((width - errorText.getWidth())/2, 668);
-		errorText.setForeground(new Color(255, 0, 0));
-        BuySingleAthletePanel.add(errorText);
-        errorText.setVisible(false);
-		
-		JButton BuyButton = new JButton("Buy");
-		BuyButton.setSize((BuyAthletePanel.getWidth()/2) - 10, 50);
-		BuyButton.setLocation(402, 568);
-		BuySingleAthletePanel.add(BuyButton);
-		BuyButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
-		BuyButton.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				
-				
-				
-				if (gameEnvironment.getTeamList().size() < 4) {
-					BuySingleAthletePanel.setVisible(false);
-					BuySingleAthleteSetPostion(athlete);
-					
-					
-					
-				}else {
-					try {
-						gameEnvironment.purchaseAthlete(athlete, null);
-						
-					} catch (InsufficientFundsException e1) {
-						errorText.setText(e1.getMessage());
-		    			errorText.setVisible(true);
-		    			return;
-					} catch (ReservesLimitException e1) {
-						errorText.setText(e1.getMessage());
-		    			errorText.setVisible(true);
-		    			return;
-					}
-					BuySingleAthletePanel.setVisible(false);
-					teamPropertiesScreen();
-					
-					
-				}
-				
-					
-				
-			}
-		});
-		
-		
-		
-		
-	}
+	}	
+
 	
 	public void BuySingleAthleteSetPostion(Athlete athlete) {
 		JPanel BuySingleAthletePanel = new JPanel();
@@ -1754,12 +1777,7 @@ public class MainGame {
 		BuySingleAthletePanel.add(BuySingleAthletePanel1);
 		BuySingleAthletePanel1.setLayout(null);
 		
-        if (athlete.getPosition() == "Attacker") {
-        	BuySingleAthletePanel1.setBackground(new Color(173, 216, 230)); // sets background color to light blue
-        } else {
-        	BuySingleAthletePanel1.setBackground(new Color(255, 204, 204)); // light red
-
-        }
+        
 		
 		JTextField athleteName = new JTextField(athlete.getName());
 		athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 20));

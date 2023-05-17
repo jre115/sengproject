@@ -113,6 +113,7 @@ public class GameEnvironment {
 		}
 	}
 	
+	
 	public void setGameDifficulty(String difficultyInput) {
 		gameDifficulty = difficultyInput;
 	}
@@ -262,7 +263,7 @@ public class GameEnvironment {
 
     public void sellItem(Item item) {
         if (inventory.contains(item)) {
-            modifyPlayerMoney(item.getSellBackPrice());
+            modifyPlayerMoney(+item.getSellBackPrice());
             inventory.remove(item);
         } else {
             System.out.println("Item not found in inventory!");
@@ -271,7 +272,7 @@ public class GameEnvironment {
 
     public void sellPlayer(Athlete athlete) {
         if (team.getTeamList().contains(athlete)) {
-            modifyPlayerMoney(athlete.getSellBackPrice());
+            modifyPlayerMoney(+athlete.getSellBackPrice());
             team.removeFromTeam(athlete);
         } else {
             System.out.println("Player not found in team list!");
@@ -280,7 +281,7 @@ public class GameEnvironment {
 
     public void sellReservePlayer(Athlete athlete) {
         if (team.getReservesList().contains(athlete)) {
-            modifyPlayerMoney(athlete.getSellBackPrice());
+            modifyPlayerMoney(+athlete.getSellBackPrice());
             team.removeFromReserve(athlete);
         } else {
             System.out.println("Player not found in reserves list!");
