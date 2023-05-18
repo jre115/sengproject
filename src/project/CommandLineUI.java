@@ -11,6 +11,7 @@ import java.util.InputMismatchException;
  */
 
 import java.util.Scanner;  // Import the Scanner class
+import java.util.Map;
 
 
 public class CommandLineUI {
@@ -154,22 +155,116 @@ public class CommandLineUI {
 	        goToClub();
 	        break;
 	    case 2:
-	    	
-	        // 
+	    	goToStadium();
 	        break;
 	    case 3:
 	    	goToMarket();
 	        // 
 	        break;
 	    case 4:
-	        // 
+	    	if (game.isFinalWeek()) {
+	    		endGame();
+	    	} else {
+		        Bye();
+	    	}
 	        break;
 		}
+	}
+	
+	public void endGame() {
+		System.out.println("This is the last week of the season. Are you sure you want to finish?");
+		System.out.println("\n1. Yes\n2. Back");
+		int option = scanNumericalValue(1, 2);
+		if (option == 2) {
+			mainMenu();
+		} else {
+			Map<String, Object> results = game.endGame();
+			String teamName = (String) results.get("name");
+			int weeks = (int) results.get("weeks");
+			int points = (int) results.get("points");
+			int money = (int) results.get("money");
+			
+			System.out.println("GAME OVER");
+			System.out.println(teamName);
+			System.out.println(weeks + " weeks");
+			System.out.println(points + " points gained");
+			System.out.println(money + " money gained");
+			
+			keyToContinue();
+			gameOver();
+
+		}
+	}
+	
+	public void gameOver() {
+		System.out.println("\n1. play again?");
+		System.out.println("\n2. exit?");
+		int option = scanNumericalValue(1, 2);
+		if (option == 1) {
+			gameSetup();
+		} else {
+			System.exit(0); // terminates the program
+		}
+
+	}
+	
+	public void Bye() {
+		System.out.println("Take a bye? The season will move to the next week");
+		System.out.println("\n1. Yes\n2. Back");
+		int option = scanNumericalValue(1, 2);
+		if (option == 2) {
+			mainMenu();
+		} else {
+			game.increaseWeek();
+			System.out.println("Season increased to week " + game.getCurrentWeek());
+			System.out.println("All athlete's stamina have been restored.");
+			System.out.println("Market and stadium have been refreshed.");
+			System.out.println("Please select one of the following athletes to train this week:");
+			
+	        int i = 0;
+			while (i < game.getTeamList().size()) {
+				Athlete athlete = game.getTeamList().get(i);
+				if (athlete.getPosition() == "Attacker") {
+					System.out.println("\n\u001B[34m" + (i + 1) + ". " + athlete + "\u001B[0m");
+				} else if (athlete.getPosition() == "Defender") {
+					System.out.println("\n\033[0;31m" + (i + 1) + ". " + athlete + "\033[0m");
+				} else {
+					System.out.println("\n" + (i + 1) + ". " + athlete.getName());
+				}
+				i += 1;
+				}
+			
+			i += 1;
+			for (Athlete reserve : game.getReservesList()) {
+				System.out.println("\n" + i + ". " + reserve);
+				i += 1;
+				}
+			
+			int athleteOptions = scanNumericalValue(1, i);
+
+			if (athleteOptions <= game.getTeamList().size()) {
+				Athlete athleteTrained = game.getTeamList().get(athleteOptions - 1);
+				game.trainAthlete(athleteTrained);
+			    System.out.println("\033[32m" + "Great! Player " + athleteTrained.getName() + " has been trained " + "\033[0m");
+			    System.out.println("\033[32m" + athleteTrained + "\033[0m");
+
+			} else {
+				Athlete athleteTrained = game.getReservesList().get(athleteOptions - 1 - game.getTeamList().size());
+				game.trainAthlete(athleteTrained);
+			    System.out.println("\033[32m" + "Great! Player " + athleteTrained.getName() + " has been trained " + "\033[0m");
+			    System.out.println("\033[32m" + athleteTrained + "\033[0m");
+
+			}
+			
+			mainMenu();
+			
+		}
+	}
 		
-		
+
 			
 		
-	}
+	
 	
 	public void goToMarket() {
 		System.out.print("\nMARKET");
@@ -293,7 +388,7 @@ public class CommandLineUI {
 				
 				// TODO Auto-generated catch block
 				System.out.print(e.getMessage());
-			} catch (ReservesLimitException e) {
+			} catch (LimitException e) {
 				System.out.print(e.getMessage());
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -346,8 +441,7 @@ public class CommandLineUI {
 			
 	
 	
-	
-	public void goToClub() {
+public void goToClub() {
 		
 		System.out.println("\nCLUB");
 		System.out.println("\n1. View team properties\n2. View player inventory\n\n3. Back");
@@ -367,6 +461,8 @@ public class CommandLineUI {
 						System.out.println("\u001B[34m" + (i + 1) + ". " + athlete.getName() + "\u001B[0m");
 					} else if (athlete.getPosition() == "Defender") {
 						System.out.println("\033[0;31m" + (i + 1) + ". " + athlete.getName() + "\033[0m");
+					} else {
+						System.out.println((i + 1) + ". " + athlete.getName());
 					}
 					i += 1;
 					}
@@ -394,6 +490,8 @@ public class CommandLineUI {
 							System.out.println("\n\u001B[34m" + athlete + "\u001B[0m");
 						} else if (athlete.getPosition() == "Defender") {
 							System.out.println("\n\033[0;31m" + athlete + "\033[0m");
+						} else {
+							System.out.println(athlete);
 						}
 						System.out.println("\n1. Edit nickname\n2. Edit position\n3. Swap player with reserve\n\n4. Back");
 						int playerOption = scanNumericalValue(1, 4);
@@ -436,6 +534,7 @@ public class CommandLineUI {
 									Athlete reserve = game.getReservesList().get(swapOption - 1);
 									game.swapAthletes(athlete, reserve);
 									System.out.println("\n\033[32m" + "Great! " + athlete.getName() + "swapped with " + reserve.getName() + "\033[0m");
+									keyToContinue();
 								}
 							} catch (NoReserveAthletesException e) {
 								System.out.println("\033[31m" + e.getMessage() + "\033[0m");
@@ -481,6 +580,7 @@ public class CommandLineUI {
 								Athlete player = game.getTeamList().get(swapOption - 1);
 								game.swapAthletes(player, athlete);
 								System.out.println("\n\033[32m" + "Great! " + athlete.getName() + "swapped with " + player.getName() + "\033[0m");
+								keyToContinue();
 							}
 							break;
 							
@@ -501,12 +601,114 @@ public class CommandLineUI {
 	    	break;
 		}
 		
+	}
+	
+	
+	public void goToStadium() {
+		System.out.println("\nSTADIUM");
 		
+		int i = 1;
+		int numMatches = game.getStadiumMatches().size();
+		if (numMatches == 0) {
+			System.out.println("No matches left this week");
+		}
+		while (i <= numMatches) {
+			System.out.println("\n" + i + ". Game " + i + "\n" + game.getStadiumMatches().get(i - 1));
+			i += 1;
+		}
+		System.out.println("\n" + i + ". Back");
+
+		int optionValue = scanNumericalValue(1, numMatches + 1);
+		if (optionValue == i) {
+			mainMenu();
+		} else {
+			System.out.println("\nPlay match against " + game.getStadiumMatches().get(optionValue - 1).getOppositionTeamName() + "?");
+			System.out.println("\n1. Yes\n2. Back");
+			int optionPlayGame = scanNumericalValue(1, 2);
+			if (optionPlayGame == 2) {
+				goToStadium();
+			} else {
+				playMatch((optionValue - 1));
+			}
+		}
+		
+	}
+	
+	public void keyToContinue() {
+		Scanner scanner = new Scanner(System.in);
+        System.out.println("Press any key to continue...");
+        scanner.nextLine(); // wait for user to press any key
+	}
+	
+	public void playMatch(int matchNumber) {
+		try {
+			System.out.println("\u001B[32m" + game.getTeamName() + "\u001B[0m" + " vs " + "\u001B[31m" + game.getStadiumMatches().get(matchNumber).getOppositionTeamName() + "\n" + "\u001B[0m");
+			game.startMatch(game.getStadiumMatches().get(matchNumber));
+			
+			for (int i = 0 ; i < 4 ; i++) {
+				ArrayList<Athlete> encounterAthletes = game.getEncounterAthletes();
+				System.out.println("\u001B[32m" + encounterAthletes.get(0) + "\u001B[0m");
+				System.out.println("\nvs\n");
+				System.out.println("\u001B[31m" + encounterAthletes.get(1) + "\u001B[0m");
+				keyToContinue();
+				String string = game.matchEncounter(encounterAthletes);
+				System.out.println(string);  
+				System.out.println(game.getMatchScoreString());
+				keyToContinue();
+			}
+			Map<String, Object> results = game.endMatch();
+		    String winner = (String) results.get("winner");
+		    String score = (String) results.get("score");
+		    int prizeMoney = (int) results.get("money");
+		    int points = (int) results.get("points");
+
+		    System.out.println("Winner: " + winner);
+		    System.out.println(score);
+		    		    
+		    if (game.getTeamName() == winner) {
+			    System.out.println("Won: " + game.getMoneyFormatted(prizeMoney));
+			    System.out.println("Points earned: " + points);
+			    
+		    }
+		    
+		    keyToContinue();
+		    
+		    System.out.println(game.getMoneyFormatted());
+		    System.out.println("Total points: " + game.getPlayerPoints());
+
+		    System.out.println("\nUpdated athletes: ");
+	        int i = 0;
+			while (i < game.getTeamList().size()) {
+				Athlete athlete = game.getTeamList().get(i);
+				if (athlete.getPosition() == "Attacker") {
+					System.out.println("\n\u001B[34m" + (i + 1) + ". " + athlete + "\u001B[0m");
+				} else if (athlete.getPosition() == "Defender") {
+					System.out.println("\n\033[0;31m" + (i + 1) + ". " + athlete + "\033[0m");
+				} else {
+					System.out.println((i + 1) + ". " + athlete);
+				}
+				i += 1;
+				}
+			
+			keyToContinue();
+			
+			mainMenu();
+
+
+		} catch (IllegalTeamException e) {
+			System.out.println("\033[31m" + e.getMessage() + "\033[0m");
+			System.out.println("Please edit your team in the club");
+			keyToContinue();
+			goToStadium();
+		}
 	}
 	
 	public static void main(String[] args) {
 		CommandLineUI commandLine = new CommandLineUI();
 		commandLine.gameSetup();
 	}
+
+}
+
 
 }

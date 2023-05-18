@@ -563,6 +563,8 @@ public class SetupScreen2 {
 		frame.dispose();
 	}
 	
+	
+	//// JR NOTE: do i need this ???
 	public void finishedWindow() {
 		gameEnvironment.closeSetupScreen();
 	}

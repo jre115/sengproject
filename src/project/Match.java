@@ -1,13 +1,46 @@
 package project;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
+import java.util.HashMap;
+
 
 
 public class Match {
 	
-	public Match(ArrayList<Athlete> playerTeam, ArrayList<Athlete> oppositionTeam) {
+	int prizeMoney;
+	int playerScore;
+	int oppositionScore;
+	int points;
+	ArrayList<Athlete> unplayedAthletes;
+	ArrayList<Athlete> unplayedOpposition;
+	
+	ArrayList<Athlete> playedAthletes;
+	
+	String playerTeamName;
+	String oppositionTeamName;
+	
+	Team oppositionTeam;
+	
+	
+	public Match(Team playerTeam, Team oppositionTeam, int money, int points) {
+		this.prizeMoney = money;
+		this.points = points;
+		this.oppositionTeam = oppositionTeam;
 		
+		playerTeamName = playerTeam.getTeamName();
+		oppositionTeamName = oppositionTeam.getTeamName();
+		
+		playerScore = 0;
+		oppositionScore = 0;
+		
+		unplayedAthletes = new ArrayList<Athlete>();
+		unplayedOpposition = new ArrayList<Athlete>();
+		playedAthletes = new ArrayList<Athlete>();
+		
+		unplayedAthletes.addAll(playerTeam.getTeamList());
+		unplayedOpposition.addAll(oppositionTeam.getTeamList());
 	}
 	
 	/**
@@ -18,8 +51,10 @@ public class Match {
 	 * @param defenderName a String representing the name of the defender
 	 * @return a String representing a description of the attacker winning the encounter
 	 */
-	public String attackerWinString(String attackerName, int scoreDifference,  String defenderName) {
+	public String attackerWinString(String attackerName, int value,  String defenderName) {
 		
+		int scoreDifference = Math.abs(value);
+
 		// Strings for depicting the attacker winning the encounter by a small amount - the contest was close
 		ArrayList<String> closeStrings = new ArrayList<String>();
 		closeStrings.add(attackerName + " narrowly evades " + defenderName + "'s tackle attempt and scores with the ball");
@@ -76,7 +111,9 @@ public class Match {
 	 * @param attackerName a String representing the name of the attacker
 	 * @return a String representing a description of the defender winning the encounter
 	 */
-	public String defenderWinString(String defenderName, int scoreDifference, String attackerName) {
+	public String defenderWinString(String defenderName, int value, String attackerName) {
+		
+		int scoreDifference = Math.abs(value);
 		
 		// Strings for depicting the defender winning the encounter by a small amount - the contest was close
 		ArrayList<String> closeStrings = new ArrayList<String>();
@@ -122,6 +159,205 @@ public class Match {
 		
 		return result;
 		
+	}
+	
+	public String getOppositionTeamName() {
+		return oppositionTeamName;
+	}
+	
+	public Team getOppositionTeam() {
+		return oppositionTeam;
+	}
+	
+	
+	public String toString() {
+		String result = "Team name: " + oppositionTeamName;
+		result += "\nPoints: " + points;
+		result += "\nPrize money: " + getMoneyFormatted();
+		
+		return result;
+	}
+	
+	public int getMoney() {
+		return prizeMoney;
+	}
+	
+	public String getMoneyFormatted() {
+	    String formatted = "";
+	    if (prizeMoney < 0) {
+	        formatted += "-";
+	        prizeMoney = -prizeMoney;
+	    }
+	    formatted += "$" + String.format("%,d", prizeMoney);
+	    return formatted;
+	}
+	
+	
+	
+	public ArrayList<Athlete> getEncounterAthletes() {
+		ArrayList<Athlete> encounterAthletes = new ArrayList<Athlete>();
+		Athlete athlete = unplayedAthletes.get(0);
+		encounterAthletes.add(athlete);
+		unplayedAthletes.remove(athlete);
+		String position = athlete.getPosition();
+		
+		if (position == "Attacker") {
+			for (Athlete oppositionAthlete : unplayedOpposition) {
+				if (oppositionAthlete.getPosition() == "Defender") {
+					encounterAthletes.add(oppositionAthlete);
+					unplayedOpposition.remove(oppositionAthlete);
+					break;
+				}
+			}
+		} else {
+			for (Athlete oppositionAthlete : unplayedOpposition) {
+				if (oppositionAthlete.getPosition() == "Attacker") {
+					encounterAthletes.add(oppositionAthlete);
+					unplayedOpposition.remove(oppositionAthlete);
+					break;
+				}
+			}
+		}
+		
+		return encounterAthletes;
+				
+	}
+	
+	public String encounter(Athlete athlete, Athlete opposition) {
+		int minWinStaminaDecreaseVal = 10;
+		int maxWinStaminaDecreaseVal = 50;
+		int minLossStaminaDecreaseVal = 50;
+		int maxLossStaminaDecreaseVal = 100;
+
+				
+		Random random = new Random();
+		
+		if (athlete.getPosition() == "Defender") {
+			int result = athlete.getDefensive() - opposition.getOffensive();
+			if (result >= 0) {
+		        athlete.decreaseStamina(random.nextInt(maxWinStaminaDecreaseVal - minWinStaminaDecreaseVal + 1) + minWinStaminaDecreaseVal);
+		        playedAthletes.add(athlete);
+				return defenderWinString(athlete.getName(), result, opposition.getName());
+			} else {
+		        athlete.decreaseStamina(random.nextInt(maxLossStaminaDecreaseVal - minLossStaminaDecreaseVal + 1) + minLossStaminaDecreaseVal);
+		        playedAthletes.add(athlete);
+				oppositionScore += 10;
+				return attackerWinString(opposition.getName(), result, athlete.getName());
+			}
+		} else {
+			int result = athlete.getOffensive() - opposition.getDefensive();
+			if (result > 0) {
+		        athlete.decreaseStamina(random.nextInt(maxWinStaminaDecreaseVal - minWinStaminaDecreaseVal + 1) + minWinStaminaDecreaseVal);
+				playerScore += 10;
+		        playedAthletes.add(athlete);
+				return attackerWinString(athlete.getName(), result, opposition.getName());
+			} else {
+		        athlete.decreaseStamina(random.nextInt(maxLossStaminaDecreaseVal - minLossStaminaDecreaseVal + 1) + minLossStaminaDecreaseVal);
+		        playedAthletes.add(athlete);
+				return defenderWinString(opposition.getName(), result, athlete.getName());
+			}
+		}
+
+	}
+	
+	
+	public ArrayList<Athlete> getUnplayedOpposition() {
+		return unplayedOpposition;
+	}
+	
+	public int getPlayerScore() {
+		return playerScore;
+	}
+	
+	public int getOppositionScore() {
+		return oppositionScore;
+	}
+	
+	
+	public int getPointsValue() {
+		return points;
+	}
+	
+	public void increaseTeamStats() {
+		// Increase statistic amount for the position they played in
+		int minIncreasePosition = 3;
+		int maxIncreasePosition = 6;
+		
+		// Increase statistic amount for the position they did't play in
+		int minIncreaseAlternative = 0;
+		int maxIncreaseAlternative = 3;
+		
+		Random random = new Random();
+		
+		for (Athlete athlete : playedAthletes) {
+			if (athlete.getPosition() == "Attacker") {
+				int increaseAmountOffensive = random.nextInt(maxIncreasePosition - minIncreasePosition + 1) + minIncreasePosition;
+				athlete.increaseOffensive(increaseAmountOffensive);
+				int increaseAmountDefensive = random.nextInt(maxIncreaseAlternative - minIncreaseAlternative + 1) + minIncreaseAlternative;
+				athlete.increaseDefensive(increaseAmountDefensive);
+			} else {
+				int increaseAmountDefensive = random.nextInt(maxIncreasePosition - minIncreasePosition + 1) + minIncreasePosition;
+				athlete.increaseDefensive(increaseAmountDefensive);
+				int increaseAmountOffensive = random.nextInt(maxIncreaseAlternative - minIncreaseAlternative + 1) + minIncreaseAlternative;
+				athlete.increaseOffensive(increaseAmountOffensive);
+			}
+		}
+	}
+	
+	public ArrayList<Athlete> getUpdatedTeam() {
+		return playedAthletes;
+	}
+	
+	public boolean allPlayersInjured() {
+	    for (Athlete athlete : playedAthletes) {
+	        if (athlete.getStamina() != 0) {
+	            return false; // At least one athlete has non-zero stamina, so return false
+	        }
+	    }
+	    return true; // All athletes have stamina 0, so return true
+	}
+	
+	public Map<String, Object> endGame() throws IllegalStateException {
+	    Map<String, Object> result = new HashMap<>();
+
+
+	    if (playedAthletes.size() < 4) {
+	        throw new IllegalStateException("Game not over");
+	    } else if (allPlayersInjured()) {
+	        result.put("winner", oppositionTeamName);
+	    	result.put("money", 0);
+	    	result.put("points", 0);
+	    	result.put("score", "All " + playerTeamName + " athletes were injured, resulting in a loss");
+	    	// no stats increased for players if they are all injured
+			return result;
+
+	    } else if (playerScore > oppositionScore) {
+	        result.put("winner", playerTeamName);
+	    	result.put("money", prizeMoney);
+	    	result.put("points", points);
+		} else if (playerScore == oppositionScore) {
+	        result.put("winner", "Draw");
+	        // win a third of points and money on offer if game results in a draw
+	    	result.put("money", (int) prizeMoney/3);
+	    	result.put("points", (int)  points/3);
+		} else {
+	        result.put("winner", oppositionTeamName);
+	    	result.put("money", 0);
+	    	result.put("points", 0);
+		}
+		
+	    result.put("score",  playerTeamName + ": " + playerScore + " " + oppositionTeamName + ": " + oppositionScore);	
+	    
+		increaseTeamStats();
+		return result;
+	}
+	
+	public Boolean isMatchRunning() {
+		if (playedAthletes.size() < 4) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
