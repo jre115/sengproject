@@ -81,7 +81,10 @@ public class Team {
 
 	}
 	
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'main' of https://eng-git.canterbury.ac.nz/jre115/project.git
 	
 
 	public void refreshInitialAthletes() {

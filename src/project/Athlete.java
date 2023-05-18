@@ -32,6 +32,12 @@ public class Athlete extends Purchasable {
     private String athletePosition;
     
 	/**
+	 * The position of the athlete before they became injured.
+	 */
+    private String previousPosition;
+    
+    
+	/**
 	 * The string for the name of the athlete's associated image
 	 */
     private String athleteImage;
@@ -210,7 +216,7 @@ public class Athlete extends Purchasable {
 		if (athleteName != null) {
 			if (nameInput.matches(athleteName)) {
 				return false;
-			} else if (nameInput.length() < 3 || nameInput.length() > 20) {
+			} else if (nameInput.length() < 1 || nameInput.length() > 20) {
 				throw new NameException("Player nickname must be between 1 - 20 characters long");
 			}
 			else if (nameInput.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~]+.*")) {
@@ -240,6 +246,7 @@ public class Athlete extends Purchasable {
     	return athletePosition;
     }
     
+    
 	/**
 	 * Returns the name of the athlete.
 	 *
@@ -249,6 +256,7 @@ public class Athlete extends Purchasable {
     	return athleteName;
     }
     
+
 	public void changeAthletePosition() {
 		this.setPosition(getAlternatePosition());
 	}
@@ -259,6 +267,8 @@ public class Athlete extends Purchasable {
 			position = "Defender";
 		} else if (this.getPosition() == "Defender") {
 			position = "Attacker";
+		} else {
+			position = athletePosition;
 		}
 		return position;
 	}
@@ -271,8 +281,10 @@ public class Athlete extends Purchasable {
     */
     public String toString() {
     	String result = ("Athlete name: " + athleteName);
-    	if (this.getPosition() != null) {
-    		result += ("\nPosition: " + this.getPosition());
+    	if (athletePosition != null && athletePosition != "Injured") {
+    		result += ("\nPosition: " + athletePosition);
+    	} else if (athletePosition != null && athletePosition == "Injured") {
+    		result += ("\n" + athletePosition);
     	} else {
     		result += ("\nPrice: " + this.getContractPriceFormatted());
     	}
@@ -295,6 +307,8 @@ public class Athlete extends Purchasable {
     	if (this.getPosition() != null) {
     		if (this.getPosition() == "Reserve") {
     			result = "<html>" + ("Reserve player");
+    		} else if (athletePosition == "Injured"){
+    			result = "<html>" + ("Injured player");
     		} else {
         		result = "<html>" + ("Position: " + this.getPosition());
     		}
@@ -309,6 +323,19 @@ public class Athlete extends Purchasable {
         
     }
     
+    
+    public void useItem(Item item) {
+        
+        this.defensiveStatistic += item.getDefence();
+        this.offensiveStatistic += item.getOffence();
+        
+        
+
+        
+        
+    
+    }
+    
     public Boolean matchesAthlete(Athlete comparedAthlete) {
     	if (comparedAthlete.getName() == athleteName && comparedAthlete.getDefensive() == defensiveStatistic && comparedAthlete.getOffensive() == offensiveStatistic && comparedAthlete.getStamina() == staminaStatistic) {
     		return true;
@@ -316,8 +343,71 @@ public class Athlete extends Purchasable {
     		return false;
     	}
     }
+    
+    public void increaseStatistics(double increaseMultiplier) {
+    	// JR NOTE do i want offensive stats and defensive stats to be cappaed at 100 or not??
+        offensiveStatistic = (int) Math.min(offensiveStatistic * increaseMultiplier, 100);
+        defensiveStatistic = (int) Math.min(defensiveStatistic * increaseMultiplier, 100);
+        staminaStatistic = (int) Math.min(staminaStatistic * increaseMultiplier, 100);
+    }
+    
+    public void setAthleteStatisticsBasedOnDefensive(int defensiveScore) {
+
+        Random rand = new Random();
+        int randomDefensive = rand.nextInt(11) - 5;
+        defensiveStatistic = ((defensiveScore/2) - randomDefensive);
+    }
+
+    public void setAthleteStatisticsBasedOnOffensive(int offensiveScore) {
+
+        Random rand = new Random();
+        int randomOffensive = rand.nextInt(11) - 5;
+        offensiveStatistic = (offensiveScore/2) - randomOffensive;
+    }
+    
+    public void decreaseStamina(int amountDecreased) {
+    	staminaStatistic -= amountDecreased;
+    	if (staminaStatistic < 0) {
+    		staminaStatistic = 0;
+    	}
+    	
+    	if (staminaStatistic == 0) {
+    		previousPosition = athletePosition;
+    		setPosition("Injured");
+    	}
+    }
+    
+    
+    public void increaseOffensive(int increaseAmount) {
+    	offensiveStatistic += increaseAmount;
+
+    }
+    
+    public void increaseDefensive(int increaseAmount) {
+    	defensiveStatistic += increaseAmount;
+
+    }
+    
+    public void restoreStamina() {
+    	if (athletePosition == "Injured") {
+    		setPosition(previousPosition);
+    	}
+    	staminaStatistic = 100;
+    }
+    
+    public void trainAthlete() {
+        Random random = new Random();
+        int offensiveIncrease = random.nextInt(11) + 5; // Generates a random number between 5 and 15 (inclusive)
+        int defensiveIncrease = random.nextInt(11) + 5; // Generates a random number between 5 and 15 (inclusive)
+
+        increaseOffensive(offensiveIncrease);
+        increaseDefensive(defensiveIncrease);
+    }
+	
+}
+
 	
 	
 	
 
-}
+

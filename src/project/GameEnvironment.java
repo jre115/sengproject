@@ -20,11 +20,12 @@ public class GameEnvironment {
     
     ArrayList<Athlete> reservesList;
     ArrayList<Athlete> teamList;
-    private ArrayList<Item> inventory;
+    ArrayList<Item> inventory;
 
     
 	
 	public GameEnvironment() {
+		market = new Market();
 		randomEvents = new RandomEvents();
 		inventory = new ArrayList<>();
 		playerMoney = 20000;
@@ -138,6 +139,7 @@ public class GameEnvironment {
 		}
 	}
 	
+	
 	public void setGameDifficulty(String difficultyInput) {
 		gameDifficulty = difficultyInput;
 	}
@@ -186,7 +188,7 @@ public class GameEnvironment {
 	
 	public void startGame() {
 		
-		market = new Market();
+		
 		currentWeek = 0;
 		increaseWeek();
 		
@@ -250,13 +252,17 @@ public class GameEnvironment {
     public ArrayList<Item> getInventory() {
         return inventory;
     }
+    
+    
 
-    public void purchaseItem(Item item) {
-        if (playerMoney >= item.getContractPrice()) {
+    public void purchaseItem(Item item) throws InsufficientFundsException, InventoryFullException {
+        if (playerMoney <= item.getContractPrice()) {
+            throw new InsufficientFundsException();
+        } else if (inventory.size() >= 4) {
+            throw new InventoryFullException();
+        } else {
             modifyPlayerMoney(-item.getContractPrice());
             inventory.add(item);
-        } else {
-            System.out.println("Not enough money to purchase the item!");
         }
     }
     
@@ -269,11 +275,21 @@ public class GameEnvironment {
     		team.addToTeam(athlete, position);
     	}
     }
+    public void purchaseReserveAthlete(Athlete athlete) throws InsufficientFundsException, ReservesLimitException {
+        if (playerMoney < athlete.getContractPrice()) {
+            throw new InsufficientFundsException();
+        } else {
+            modifyPlayerMoney(-athlete.getContractPrice());
+            reservesList.add(athlete);
+        }
+    }
+    
+    
     
 
     public void sellItem(Item item) {
         if (inventory.contains(item)) {
-            modifyPlayerMoney(item.getSellBackPrice());
+            modifyPlayerMoney(+item.getSellBackPrice());
             inventory.remove(item);
         } else {
             System.out.println("Item not found in inventory!");
@@ -282,7 +298,7 @@ public class GameEnvironment {
 
     public void sellPlayer(Athlete athlete) {
         if (team.getTeamList().contains(athlete)) {
-            modifyPlayerMoney(athlete.getSellBackPrice());
+            modifyPlayerMoney(+athlete.getSellBackPrice());
             team.removeFromTeam(athlete);
         } else {
             System.out.println("Player not found in team list!");
@@ -291,7 +307,7 @@ public class GameEnvironment {
 
     public void sellReservePlayer(Athlete athlete) {
         if (team.getReservesList().contains(athlete)) {
-            modifyPlayerMoney(athlete.getSellBackPrice());
+            modifyPlayerMoney(+athlete.getSellBackPrice());
             team.removeFromReserve(athlete);
         } else {
             System.out.println("Player not found in reserves list!");
@@ -331,9 +347,20 @@ public class GameEnvironment {
 	        // Do nothing 85% 
 	    }
 	}
+    
+    
+    public void removeItem(Item item) {
+    	inventory.remove(item);
+       
+        }
+    }
+    
+    
+    
+    
 
     
-}
+
 
 
     
