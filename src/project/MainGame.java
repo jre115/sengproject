@@ -1123,7 +1123,7 @@ public class MainGame {
 						errorText.setText(e1.getMessage());
 		    			errorText.setVisible(true);
 		    			return;
-					} catch (ReservesLimitException e1) {
+					} catch (LimitException e1) {
 						errorText.setText(e1.getMessage());
 		    			errorText.setVisible(true);
 		    			return;
@@ -1167,7 +1167,7 @@ public class MainGame {
 		    			errorText.setVisible(true);
 		    			return;
 						
-					} catch (ReservesLimitException e1) {
+					} catch (LimitException e1) {
 						errorText.setText(e1.getMessage());
 		    			errorText.setVisible(true);
 		    			return;
@@ -1269,7 +1269,7 @@ public class MainGame {
 					errorText.setText(e1.getMessage());
 	    			errorText.setVisible(true);
 	    			return;
-				} catch (ReservesLimitException e1) {
+				} catch (LimitException e1) {
 					errorText.setText(e1.getMessage());
 	    			errorText.setVisible(true);
 	    			return;
@@ -1295,7 +1295,7 @@ public class MainGame {
 	    			return;
 					// TODO Auto-generated catch block
 					
-				} catch (ReservesLimitException e1) {
+				} catch (LimitException e1) {
 					errorText.setText(e1.getMessage());
 	    			errorText.setVisible(true);
 	    			return;
@@ -2306,6 +2306,13 @@ public class MainGame {
 	    	public void actionPerformed(ActionEvent a) {
 	    		clubMenuPanel.setVisible(false);
 	    		teamPropertiesScreen();
+	    		}
+	    });
+		
+		inventoryButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent a) {
+	    		clubMenuPanel.setVisible(false);
+	    		useItemScreen();
 	    		}
 	    });
 		
