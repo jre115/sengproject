@@ -398,19 +398,33 @@ public class GameEnvironment {
             }
         }
     }
-    public void performRandomEvent() {
-	    Random random = new Random();
-	    int eventChance = random.nextInt(100); 
-
-	    if (eventChance < 5) { // 5% chance for athlete joins
-	        randomEvents.athleteJoins(team);
-	    } else if (eventChance < 15) { // 10% chance for increase Random Player Stat
-	        randomEvents.increaseRandomPlayerStat(team);
-	    } else {
-	        // Do nothing 85% 
-	    }
-	}
     
+    public Map<String, Object> performRandomEvent(Team team) {
+        Random random = new Random();
+        int eventChance = random.nextInt(100);
+
+        Map<String, Object> eventDetails = new HashMap<>();
+
+        if (eventChance < 1) { // 1% chance for athlete quits
+            Athlete athleteToQuit = randomEvents.athleteQuits(team);
+            if (athleteToQuit != null) {
+                eventDetails.put("eventType", "athleteQuits");
+                eventDetails.put("athlete", athleteToQuit);
+            }
+        } else if (eventChance < 5) { // 4% chance for athlete joins
+            Athlete newAthlete = randomEvents.athleteJoins(team);
+            eventDetails.put("eventType", "athleteJoins");
+            eventDetails.put("athlete", newAthlete);
+        } else if (eventChance < 15) { // 10% chance for increasing a random player's stat
+            Athlete athlete = randomEvents.increaseRandomPlayerStat(team);
+            eventDetails.put("eventType", "increaseStat");
+            eventDetails.put("athlete", athlete);
+        } else {
+            eventDetails.put("eventType", "rest");
+        }
+
+        return eventDetails;
+    }
     
     public void removeItem(Item item) {
     	inventory.remove(item);

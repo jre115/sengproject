@@ -5,13 +5,25 @@ import java.util.Random;
 
 public class RandomEvents {
 	
-	 public void athleteQuits(Team team) {
-		 // injury yet to be implemented
-	    	
-	    }
+	public Athlete athleteQuits(Team team) {
+		
+		ArrayList<Athlete> teamList = team.getTeamList();
+		int teamSize = teamList.size();
+		Random random = new Random();
+        Athlete athlete = teamList.get(random.nextInt(teamSize));
+        if (athlete.getPosition().equals("Injured")) {
+        	team.removeFromTeam(athlete);
+        	
+            
+        } else {
+            
+            
+        }
+		return athlete;
+    }
 	
 	
-	 public void athleteJoins(Team team) {
+	 public Athlete athleteJoins(Team team) {
 		    ArrayList<Athlete> teamList = team.getTeamList();
 		    ArrayList<Athlete> reservesList = team.getReservesList();
 		    Athlete athlete = new Athlete();
@@ -22,13 +34,14 @@ public class RandomEvents {
 		        reservesList.add(athlete);
 		    } else {
 		        // Both team list and reserves list are full, do nothing
-		        return;
+		        return null;
 		    }
+		    return athlete;
 		}
 		
 		
 	
-	public void increaseRandomPlayerStat(Team team) {
+	public Athlete increaseRandomPlayerStat(Team team) {
 	    
 	    ArrayList<Athlete> teamList = team.getTeamList();
 	    int teamSize = teamList.size();
@@ -43,26 +56,26 @@ public class RandomEvents {
 	        switch (statToIncrease) {
 	            case 0: // Offensive
 	                int currentOffensive = randomPlayer.getOffensive();
-	                int increasedOffensive = currentOffensive + random.nextInt(11) + 5; // Increase by 5-15
+	                int increasedOffensive = currentOffensive + random.nextInt(5) + 5; // Increase by 5-15
 	                randomPlayer.setOffensive(increasedOffensive);
 	                break;
 	            case 1: // Defensive
 	                int currentDefensive = randomPlayer.getDefensive();
-	                int increasedDefensive = currentDefensive + random.nextInt(11) + 5; // Increase by 5-15
+	                int increasedDefensive = currentDefensive + random.nextInt(5) + 5; // Increase by 5-15
 	                randomPlayer.setDefensive(increasedDefensive);
 	                break;
 	            case 2: // Stamina
 	                int currentStamina = randomPlayer.getStamina();
-	                int increasedStamina = currentStamina + random.nextInt(11) + 5; // Increase by 5-15
+	                int increasedStamina = currentStamina + random.nextInt(5) + 5; // Increase by 5-15
 	                randomPlayer.setStamina(increasedStamina);
 	                break;
 	        }
+	        return randomPlayer;
 
-	        System.out.println(randomPlayer.toString());
-	        System.out.println("stats increased: ");
+	       
 	        
 	    } else {
-	        System.out.println("No players in the team. Unable to increase player's stat.");
+	        return null;
 	    }
 	    
 	   
