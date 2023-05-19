@@ -2190,10 +2190,64 @@ public class MainGame {
 		okButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
+	    		Map<String, Object> randomEvents = gameEnvironment.preformRandomEvent());
+	    		String result = (String) randomEvents.get("result");
+	    		if (result == "rest") {
 	    		mainMenu();
+	    		}else {
+	    			randomEventScreen(result);
+	    			
 	    		}
-	    });
+	    }});
 	}
+	
+	public void randomEventScreen(String result) {
+		
+		JPanel randomEventPanel = new JPanel();
+		randomEventPanel.setBounds(0, 0, 984, 711);
+		frame.getContentPane().add(randomEventPanel);
+		randomEventPanel.setLayout(null);
+		
+		
+	    
+		
+		JLabel randomEventsLabel = new JLabel("Resting");
+		randomEventsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		randomEventsLabel.setFont(new Font("Cooper Black", Font.PLAIN, 25));
+		randomEventsLabel.setBounds(163, 11, 644, 68);
+		randomEventPanel.add(randomEventsLabel);
+		
+		
+		
+	
+		
+		JLabel randomEventText = new JLabel("");
+		randomEventText.setHorizontalAlignment(SwingConstants.CENTER);
+		randomEventText.setBounds(173, 90, 732, 179);
+		randomEventPanel.add(randomEventText);
+		frame.setSize(1000, 750);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JButton randomEventsButton = new JButton("Continue");
+		randomEventsButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		randomEventsButton.setBounds(328, 359, 322, 62);
+		randomEventPanel.add(randomEventsButton);
+		randomEventsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (result =="increased stat" ) {
+				randomEventText.setText("a random players stats have increased");
+				}else if(result == "athleteJoins") {
+					if()
+				}
+				
+				
+				
+				
+			}
+		});
+	}
+		
+	
 	
 	private ArrayList<JPanel> addAthletesToPanel(JPanel panel, ArrayList<Athlete> athletes, int numAthletesPerRow) {
         int panelSpacing = 20; 
