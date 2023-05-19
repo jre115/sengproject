@@ -2226,6 +2226,7 @@ public class MainGame {
 		randomEventText.setHorizontalAlignment(SwingConstants.CENTER);
 		randomEventText.setBounds(173, 90, 732, 179);
 		randomEventPanel.add(randomEventText);
+		randomEventText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		
 		JButton continueButton = new JButton("Continue");
 		continueButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
@@ -2251,12 +2252,12 @@ public class MainGame {
 				randomEventsButton.setVisible(false);
 				
 				
-		        if (result.equals("increasedStat")) {
-		            randomEventText.setText("A random player's stats have increased.");
+		        if (result.equals("increaseStat")) {
+		            randomEventText.setText("An athlete in your team trained with a pro, thier stats have increased ");
 		        } else if (result.equals("athleteJoins")) {
-		            randomEventText.setText("A new athlete has joined the team.");
+		            randomEventText.setText("An aspiring quditch player has snuck into your team");
 		        }else if (result.equals("athleteQuits")) {
-		        	randomEventText.setText("an athlete has left the Team");
+		        	randomEventText.setText("an athlete has left the Team, be sure to manage your stamina");
 		        	
 		        	
 		        }
