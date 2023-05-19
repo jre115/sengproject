@@ -403,6 +403,15 @@ public class Athlete extends Purchasable {
         increaseOffensive(offensiveIncrease);
         increaseDefensive(defensiveIncrease);
     }
+    
+    public boolean isReserve() {
+    	return (athletePosition == "Reserve");
+    }
+    
+    public boolean isInjured() {
+    	return (athletePosition == "Injured");
+    }
+    
 	
 }
 
