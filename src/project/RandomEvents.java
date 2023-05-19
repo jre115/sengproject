@@ -10,6 +10,7 @@ import java.util.Random;
 public class RandomEvents {
 
     public Athlete athleteQuits(Team team) {
+    	
         ArrayList<Athlete> teamList = team.getTeamList();
         int teamSize = teamList.size();
         Random random = new Random();
@@ -25,20 +26,20 @@ public class RandomEvents {
     }
 
     public Athlete athleteJoins(Team team) {
-        ArrayList<Athlete> teamList = team.getTeamList();
-        ArrayList<Athlete> reservesList = team.getReservesList();
+       
         Athlete athlete = new Athlete();
-
-        if (teamList.size() < 5) {
-            teamList.add(athlete);
-        } else if (reservesList.size() < 5) {
-            reservesList.add(athlete);
-        } else {
-            // Both team list and reserves list are full, do nothing
-            return null;
+        try { team.addToTeam(athlete, "defender"); 
+        return athlete;
+        
+        
+        }
+        catch (LimitException e) {
+        	return null;
+        	
         }
         
-        return athlete;
+
+        
     }
 
     public Athlete increaseRandomPlayerStat(Team team) {

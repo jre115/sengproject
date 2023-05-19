@@ -2126,6 +2126,7 @@ public class MainGame {
 	}
 	
 	private void byeTrainAthlete(Athlete athlete) {
+		
         
 		JPanel singleAthletePanel = new JPanel();
 		singleAthletePanel.setBackground(new Color(255, 255, 255));
@@ -2190,8 +2191,8 @@ public class MainGame {
 		okButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
-	    		Map<String, Object> randomEvents = gameEnvironment.preformRandomEvent());
-	    		String result = (String) randomEvents.get("result");
+	    		Map<String, Object> randomEvents = gameEnvironment.performRandomEvent();
+	    		String result = (String) randomEvents.get("eventType");
 	    		if (result == "rest") {
 	    		mainMenu();
 	    		}else {
@@ -2225,27 +2226,44 @@ public class MainGame {
 		randomEventText.setHorizontalAlignment(SwingConstants.CENTER);
 		randomEventText.setBounds(173, 90, 732, 179);
 		randomEventPanel.add(randomEventText);
-		frame.setSize(1000, 750);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JButton randomEventsButton = new JButton("Continue");
+		JButton continueButton = new JButton("Continue");
+		continueButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		continueButton.setBounds(328, 434, 322, 62);
+		randomEventPanel.add(continueButton);
+		continueButton.setVisible(false);
+		
+		continueButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				randomEventPanel.setVisible(false);
+				mainMenu();
+				
+			}
+		});
+		
+		JButton randomEventsButton = new JButton("Rest");
 		randomEventsButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		randomEventsButton.setBounds(328, 359, 322, 62);
 		randomEventPanel.add(randomEventsButton);
 		randomEventsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (result =="increased stat" ) {
-				randomEventText.setText("a random players stats have increased");
-				}else if(result == "athleteJoins") {
-					if()
-				}
+				continueButton.setVisible(true);
+				randomEventsButton.setVisible(false);
 				
 				
-				
-				
-			}
+		        if (result.equals("increasedStat")) {
+		            randomEventText.setText("A random player's stats have increased.");
+		        } else if (result.equals("athleteJoins")) {
+		            randomEventText.setText("A new athlete has joined the team.");
+		        }else if (result.equals("athleteQuits")) {
+		        	randomEventText.setText("an athlete has left the Team");
+		        	
+		        	
+		        }
+		    }
 		});
-	}
+		}
+			
 		
 	
 	
