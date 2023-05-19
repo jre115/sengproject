@@ -510,6 +510,11 @@ public class GameEnvironment {
 		GameEnvironment game = new GameEnvironment();
 		game.launchSetupScreen();
 	}
+	
+	public void preformRandomEvent() {
+		randomEvents.performRandomEvent(team);
+		
+	}
 
 }
 
