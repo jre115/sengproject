@@ -4,7 +4,7 @@ package project;
  * item class for athletes 
  * increase stats: offense defense
  * one time use
- * JR NOTE NEED 4 different types of items e.g. training equipment and foods
+ * 
  */
 
 public class Item extends Purchasable {
@@ -31,13 +31,15 @@ public class Item extends Purchasable {
 	 */
 	
 	//private int cost;
-	/**create item
-	 * 
-	 * @param name
-	 * @param description
-	 * @param price
-	 * @param offence 
-	 * @param defence 
+	/**
+	 * item class constructor 
+	 *@param name a string representing the name of the item
+	 
+	 * @param offence a integer value that represents the offence stat of the item
+	 * @param defence a integer value that represents  the defence stat of the item
+	 * @param contractPrice an integer value that represents the cost of the item
+	 * @param sellbackPrice an integer value that represents the sell price of the item
+	 * @param description a string that gives a description of the item
 	 */
 	
 	public Item(String name, int offence, int defence, int contractPrice, int sellbackPrice, String description) {
@@ -92,6 +94,11 @@ public class Item extends Purchasable {
 		this.defence = defence;
 	}
 	
+	
+	/**
+	 * Returns a String representation of offence, defence, description, contract price and sell back price
+	 * @return a string representation of description, offence, defence, contract price and sell back price
+	 */
 	public String toString() {
 		String result = null;
     	result += (this.getName());
@@ -107,7 +114,10 @@ public class Item extends Purchasable {
 	}
 	
 	
-
+/**
+ * Returns a String representation in HTML of offence, defence, description, contract price and sell back price
+ * @return a string representation of description, offence, defence, contract price and sell back price
+ */
 	public String toStringHTML() {
 		String result = "<html>" +(this.getDescription());    	
         result += ("<br>Offensive Statistic: +" + this.getOffence());
