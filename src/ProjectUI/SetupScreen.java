@@ -26,6 +26,12 @@ import javax.swing.JTextField;
 import javax.swing.JSlider;
 import javax.swing.ImageIcon;
 
+/**
+ * This class implements the GUI for setting up the GameEnvironment
+ *
+ * @author Jordan Redfern
+ * @version 1.1, May 2023.
+ */
 public class SetupScreen {
 	
 	/**
