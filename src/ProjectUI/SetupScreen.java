@@ -28,10 +28,24 @@ import javax.swing.ImageIcon;
 
 public class SetupScreen {
 	
+	/**
+	 * The width of panel within the frame
+	 */
 	int width = 984;
+	
+	/**
+	 * The height of the panel within the frame
+	 */
 	int height = 711;
-
+	
+	/**
+	 * The main frame window of the game
+	 */
 	private JFrame frame;
+	
+	/**
+	 * The game environment object that manages all game functionality and data.
+	 */
 	private GameEnvironment gameEnvironment;
 
 
