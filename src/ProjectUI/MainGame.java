@@ -2454,6 +2454,9 @@ public class MainGame {
 		okButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
+	    		if(gameEnvironment.getTeamList().size() == 0) {
+	    			mainMenu();
+	    		}else {
 	    		Map<String, Object> randomEvents = gameEnvironment.getRandomEvent();
 	    		String result = (String) randomEvents.get("eventType");
 	    		if (result == "rest") {
@@ -2462,7 +2465,7 @@ public class MainGame {
 	    			randomEventScreen(result);
 	    			
 	    		}
-	    }});
+	    }}});
 		
 	}
 	
@@ -2643,6 +2646,9 @@ public class MainGame {
 		        }else if (result.equals("athleteQuits")) {
 		        	randomEventText.setText("an athlete has left the Team, be sure to manage your stamina");
 		        	
+		        	
+		        }else if (result.equals("athleteQuitsFalse")) {
+		        	randomEventText.setText("An athlete in your Team considered leaving");
 		        	
 		        }
 		    }
