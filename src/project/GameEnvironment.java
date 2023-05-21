@@ -375,7 +375,7 @@ public class GameEnvironment {
     
     
     public ArrayList<Match> getStadiumMatches() {
-    	return stadium.getMatches(team);
+    	return stadium.getMatches();
     }
     
     public void startMatch(Match match) throws IllegalTeamException {

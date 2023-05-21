@@ -2,7 +2,7 @@ package project;
 
 /**
  * The purchasable call represents something that can be purchased and sold such as Athletes and Items.
- * It provides information about hte contract price, sellback price and description of the item
+ * It provides information about the contract price, sell-back price and description of the item
  *
  */
 public class Purchasable {
