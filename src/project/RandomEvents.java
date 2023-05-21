@@ -118,14 +118,14 @@ public class RandomEvents {
                 eventDetails.put("eventType", "athleteQuits");
                 eventDetails.put("athlete", athleteToQuit);
             }
-        } else if (eventChance < 4) { // 4% chance for increasing a random player's stat
+        } else if (eventChance < 5) { // 5% chance for increasing a random player's stat
             Athlete athlete = increaseRandomPlayerStat(team);
             eventDetails.put("eventType", "increaseStat");
             eventDetails.put("athlete", athlete);
         } else {
             // Calculate the chance of athlete joins based on the reserves list size
             int reservesSize = team.getReservesList().size();
-            int joinChance = (5 - reservesSize) * 5; 
+            int joinChance = (5 - reservesSize) * 3; 
 
             if (eventChance < (15 + joinChance)) {
                 Athlete newAthlete = athleteJoins(team);
