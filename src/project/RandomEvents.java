@@ -51,12 +51,13 @@ public class RandomEvents {
     }
 
     public Athlete increaseRandomPlayerStat(Team team) {
-        ArrayList<Athlete> teamList = team.getTeamList();
-        int teamSize = teamList.size();
-        
+        ArrayList<Athlete> entireTeam = new ArrayList<>(team.getTeamList());
+        entireTeam.addAll(team.getReservesList());
+        int teamSize = entireTeam.size();
+
         if (teamSize > 0) {
             Random random = new Random();
-            Athlete randomPlayer = teamList.get(random.nextInt(teamSize-1));
+            Athlete randomPlayer = entireTeam.get(random.nextInt(teamSize));
 
             // Determine which statistic to increase (offensive, defensive, or stamina)
             int statToIncrease = random.nextInt(3); // 0 - Offensive, 1 - Defensive, 2 - Stamina
@@ -78,7 +79,7 @@ public class RandomEvents {
                     randomPlayer.setStamina(increasedStamina);
                     break;
             }
-            
+
             return randomPlayer;
         } else {
             return null;
