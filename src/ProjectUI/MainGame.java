@@ -149,7 +149,6 @@ public class MainGame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		mainMenu();
-		
 	}
 	
 	/**
