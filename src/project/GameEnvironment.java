@@ -189,9 +189,12 @@ public class GameEnvironment {
 	
 	public void increaseWeek() {
 		if (currentWeek < seasonLength) {
+			// Only begin performing random events after the first week
+			if (currentWeek != 0) {
+		    	currentRandomEvent = randomEvents.performRandomEvent(team);
+			}
 			currentWeek += 1;
 	    	stadium.setStadium(team, currentWeek);
-	    	currentRandomEvent = randomEvents.performRandomEvent(team);
 			market.refreshMarket();
 	    	team.restoreAthletes();
 	    	if (currentWeek == seasonLength) {
