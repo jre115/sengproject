@@ -6,6 +6,14 @@ import java.util.Random;
 
 import projectExceptions.NameException;
 
+/**
+ * This class extends the Purchasable class and provides attributes and methods to manage the athlete's statistics, positions, name, image.
+ * The athlete class includes athlete's name, position offensive, defensive and stamina statistics. 
+ * It provides methods to generate random statistics and name. 
+ *
+ * @author Jordan Redfern 
+ * @version 1.1, May 2023.
+ */
 public class Athlete extends Purchasable {
 	
 	/**

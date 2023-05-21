@@ -249,10 +249,7 @@ public class GameEnvironment {
 	}
 	
 	public Boolean checkSwappable() throws NoReserveAthletesException {
-	    if (getReservesList().isEmpty() == true) {
-	        throw new NoReserveAthletesException();
-	    }
-	    return true;
+	    return team.checkSwappable();
 	}
 	
 	

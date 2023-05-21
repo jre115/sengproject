@@ -323,7 +323,7 @@ public class CommandLineUI {
 
 	                    if (index2 >= 0 && index2 < game.getReservesList().size()) {
 	                        Athlete player = game.getReservesList().get(index2);
-	                        game.sellReservePlayer(player);
+	                        game.sellPlayer(player);
 	                        System.out.println(player.getName() + " has been sold.");
 	                    } else {
 	                        System.out.println("Invalid player index or you have no player, push any key to return\n.");
@@ -721,4 +721,4 @@ public void goToClub() {
 }
 
 
-}
+
