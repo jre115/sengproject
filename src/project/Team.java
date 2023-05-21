@@ -156,6 +156,7 @@ public class Team {
 			throw new LimitException("Your reserve team is full!");
 		} else {
 			reservesList.add(athlete);
+			athlete.setPosition("Reserve");
 		}
 	}
 	

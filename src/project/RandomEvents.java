@@ -57,7 +57,6 @@ public class RandomEvents {
         	team.addToTeam(athlete, null);
         } else {
         	try {
-        		athlete.setPosition("Reserve");
         		team.addToReserves(athlete);
         	} catch (LimitException e) {
         		return null;
