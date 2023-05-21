@@ -1844,6 +1844,7 @@ public class MainGame {
 		BuyPlayerPanel.add(balanceText);
 		
 		ArrayList<Athlete> shopAthletes = gameEnvironment.getShopAthletes();
+		gameEnvironment.updateShopStats();
 
 		JPanel athletesPanel = createTeamPanel(shopAthletes.size(),  height/2 - 100);
 		BuyPlayerPanel.add(athletesPanel);

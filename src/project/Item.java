@@ -49,8 +49,8 @@ public class Item extends Purchasable {
 	
 	
 	/**
-	 * 
-	 * @return name
+	 * Name getter method
+	 * @return String name of Item
 	 */
 	public String getName() {
 		return name;
@@ -59,14 +59,16 @@ public class Item extends Purchasable {
 
 
 	/**
-	 * @return the offence
+	 * offence getter method
+	 * @return the int offence stat
+	 * 
 	 */
 	public int getOffence() {
 		return offence;
 	}
 
 
-	/**
+	/**sets offence stat
 	 * @param offence the offence to set
 	 */
 	public void setOffence(int offence) {
@@ -75,6 +77,7 @@ public class Item extends Purchasable {
 
 
 	/**
+	 * getter for defence
 	 * @return the defence
 	 */
 	public int getDefence() {
