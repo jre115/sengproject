@@ -60,9 +60,10 @@ public class Team {
 	}
 	
 	/**
-	 * Sets the name of the specified string
+	 * Sets the name of the specified string if the name meets requirements
 	 * 
 	 * @param nameInput the name for the team
+	 * @throws NameException if the name does not meet the reqirements (between 3 and 15 characters inclusive, no special characters)
 	 */
 	public void setTeamName(String nameInput) throws NameException {
 		if (teamName.length() < 3 || teamName.length() > 15) {

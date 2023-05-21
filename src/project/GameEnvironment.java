@@ -105,15 +105,28 @@ public class GameEnvironment {
 	}
 	
 	
-	
+	/**
+	 * Returns the name of the player's team
+	 * @return team name
+	 */
 	public String getTeamName() {
 		return team.getTeamName();
 	}
 	
+	/**
+	 * Sets the team name if the selected name meets requirements, otherwise throws NameException
+	 * @param teamName the inputed string name for the team
+	 * @throws NameException if the name does not meet the requirements (between 3 and 15 characters inclusive, no special characters)
+	 */
 	public void setTeamName(String teamName) throws NameException {
 		team.setTeamName(teamName);
 	}
 	
+	/**
+	 * Sets the length of the season
+	 * @param length the length of the season in weeks
+	 * @throws IllegalArgumentException if the season length is not between 5-15 weeks inclusive
+	 */
 	public void setSeasonLength(int length) {
 
 		if (length < 5 || length > 15) {
@@ -122,14 +135,26 @@ public class GameEnvironment {
 		seasonLength = length;
 	}
 	
+	/**
+	 * Returns the length of the season
+	 * @return seasonLength the length of the season
+	 */
 	public int getSeasonLength() {
 		return seasonLength;
 	}
 	
-	public void setPlayerMoney(int value) {
+	/**
+	 * Sets the playerMoney value to a specific integer;
+	 * @param value the value for player money
+	 */
+	private void setPlayerMoney(int value) {
 		playerMoney = value;
 	}
 	
+	/**
+	 * Returns the amount money the player has
+	 * @return playerMoney the amount of money belonging to the player and their team
+	 */
 	public int getPlayerMoney() {
 		return playerMoney;
 	}
