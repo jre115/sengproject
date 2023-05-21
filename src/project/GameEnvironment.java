@@ -511,7 +511,7 @@ public class GameEnvironment {
 		game.launchSetupScreen();
 	}
 	
-	public Map<String, Object> preformRandomEvent(Team team) {
+	public Map<String, Object> performRandomEvent() {
 		return randomEvents.performRandomEvent(team);
 		
 	}
