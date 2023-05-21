@@ -1,4 +1,4 @@
-package project;
+package ProjectUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,6 +21,11 @@ import ProjectExceptions.InsufficientFundsException;
 import ProjectExceptions.InventoryFullException;
 import ProjectExceptions.NameException;
 import ProjectExceptions.NoReserveAthletesException;
+import project.Athlete;
+import project.GameEnvironment;
+import project.Item;
+import project.LimitException;
+import project.Match;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -395,6 +400,10 @@ public class MainGame {
 			nameFontSize = 11;
 			bodyFontSize = 10;
 			imageMultiplier = 0.55;
+		} else if (sizeMultiplier == 0.7) {
+			nameFontSize = 15;
+			bodyFontSize = 15;
+			imageMultiplier = 0.8;
 		}
 		
 		// Updates athlete panel background colour to reflect the position of the athlete: red for defenders and blue for attackers.
@@ -425,7 +434,8 @@ public class MainGame {
 	    athleteImagePanel.setLayout(new BorderLayout(0, 0));
 
 		JLabel athleteImage = new JLabel("");
-		ImageIcon icon = new ImageIcon(Temp.class.getResource("/Pictures/" + athlete.getImageName() + ".png"));
+		ClassLoader classLoader = getClass().getClassLoader();
+		ImageIcon icon = new ImageIcon(classLoader.getResource("Pictures/" + athlete.getImageName() + ".png"));
 		Image image = icon.getImage().getScaledInstance((int)((icon.getIconWidth()*imageMultiplier)), (int)((icon.getIconHeight()*imageMultiplier)), Image.SCALE_SMOOTH);
 		athleteImage.setIcon(new ImageIcon(image));
 		athleteImage.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1371,33 +1381,8 @@ public class MainGame {
 			encounterPanel.add(athletePanel);
 			athletePanel.setLayout(null);
 			
-			JTextField athleteName = new JTextField(athletes.get(i).getName());
-			athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 15));
-			athleteName.setHorizontalAlignment(SwingConstants.CENTER);
-			athleteName.setBounds(10, 11, 231, 39);
-			athletePanel.add(athleteName);
-			athleteName.setColumns(10);
+			refreshAthletePanel(athletePanel, athletes.get(i), decreaseSizeMultiplier);
 			
-			
-			JPanel athleteImagePanel = new JPanel();
-			athleteImagePanel.setBounds((int) (58 * 0.7), (int) (79 * 0.7), (int) (247 * 0.7), (int) (203 * 0.7));
-			athleteImagePanel.setBackground(Color.WHITE);
-			athletePanel.add(athleteImagePanel);
-			athleteImagePanel.setLayout(new BorderLayout(0, 0));
-
-			JLabel athleteImage = new JLabel("");
-			ImageIcon imageIcon = new ImageIcon(Temp.class.getResource("/Pictures/" + athletes.get(i).getImageName() + ".png"));
-			Image image = imageIcon.getImage();
-			Image scaledImage = image.getScaledInstance((int) (247 * 0.7), (int) (203 * 0.7), Image.SCALE_SMOOTH);
-			athleteImage.setIcon(new ImageIcon(scaledImage));
-			athleteImage.setHorizontalAlignment(SwingConstants.CENTER);
-			athleteImagePanel.add(athleteImage, BorderLayout.CENTER);
-
-			JLabel athleteInfo = new JLabel(athletes.get(i).toStringHTML());
-			athleteInfo.setFont(new Font("Calibri", Font.BOLD, 15));
-			athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
-			athleteInfo.setBounds((int) (23 * 0.7), (int) (305 * 0.7), (int) (311 * 0.7), (int) (143 * 0.7));
-			athletePanel.add(athleteInfo);
 		}
 		
         int buttonWidth = ((int) (360 * decreaseSizeMultiplier)/2) - 10;
@@ -1543,7 +1528,7 @@ public class MainGame {
 	            
 	    		ArrayList<Athlete> teamList = gameEnvironment.getTeamList();
 	    		
-	    		addAthletesToPanel(updatedTeamPanel, teamList, 4);
+	    		addAthletesToPanel(teamPanel, teamList, 4);
 	            	            
 	    		JButton endMatchButton = new JButton("End match");
 	    		endMatchButton.setSize((int) ((int) buttonWidth*1.5), buttonHeight);

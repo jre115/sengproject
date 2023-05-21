@@ -10,6 +10,8 @@ import ProjectExceptions.InsufficientFundsException;
 import ProjectExceptions.InventoryFullException;
 import ProjectExceptions.NameException;
 import ProjectExceptions.NoReserveAthletesException;
+import ProjectUI.MainGame;
+import ProjectUI.SetupScreen2;
 
 
 public class GameEnvironment {
@@ -324,23 +326,6 @@ public class GameEnvironment {
 	 * @param the position the athlete is being added as - if null then the athlete's position will be whatever there are less of in the team
 	 */
     public void addAthleteToTeam(Athlete athlete, String position) {
-    	if (position == null) {
-    		int defenderCount = 0;
-    		int attackerCount = 0;
-    		for (Athlete teamAthlete : getTeamList()) {
-    			if (teamAthlete.getPosition() == "Defender") {
-    				defenderCount += 1;
-    			} else {
-    				attackerCount += 1;
-    			}
-    		}
-    		if (attackerCount < defenderCount) {
-    			position = "Attacker";
-    		} else {
-    			position = "Defender";
-    		}
-    	}
-    	
     	team.addToTeam(athlete, position);
     }
     

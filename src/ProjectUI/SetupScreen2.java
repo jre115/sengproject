@@ -1,6 +1,7 @@
-package project;
+package ProjectUI;
 
 import java.awt.EventQueue;
+
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -8,7 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import ProjectExceptions.NameException;
-import lab.Athlete;
+import project.GameEnvironment;
+import project.Athlete;
 
 import java.awt.Font;
 import java.awt.Image;
@@ -42,7 +44,22 @@ public class SetupScreen2 {
 		initialize();
 		frame.setVisible(true);
 	}
-
+	
+	/**
+	 * Creates a JPanel with the specified width and height within the frame to be used as background panels throughout MainGame.
+	 *
+	 * @return the JPanel with the specified properties
+	 */
+	private JPanel createScreenPanel() {
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBounds(0, 0, width, height);
+		panel.setLayout(null);
+		
+		return panel;
+		
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -54,12 +71,8 @@ public class SetupScreen2 {
 		frame.getContentPane().setLayout(null);
 		
 		
-		JPanel startPanel = new JPanel();
-		startPanel.setBackground(new Color(255, 255, 255));
-		startPanel.setBounds(0, 0, 984, 711);
+		JPanel startPanel = createScreenPanel();
 		frame.getContentPane().add(startPanel);
-		startPanel.setLayout(null);
-		
 		
 		JLabel titleText1 = new JLabel("Broomstick");
 		titleText1.setFont(new Font("Cooper Black", Font.PLAIN, 60));
@@ -83,7 +96,8 @@ public class SetupScreen2 {
 		startButton.setLocation((width - startButton.getWidth())/ 2, 370);
 		startPanel.add(startButton);
 		
-		ImageIcon icon = new ImageIcon(SetupScreen2.class.getResource("/Pictures/broomstick.jpg"));
+		ClassLoader classLoader = getClass().getClassLoader();
+		ImageIcon icon = new ImageIcon(classLoader.getResource("Pictures/broomstick.jpg"));
 		Image originalImage = icon.getImage();
 		int scaledWidth = (int) (icon.getIconWidth() * 0.2);
 		int scaledHeight = (int) (icon.getIconHeight() * 0.15);
@@ -107,17 +121,12 @@ public class SetupScreen2 {
 			    
 			}
 		});
-		
-
 
 	}
 	
 	private void setupInput() {
-		JPanel setupInputPanel = new JPanel();
-		setupInputPanel.setBackground(new Color(255, 255, 255));
-		setupInputPanel.setBounds(0, 0, width, height);
+		JPanel setupInputPanel = createScreenPanel();
 		frame.getContentPane().add(setupInputPanel);
-		setupInputPanel.setLayout(null);
 		
 	    JLabel teamLabel = new JLabel("Please input a team name");
 	    teamLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -126,7 +135,6 @@ public class SetupScreen2 {
 	    teamLabel.setLocation((width - teamLabel.getWidth()) / 2, 167);
 	    setupInputPanel.add(teamLabel);
 
-	    
 	    JTextField teamNameInput = new JTextField();
 	    teamNameInput.setHorizontalAlignment(SwingConstants.CENTER);
 		teamNameInput.setFont(new Font("Cooper Black", Font.PLAIN, 20));
@@ -152,7 +160,6 @@ public class SetupScreen2 {
 	    nextButton.setSize(168, 46);
 	    nextButton.setLocation((width - nextButton.getWidth()) / 2, 561);
 	    setupInputPanel.add(nextButton);
-	    
 	    
 	    JLabel weeksLabel = new JLabel("How many weeks would you like the season to last?");
 	    weeksLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -189,9 +196,7 @@ public class SetupScreen2 {
 	
 	private void buyAthletes() {
 		
-		JPanel athletesViewPanel = new JPanel();
-		athletesViewPanel.setBackground(new Color(255, 255, 255));
-		athletesViewPanel.setBounds(0, 0, width, height);
+		JPanel athletesViewPanel = createScreenPanel();
 		frame.getContentPane().add(athletesViewPanel);
 		athletesViewPanel.setLayout(null);
 		
@@ -214,10 +219,7 @@ public class SetupScreen2 {
 			teamSize.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 			teamSize.setBounds(100, 11, 400, 59);
 			athletesViewPanel.add(teamSize);
-			
-			
 		}
-		
 		
 		JPanel panelAthlete1 = new JPanel();
 		panelAthlete1.setBounds(226, 84, 245, 274);
@@ -358,7 +360,8 @@ public class SetupScreen2 {
 		    
 		    
 			JLabel athleteImage = new JLabel("");
-			ImageIcon icon = new ImageIcon(Temp.class.getResource("/Pictures/" + athletes.get(i).getImageName() + ".png"));
+			ClassLoader classLoader = getClass().getClassLoader();
+			ImageIcon icon = new ImageIcon(classLoader.getResource("Pictures/" + athletes.get(i).getImageName() + ".png"));
 			Image image = icon.getImage().getScaledInstance((int)(icon.getIconWidth()*0.7), (int)(icon.getIconHeight()*0.7), Image.SCALE_SMOOTH);
 			athleteImage.setIcon(new ImageIcon(image));
 			athleteImage.setHorizontalAlignment(SwingConstants.CENTER);
@@ -413,7 +416,8 @@ public class SetupScreen2 {
 		
 		
 		JLabel athleteImage = new JLabel("");
-		athleteImage.setIcon(new ImageIcon(Temp.class.getResource("/Pictures/" + athlete.getImageName() + ".png")));
+		ClassLoader classLoader = getClass().getClassLoader();
+		athleteImage.setIcon(new ImageIcon(classLoader.getResource("Pictures/" + athlete.getImageName() + ".png")));
 		athleteImage.setHorizontalAlignment(SwingConstants.CENTER);
 		athleteImagePanel.add(athleteImage, BorderLayout.CENTER);
 		

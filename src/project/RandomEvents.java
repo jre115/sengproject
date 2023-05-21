@@ -11,35 +11,35 @@ public class RandomEvents {
 
     public Athlete athleteQuits(Team team) {
     	
-        ArrayList<Athlete> teamList = team.getTeamList();
-        int teamSize = teamList.size();
+        ArrayList<Athlete> entireTeam = team.getTeamList();
+        entireTeam.addAll(team.getReservesList());
+        int teamSize = entireTeam.size();
         Random random = new Random();
-        Athlete athlete = teamList.get(random.nextInt(teamSize));
+        Athlete athlete = entireTeam.get(random.nextInt(teamSize));
         
         if (athlete.getPosition().equals("Injured")) {
-            team.removeFromTeam(athlete);
+            team.removeAthlete(athlete);
+            return athlete;
         } else {
-            // Handle the case when the athlete does not quit
+        	return null;
         }
-        
-        return athlete;
     }
 
     public Athlete athleteJoins(Team team) {
        
         Athlete athlete = new Athlete();
-        try { team.addToTeam(athlete, "defender"); 
+        if (team.getTeamList().size() < 4) {
+        	team.addToTeam(athlete, null);
+        } else {
+        	try {
+        		team.addToReserves(athlete);
+        	} catch (LimitException e) {
+        		return null;
+        	}
+        }
+        
         return athlete;
-        
-        
-        }
-        catch (LimitException e) {
-        	return null;
-        	
-        }
-        
 
-        
     }
 
     public Athlete increaseRandomPlayerStat(Team team) {

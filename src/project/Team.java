@@ -71,17 +71,43 @@ public class Team {
 		}
 	}
 	
+	 /**
+		 * Adds an athlete to the team - if position is not specified it automatically assigns athlete to the position there are less of in the team
+		 *
+		 * @param athlete the athlete that is being added to the team (and if it is a reserve it is removed from reserves)
+		 * @param the position the athlete is being added as - if null then the athlete's position will be whatever there are less of in the team
+		 */
 	public void addToTeam(Athlete athlete, String position) {
 		if (teamList.size() < 4) {
 			teamList.add(athlete);
-			athlete.setPosition(position);
 			for (int i = 0 ; i < reservesList.size(); i ++) {
 				if (athlete.matchesAthlete(reservesList.get(i)))
 				reservesList.remove(i);
-		}
+		} 
+			
+			if (position == null) {
+    		int defenderCount = 0;
+    		int attackerCount = 0;
+    		for (Athlete teamAthlete : getTeamList()) {
+    			if (teamAthlete.getPosition() == "Defender") {
+    				defenderCount += 1;
+    			} else {
+    				attackerCount += 1;
+    			}
+    		}
+    		if (attackerCount < defenderCount) {
+    			position = "Attacker";
+    		} else {
+    			position = "Defender";
+    		}
+    	}
+			
+			athlete.setPosition(position);
 		}
 
+
 	}
+	
 	
 
 	public void refreshInitialAthletes() {

@@ -1,4 +1,4 @@
-package project;
+package ProjectUI;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -16,6 +16,10 @@ import ProjectExceptions.IllegalTeamException;
 import ProjectExceptions.InsufficientFundsException;
 import ProjectExceptions.NameException;
 import ProjectExceptions.NoReserveAthletesException;
+import project.Athlete;
+import project.GameEnvironment;
+import project.Item;
+import project.LimitException;
 
 import java.util.Map;
 
