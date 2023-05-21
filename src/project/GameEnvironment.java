@@ -16,37 +16,92 @@ import projectUI.SetupScreen;
 
 public class GameEnvironment {
 	
+	/**
+	 * The length of the season
+	 */
 	int seasonLength;
+	
+	/**
+	 * The money balance for the player
+	 */
 	int playerMoney;
+	
+	/**
+	 * The points balance for the player
+	 */
 	int playerPoints;
+	
+	/**
+	 * the setup screen window for the GUI for setting up the game
+	 */
     private SetupScreen setupWindow;
+    
+    /**
+     * The main game GUI window
+     */
     private MainGame mainGame;
-    boolean gameEnded;
+    
+    /**
+     * Boolean indicating whether it is the final week of the season
+     */
     boolean finalWeek;
 
+    /**
+     * The string representing the difficulty level of the game
+     */
     private String gameDifficulty;
+    
+    /**
+     * The current week in the season
+     */
     int currentWeek;
+    
+    /**
+     * The Team object representing the player's team
+     */
     Team team;
+    
+    /**
+     * The Market object representing the player's interactions with the market
+     */
     Market market;
+    
+    /**
+     * The random events object representing random events that may occur during the game
+     */
     RandomEvents randomEvents; 
+    
+    /**
+     * The stadium object from where matches are generated and refreshed weekly
+     */
     Stadium stadium;
+    
+    /**
+     * The current match being played
+     */
     Match currentMatch;
     
-    ArrayList<Athlete> reservesList;
-    ArrayList<Athlete> teamList;
+   /**
+    * The player's inventory which holds up to 4 items
+    */
     private ArrayList<Item> inventory;
     
+    /**
+     * The Map of the currentRandomEvent
+     */
     Map<String, Object> currentRandomEvent;
 
     
-	
+	/**
+	 * Constructs a new instance of GameEnvironment.
+	 * Initilises random events, inventory, player money, team and player points.
+	 */
 	public GameEnvironment() {
 		randomEvents = new RandomEvents();
 		inventory = new ArrayList<>();
 		playerMoney = 20000;
 		team = new Team();
 		playerPoints = 0;
-		
 	}
 	
 	
@@ -56,13 +111,6 @@ public class GameEnvironment {
 	}
 	
 	public void setTeamName(String teamName) throws NameException {
-		if (teamName.length() < 3 || teamName.length() > 15) {
-			throw new NameException("Team name must be between 3 - 15 characters long");
-		}
-		else if (teamName.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~]+.*")) {
-			throw new NameException("Team name must not include any special characters");
-		}
-			
 		team.setTeamName(teamName);
 	}
 	
@@ -349,30 +397,6 @@ public class GameEnvironment {
     	modifyPlayerMoney(+athlete.getSellBackPrice());
     	team.removeAthlete(athlete);
     }
-    	
-    public void displayPlayerList(ArrayList<Athlete> playerList) {
-        int index = 1;
-        System.out.println("\nPlayer List:");
-        for (Athlete player : playerList) {
-            System.out.println(index + ". " + player.getName());
-            index++;
-        }
-    }
-    public void displayItemList(ArrayList<Item> itemList) {
-        if (itemList.isEmpty()) {
-            System.out.println("Your inventory is empty.");
-        } else {
-            for (int i = 0; i < itemList.size(); i++) {
-                Item item = itemList.get(i);
-                System.out.println("Item number " + (i + 1) + ":");
-                System.out.println("Name: " + item.getName());
-                System.out.println("Price: $" + item.getSellBackPrice());
-                System.out.println("Description: " + item.getDescription());
-                System.out.println("-------------");
-            }
-        }
-    }
-    
     
     
     public ArrayList<Match> getStadiumMatches() {
@@ -498,7 +522,7 @@ public class GameEnvironment {
 		return true;
 	}
 	
-	// The following methods will relate to athletes
+	// The following methods relate to athletes
 	
 	public String getAthletePosition(Athlete athlete) {
 		return athlete.getPosition();
@@ -546,7 +570,7 @@ public class GameEnvironment {
 		athlete.setPosition(position);
 	}
 		
-	// The following methods will relate to items
+	// The following methods relate to items
 	
 	public String getItemName(Item item) {
 		return item.getName();

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import java.util.Scanner;
 
+import projectExceptions.NameException;
 import projectExceptions.NoReserveAthletesException;
 
 /**
@@ -63,7 +64,13 @@ public class Team {
 	 * 
 	 * @param nameInput the name for the team
 	 */
-	public void setTeamName(String nameInput) {
+	public void setTeamName(String nameInput) throws NameException {
+		if (teamName.length() < 3 || teamName.length() > 15) {
+			throw new NameException("Team name must be between 3 - 15 characters long");
+		}
+		else if (teamName.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~]+.*")) {
+			throw new NameException("Team name must not include any special characters");
+		}
 		teamName = nameInput;
 	}
 	

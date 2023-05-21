@@ -83,14 +83,15 @@ public class Stadium {
 	public String getTeamName() {
 		
 		if (teamNames.size() == 0) {
-			String[] nameOptions = {"Phoenix Blaze", "Crimson Crests", "Thundering Hooves", "Mystic Mavericks", "Emerald Enchanters", 
-		            "Frostfire Flyers", "Golden Gryphons", "Sapphire Storms", "Radiant Raptors", "Velvet Vixens", 
+			String[] nameOptions = {"Phoenix Blaze", "Crimson Crests", "Team Thunder", "Mavericks", "Enchanters", 
+		            "Fire Flyers", "Golden Owls", "Strong Storms", "Red Raptors", "Velvet Vixens", 
 		            "Blackwings", "Broomhounds", "Crestbreakers", "Darkblades", "Dragonscales", "Firewings", 
 		            "Goldenrods", "Lightningbolts", "Nightshades", "Phoenixflames", "Redravens", "Shadowcasters", 
-		            "Silverstreaks", "Stormchasers", "Thunderclaps", "Cobalt Chasers", "Azure Arrows", "Crimson Comets", 
-		            "Emerald Eagles", "Gilded Gargoyles", "Onyx Owls", "Silver Seekers", "Golden Griffins", 
-		            "Ruby Raptors", "Sapphire Snitches", "Topaz Tornadoes", "Jade Jinxes", "Amethyst Aces", 
-		            "Diamond Drakes", "Obsidian Ogres", "Skyriders", "Comet Chasers"};
+		            "Silverstreaks", "Stormchasers", "Thunderclaps", "Cobalt Chasers", "Azure Arrows", "Cobalt Comets", 
+		            "Emerald Eagles", "Gilded Greys", "Onyx Owls", "Silver Seekers", "Golden Griffins", 
+		            "Ruby Raptors", "Sapphire Suns", "Tornadoes", "Jade Jinxes", "Amethyst Aces", 
+		            "Diamond Drakes", "Obsidian Ogres", "Skyriders", "Comet Chasers", "Blazing Flames", "Scarlet Crests",
+		            "Emerald Charm", "Mystic Magic", "Velvet Flames", "Crimson Break", "Dark Wings", "Icy Flyers"};
 			teamNames = new ArrayList<String>();
 			
 		    for (String name : nameOptions) {
