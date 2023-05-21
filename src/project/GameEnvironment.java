@@ -36,6 +36,8 @@ public class GameEnvironment {
     ArrayList<Athlete> reservesList;
     ArrayList<Athlete> teamList;
     private ArrayList<Item> inventory;
+    
+    Map<String, Object> currentRandomEvent;
 
     
 	
@@ -190,6 +192,7 @@ public class GameEnvironment {
 		if (currentWeek < seasonLength) {
 			currentWeek += 1;
 	    	stadium.setStadium(team, currentWeek);
+	    	currentRandomEvent = randomEvents.performRandomEvent(team);
 			market.refreshMarket();
 	    	team.restoreAthletes();
 	    	if (currentWeek == seasonLength) {
@@ -492,8 +495,8 @@ public class GameEnvironment {
 		game.launchSetupScreen();
 	}
 	
-	public Map<String, Object> performRandomEvent() {
-		return randomEvents.performRandomEvent(team);
+	public Map<String, Object> getRandomEvent() {
+		return currentRandomEvent;
 		
 	}
 	

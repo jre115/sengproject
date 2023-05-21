@@ -2455,7 +2455,7 @@ public class MainGame {
 		okButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
-	    		Map<String, Object> randomEvents = gameEnvironment.performRandomEvent();
+	    		Map<String, Object> randomEvents = gameEnvironment.getRandomEvent();
 	    		String result = (String) randomEvents.get("eventType");
 	    		if (result == "rest") {
 	    		mainMenu();
