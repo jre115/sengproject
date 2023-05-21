@@ -32,12 +32,13 @@ public class SetupScreen {
 	int height = 711;
 
 	private JFrame frame;
-	private JTextField textField;
 	private GameEnvironment gameEnvironment;
 
 
 	/**
-	 * Create the application.
+	 * Constructs a new SetupScreen with the specified GameEnvironment.
+	 * 
+	 * @param environment the GameEnvironment that will be used for all game logic
 	 */
 	public SetupScreen(GameEnvironment environment) {
 		gameEnvironment = environment;
@@ -61,7 +62,11 @@ public class SetupScreen {
 	}
 	
 	/**
-	 * Initialize the contents of the frame.
+	 * 
+	 * Initialize the contents of the frame in the SetupScreen.
+	 * Displays the title text for the game and a created image. 
+	 * Displays button to start the game which takes the user to begin the game setup.
+	 * 
 	 */
 	private void initialize() {
 		frame = new JFrame();
@@ -111,8 +116,8 @@ public class SetupScreen {
 
 	   
 	    /** 
-	    * When "start game" button is pressed, setupInputPanel becomes visible 
-	    * (showing inputs for team name and week) and startPanel becomes invisible (welcome text and startButton are not visible)
+	    * When "start game" button is pressed, startPanel becomes invisible and the user is taken to the setup input screen. 
+	    * 
 	    */
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -124,6 +129,12 @@ public class SetupScreen {
 
 	}
 	
+	/**
+	 * Sets up the input panel for team name and season length selection.
+	 * Allows the user to input a team name, select the number of weeks for the season,
+	 * and proceed to the next step. Includes error handling for a team name which does not meet requirements. 
+	 * The user can only continue in the setup if the name does meet requirements.
+	 */
 	private void setupInput() {
 		JPanel setupInputPanel = createScreenPanel();
 		frame.getContentPane().add(setupInputPanel);
@@ -194,6 +205,13 @@ public class SetupScreen {
 	    });
 	}
 	
+	
+	/**
+	 * Sets up the athletes view panel for purchasing athletes.
+	 * Displays information about available athletes and allows the user to select one.
+	 * 
+	 * Clicking on an athlete panel will navigate to a view of only the selected athlete where the athlete panel is enlarged.
+	 */
 	private void buyAthletes() {
 		
 		JPanel athletesViewPanel = createScreenPanel();
@@ -207,6 +225,7 @@ public class SetupScreen {
 		infoText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		infoText.setHorizontalAlignment(SwingConstants.CENTER);
 		
+		// Once the first player has been added to the team, the screen will display how many players are left to fill the team and the remaining player balance.
 		if (gameEnvironment.getTeamList().size() > 0) {
 			infoText.setVisible(false);
 			
@@ -327,10 +346,8 @@ public class SetupScreen {
 		panelAthlete4.add(nameAthlete4);
 		
 		
-	    /**
-		* Set the text of jlabel to the information from toStringHTML for each athlete and set name of each athlete
-	    */
-		
+
+		//Set the text of jlabel to the information from toStringHTML for each athlete and set name of each athlete
 		ArrayList<Athlete> athletes = gameEnvironment.getInitialAthletes();
 		
 		for (int i = 0; i < athletes.size(); i++) {
@@ -370,10 +387,7 @@ public class SetupScreen {
 			picturePanelAthlete.add(athleteImage, BorderLayout.CENTER);
 		}
 		
-	    /**
-		* Go to singleAthleteView display depends on which of the 4 athlete panels is selected.
-	    */
-		
+		//Go to singleAthleteView display depends on which of the 4 athlete panels is selected.
 		JPanel[] panels = {panelAthlete1, panelAthlete2, panelAthlete3, panelAthlete4};
 		for (int i = 0; i < panels.length; i++) {
 			final int index = i;
@@ -388,13 +402,14 @@ public class SetupScreen {
 		}
 	}
 	
+	/**
+	 * Displays the athlete panel card for the selected athlete, showing details such as the statistics, name, price and an image of the athlete.
+	 * @param athlete the athlete to display the information for
+	 */
 	private void singleAthleteView(Athlete athlete) {
 		
-		JPanel singleAthletePanel = new JPanel();
-		singleAthletePanel.setBackground(new Color(255, 255, 255));
-		singleAthletePanel.setBounds(0, 0, width, height);
+		JPanel singleAthletePanel = createScreenPanel();
 		frame.getContentPane().add(singleAthletePanel);
-		singleAthletePanel.setLayout(null);
 		
 		JPanel athletePanel = new JPanel();
 		athletePanel.setSize(360, 459);
@@ -458,6 +473,7 @@ public class SetupScreen {
 	    		}
 	    });
 		
+		// Adds the athlete to the user's team and sets their position to "Attacker" if the attacker button is clicked
 		attackerButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
@@ -471,6 +487,7 @@ public class SetupScreen {
 	    		}
 	    });
 		
+		// Adds the athlete to the user's team and sets their position to "Defender" if the defender button is clicked
 		defenderButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
@@ -485,6 +502,10 @@ public class SetupScreen {
 	    });
 	}
 	
+	/**
+	 * Displays the game difficulty selection panel
+	 * where players can choose between normal and hard difficulty.
+	 */
 	private void gameDifficulty() {
 		
 		JPanel difficultyPanel = new JPanel();
@@ -529,10 +550,12 @@ public class SetupScreen {
 		
 	}
 	
+	/**
+	 * Displays the finish setup panel with information such as difficulty, length and team name that the user has selected during setup.
+	 * Displays start button to begin close the setup window and begin the game.
+	 */
 	private void finishSetup() {
-		JPanel finishSetupPanel = new JPanel();
-		finishSetupPanel.setBackground(new Color(255, 255, 255));
-		finishSetupPanel.setBounds(0, 0, width, height);
+		JPanel finishSetupPanel = createScreenPanel();
 		frame.getContentPane().add(finishSetupPanel);
 		finishSetupPanel.setLayout(null);
 		
@@ -554,6 +577,7 @@ public class SetupScreen {
 		JLabel playerInfo = new JLabel(gameEnvironment.toStringHTML());
 		playerInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		playerInfo.setFont(new Font("Cooper Black", Font.PLAIN, 30));
+		playerInfo.setLocation(0, 123);
 		playerInfo.setBounds(0, 123, 984, 322);
 		finishSetupPanel.add(playerInfo);
 		
@@ -566,12 +590,16 @@ public class SetupScreen {
 
 	}
 	
+	/**
+	 * Closes the window by disposing of the main frame.
+	 */
 	public void closeWindow() {
 		frame.dispose();
 	}
 	
-	
-	//// JR NOTE: do i need this ???
+	/**
+	 * Closes the setup screen within the game environment.
+	 */
 	public void finishedWindow() {
 		gameEnvironment.closeSetupScreen();
 	}
