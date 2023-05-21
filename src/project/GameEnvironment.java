@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import ProjectExceptions.IllegalTeamException;
-import ProjectExceptions.InsufficientFundsException;
-import ProjectExceptions.InventoryFullException;
-import ProjectExceptions.NameException;
-import ProjectExceptions.NoReserveAthletesException;
-import ProjectUI.MainGame;
-import ProjectUI.SetupScreen;
+import projectExceptions.IllegalTeamException;
+import projectExceptions.InsufficientFundsException;
+import projectExceptions.InventoryFullException;
+import projectExceptions.NameException;
+import projectExceptions.NoReserveAthletesException;
+import projectUI.MainGame;
+import projectUI.SetupScreen;
 
 
 public class GameEnvironment {
@@ -478,12 +478,12 @@ public class GameEnvironment {
     
     public void trainAthlete(Athlete athleteTrained) {
     	for (Athlete athlete : team.getTeamList()) {
-    		if (athleteTrained.matchesAthlete(athlete)) {
+    		if (athleteTrained.equals(athlete)) {
     			athlete.trainAthlete();
     		}
     	}
     	for (Athlete reserve : team.getReservesList()) {
-    		if (athleteTrained.matchesAthlete(reserve)) {
+    		if (athleteTrained.equals(reserve)) {
     			reserve.trainAthlete();
     		}
     	}
@@ -537,6 +537,11 @@ public class GameEnvironment {
 	public String athleteToStringHTML(Athlete athlete) {
 		return athlete.toStringHTML();
 	}
+	
+	public String athleteToStringHTMLSell(Athlete athlete) {
+		return athlete.toStringHTMLSell();
+	}
+	
 	
 	public boolean athleteIsReserve(Athlete athlete) {
 		for (Athlete reserve : team.getReservesList()) {

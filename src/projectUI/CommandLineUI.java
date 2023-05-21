@@ -1,4 +1,4 @@
-package ProjectUI;
+package projectUI;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -12,10 +12,10 @@ import java.util.InputMismatchException;
 
 import java.util.Scanner;  // Import the Scanner class
 
-import ProjectExceptions.IllegalTeamException;
-import ProjectExceptions.InsufficientFundsException;
-import ProjectExceptions.NameException;
-import ProjectExceptions.NoReserveAthletesException;
+import projectExceptions.IllegalTeamException;
+import projectExceptions.InsufficientFundsException;
+import projectExceptions.NameException;
+import projectExceptions.NoReserveAthletesException;
 import project.Athlete;
 import project.GameEnvironment;
 import project.Item;
