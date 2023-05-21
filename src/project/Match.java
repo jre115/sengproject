@@ -8,7 +8,9 @@ import java.util.HashMap;
 
 /**
  * Represents a match between a player's team and an opposition team
-
+ * 
+ * @author Jordan Redfern 
+ * @version 1.1, May 2023.
  */
 public class Match {
 	
@@ -351,7 +353,10 @@ public class Match {
 	
 
 	
-	
+	/**
+	 * Increases the statistics of the athletes in the played team.
+	 * The amount of increase is randomly generated within a range specified by the athlete's position that they played in.
+	 */
 	public void increaseTeamStats() {
 		// Increase statistic amount for the position they played in
 		int minIncreasePosition = 3;
@@ -378,16 +383,27 @@ public class Match {
 		}
 	}
 	
-	
+	/**
+	 * Returns a whether all athletes in the player team are injured
+	 * If so - the match will have to end early
+	 * @return true if all players in the team are injured, false if at least one or more is not.
+	 */
 	public boolean allPlayersInjured() {
 	    for (Athlete athlete : playedTeamAthletes) {
 	        if (athlete.getStamina() != 0) {
-	            return false; // At least one athlete has non-zero stamina, so return false
+	        	// At least one athlete has non-zero stamina, so return false
+	            return false; 
 	        }
 	    }
-	    return true; // All athletes have stamina 0, so return true
+	 // All athletes have stamina 0, so return true
+	    return true; 
 	}
 	
+	/**
+	 * Ends the match and returns the result of the match. 
+	 * @return a map containing the game result including winner (or draw), money and points won by the player team and the game score (or a string if the player team due to stamina loss)
+	 * @throws IllegalStateException if the game is not over (there are less than 4 players in the played team)
+	 */
 	public Map<String, Object> endGame() throws IllegalStateException {
 	    Map<String, Object> result = new HashMap<>();
 
@@ -423,6 +439,10 @@ public class Match {
 		return result;
 	}
 	
+	/**
+	 * Checks that the match is currently running by checking if there are 4 players that have had encounters
+	 * @return true if the match is running and not all athletes have been played and false otherwise
+	 */
 	public Boolean isMatchRunning() {
 		if (playedTeamAthletes.size() < 4) {
 			return true;
@@ -445,6 +465,10 @@ public class Match {
 	    return formatted;
 	}
 	
+	/**
+	 * Returns a string representation of the Match object
+	 * @return A string containing the team name, points and prize money for the match.
+	 */
 	public String toString() {
 		String result = "Team name: " + oppositionTeamName;
 		result += "\nPoints: " + points;
