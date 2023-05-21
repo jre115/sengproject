@@ -344,6 +344,14 @@ public class Athlete extends Purchasable {
         defensiveStatistic = (int) (defensiveStatistic * increaseMultiplier);
         staminaStatistic = (int) Math.min(staminaStatistic * increaseMultiplier, 100);
     }
+    /**
+     *  Increases the offensive, defensive,stats of the athlete
+     * @param increase the increase wich increases the stats 
+     */
+    public void increaseStat(double increase) {
+        offensiveStatistic = (int) (offensiveStatistic * increase);
+        defensiveStatistic = (int) (defensiveStatistic * increase);
+    }
     
     
     /**
