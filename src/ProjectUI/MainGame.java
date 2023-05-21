@@ -34,7 +34,12 @@ import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.JTextArea;
 
-
+/**
+ * This class implements the GUI for running the entire main game of the game environment
+ *
+ * @author Jordan Redfern and Cameron Pellett
+ * @version 1.1, May 2023.
+ */
 public class MainGame {
 	
 
@@ -61,12 +66,12 @@ public class MainGame {
 	int smallAthletePanelHeight = 183;
 	
 	/**
-	 * The width for athlete panel cards to be used on screens with a singular athlete.
+	 * The width for athlete panel cards to be used on screens with a singular athlete (full size).
 	 */
 	int athletePanelWidth = 360;
 	
 	/**
-	 * The height for athlete panel cards to be used on screens with a singular athlete.
+	 * The height for athlete panel cards to be used on screens with a singular athlete (full size).
 	 */
 	int athletePanelHeight = 459;
 	
@@ -378,7 +383,7 @@ public class MainGame {
 	 *
 	 *@param panel as JPanel to add in athlte's information
 	 *@param athlete to populate the panel with the athlete's information
-	 *@param sizeMultiplier scales all items on the panel to size.
+	 *@param sizeMultiplier scales all items on the panel to size where 1 is full size.
 	 */
 	private void refreshAthletePanel(JPanel athletePanel, Athlete athlete, double sizeMultiplier) {
 		
@@ -407,9 +412,7 @@ public class MainGame {
 		}
 		
 		// Updates athlete panel background colour to reflect the position of the athlete: red for defenders and blue for attackers.
-		
 		String position = gameEnvironment.getAthletePosition(athlete);
-		
 		if (!(position == null)) {
 			if (position.equals(("Attacker"))) {
 		        athletePanel.setBackground(new Color(173, 216, 230));
@@ -510,7 +513,8 @@ public class MainGame {
 		if (gameEnvironment.isFinalWeek()) {
 			buttonLabels[3] = "End Season";
 		}
-
+		
+		//Creates 4 buttons evenly spaced with the labels from buttonLabels
 		for (int i = 0; i < buttonLabels.length; i++) {
 		    JButton button = new JButton(buttonLabels[i]);
 		    button.setFont(new Font("Cooper Black", Font.PLAIN, 20));
@@ -655,7 +659,6 @@ public class MainGame {
 		
 	   
 		// Go to singleAthleteView display depending on which of the athlete panels is selected.
-
 		for (int i = 0; i < panels.size(); i++) {
 			final int index = i;
 		    JPanel panel = panels.get(i);
@@ -698,6 +701,7 @@ public class MainGame {
 	    
 	    refreshAthletePanel(athletePanel, athlete, 1);
 	    
+	    // JTextField athleteName will sit over the athlete name from refresh athlete panel so that the name is able to be updated to set athlete's name
 	    JTextField athleteName = new JTextField(gameEnvironment.getAthleteName(athlete));
 	    athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 	    athleteName.setHorizontalAlignment(SwingConstants.CENTER);
@@ -731,6 +735,7 @@ public class MainGame {
     	 * Updates button names for different player types
     	 * If the player is a reserve, the swap button is hidden and the add to team button is shown
     	 * If the player is not injured and is in the main team, adds button to swap athlete's position in the team
+    	 * If swap athlete button is added, buttons will move X-coordinates so they will continue to be evenly spaced in the centre of the panel
     	 */
         if (gameEnvironment.athleteIsReserve(athlete)) {
         	if (playerTeamSize < 4) {
@@ -897,6 +902,12 @@ public class MainGame {
 		
 	}
 	
+	/**
+	 * Displays the inventory screen.
+	 * The screen shows the list of items in the player's inventory.
+	 * The screen includes a back button to return to the club screen, the title text indicating where the player is located in the game (inventory)
+	 * Also includes the number of items in the inventory and the items in the inventory. Items can be selected and the user will be taken to a screen to use the selected item.
+	 */
 	private void inventoryScreen() {
 		JPanel useItemDisplayPanel = createScreenPanel();
 		frame.getContentPane().add(useItemDisplayPanel);
@@ -912,7 +923,8 @@ public class MainGame {
 		
 		JPanel useItemPanel = createTeamPanel(4, height/2 - 100);
 		useItemDisplayPanel.add(useItemPanel);
-
+		
+		// Shows the number of items in player inventory and how many spaces left. Inventory is capped at 4 items.
         JLabel inventorySizeText = new JLabel(inventoryItems.size() + "/4 items");
         inventorySizeText.setHorizontalAlignment(SwingConstants.CENTER);
         inventorySizeText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
@@ -929,7 +941,7 @@ public class MainGame {
 		        @Override
 		        public void mouseClicked(MouseEvent e) {
 		        	useItemDisplayPanel.setVisible(false);
-		        	useSingleItemPanel(inventoryItems.get(index));
+		        	useSingleItemScreen(inventoryItems.get(index));
 		        }
 		    });
 		}
@@ -937,14 +949,21 @@ public class MainGame {
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				useItemDisplayPanel.setVisible(false);
-				mainMenu();
+				clubScreen();
 			}
 		});
 		
 		
 	}
 	
-	public void useSingleItemPanel(Item item) {
+	/**
+	 * Displays the panel to use a single item from the player's inventory 
+	 * If use item button is selected, the user will be taken to a screen prompting for a player to use the item on.
+	 * Also displays a back button to return to the inventory
+	 * 
+	 * @param item the item to be used from inventory
+	 */
+	public void useSingleItemScreen(Item item) {
 		JPanel UseSingleItemPanel = createScreenPanel();
 		frame.getContentPane().add(UseSingleItemPanel);
 		
@@ -981,8 +1000,16 @@ public class MainGame {
 				inventoryScreen();
 			}
 		});
-	
-}
+	}
+
+	/**
+	 * Displays the panel to select a specific athlete for using the item on
+	 * Athletes can be selected from reserves or team list.
+	 * The user can select the athlete to use the item on by selecting the athlete's panel.
+	 * If the back button is selected the item will not be used and user will return to useSingleItemScreen
+	 * 
+	 * @param item the item to be used.
+	 */
 	public void useItemPlayersDisplay(Item item) {
 		JPanel UseItemPlayerPanel = new JPanel();
 		UseItemPlayerPanel.setBackground(new Color(255, 255, 255));
@@ -1031,7 +1058,7 @@ public class MainGame {
 		panels.addAll(addAthletesToPanel(reservesPanel, gameEnvironment.getReservesList(), maxAthletesInReserve));
         
 	    /**
-		* Go to singleAthleteView display depends on which of the athlete panels is selected
+		* Go to useItemSingleAthleteScreen display depends on which of the athlete panels is selected
 	    */
 
 		for (int i = 0; i < panels.size(); i++) {
@@ -1042,9 +1069,9 @@ public class MainGame {
 		        public void mouseClicked(MouseEvent e) {
 		            UseItemPlayerPanel.setVisible(false);
 		            if (index >= gameEnvironment.getTeamList().size()) {
-		            	useItemSingleAthleteView(gameEnvironment.getReservesList().get(index - gameEnvironment.getTeamList().size()),item);
+		            	useItemSingleAthleteScreen(gameEnvironment.getReservesList().get(index - gameEnvironment.getTeamList().size()),item);
 		            } else {
-		            	useItemSingleAthleteView(gameEnvironment.getTeamList().get(index),item);
+		            	useItemSingleAthleteScreen(gameEnvironment.getTeamList().get(index),item);
 		            }
 		            
 		        }
@@ -1054,13 +1081,21 @@ public class MainGame {
 		backButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		UseItemPlayerPanel.setVisible(false);
-	    		inventoryScreen();
+	    		useSingleItemScreen(item);
 	    		}
 	    });
-		
-		
 	}
-	public void useItemSingleAthleteView(Athlete athlete, Item item) {
+	
+	/**
+	 * Displays the panel for using an item on the specific athlete.
+	 * It shows athlete's information on the athlete panel with a button for using the item or returning back to the useItemPlayersDisplay.
+	 * If the item is used, the athlete panel card will refresh with the increased statistics and a result text will show. 
+	 * The button will then appear to return the user back to the inventory screen.
+	 * 
+	 * @param athlete the athlete displayed on the panel card that you can use the item on
+	 * @param item the item that can be used on the selected athlete
+	 */
+	public void useItemSingleAthleteScreen(Athlete athlete, Item item) {
 		
 		
 		JPanel UseItemSingleAthletePanel = new JPanel();
@@ -1097,6 +1132,11 @@ public class MainGame {
         UseItemSingleAthletePanel.add(okButton);
 		okButton.setVisible(false);
         
+		/*
+		 *  If use item button is clicked, it will be replaced by a return to inventory button.
+		 *  The text showing the result of the action will be shown and item will be used to increase ahtlete's statistics
+		 *  The item will be used on the athlete and the athlete will be refreshed to show the updated statistics.
+		 */
         UseItemButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		gameEnvironment.useItemOnAthlete(item, athlete);
@@ -1317,7 +1357,13 @@ public class MainGame {
 		
 	}
 	
-	
+	/**
+	 * Displays the screen for playing a match with each encounter within the match
+	 * The team names, scores for each team and each athlete in the current encounter is shown.
+	 * Each encounter between a player from the user's team and the opposition team will be shown with a text stating the result of the encounter
+	 * The match score will be updated after each encounter in the match.
+	 * Once all encounters are finished, the end Match screen will be shown with match results.
+	 */
 	public void playMatchScreen() {
 		ArrayList<Athlete> athletes = gameEnvironment.getEncounterAthletes();
 		
@@ -1331,9 +1377,7 @@ public class MainGame {
 		encounterText.setWrapStyleWord(true); 
 		encounterText.setEditable(false); 
 		encounterText.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); 
-		//encounterText.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); 
 		encounterPanel.add(encounterText);
-
 
 		JLabel playerTeamName = new JLabel(gameEnvironment.getTeamName());
 		playerTeamName.setFont(new Font("Cooper Black", Font.PLAIN, 30));
@@ -1372,11 +1416,15 @@ public class MainGame {
 		vsText.setLocation((width - vsText.getWidth())/2, 180 + 180/2);
 		encounterPanel.add(vsText);
 		
+		/*
+		 * The athlete panels will be decreased by 30% of the full size athlete card.
+		 * An athlete panel for each of the two athletes in the encounter will be shown and the corresponding information updated on their player cards
+		 */
 		double decreaseSizeMultiplier = 0.7;
 		
 		for (int i = 0 ; i < 2 ; i ++) {
 			JPanel athletePanel = new JPanel();
-			athletePanel.setSize((int) (360 * decreaseSizeMultiplier),(int) (459 * decreaseSizeMultiplier));
+			athletePanel.setSize((int) (athletePanelWidth * decreaseSizeMultiplier),(int) (athletePanelHeight * decreaseSizeMultiplier));
 			athletePanel.setLocation((width/2 - athletePanel.getWidth())/2 + ((width/2) * i), 150);
 			encounterPanel.add(athletePanel);
 			athletePanel.setLayout(null);
@@ -1394,7 +1442,12 @@ public class MainGame {
 		encounterPanel.add(nextButton);
 		nextButton.setFont(new Font("Cooper Black", Font.PLAIN, 21));
 		
-
+		/*
+		 * Before next is selected, the athletes have not begun the encounter yet
+		 * Selecting next for the first time will perform the encounter and update the scores accordingly, as well as show the text result for the encounter.
+		 * Selecting next again will refresh the playMatchScreen to show the next encounter and repeat until all encounters and their results have been shown.
+		 * When all encounters are complete and the match is finished, the next button will take the user to the end match screen with the results of the match.
+		 */
 		nextButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		String result = gameEnvironment.matchEncounter(athletes);
@@ -1432,10 +1485,18 @@ public class MainGame {
 	    });
 	}
 	
+	/**
+	 * Displays the end match screen.
+	 * The screen shows the winner and score set with specific colours reflecting the result of the match.
+	 * If the game results in a win or draw for the user's team, the amount of points and money gained will be shown.
+	 * A next button is displayed and will take the user to see the updated athlete panel cards of their team after the match with updated statistics affected by their performance in the match.
+	 * End match will then appear to redirect the user to the main menu.
+	 */
 	public void endMatch() {
 		JPanel matchResultPanel = createScreenPanel();
 		frame.getContentPane().add(matchResultPanel);
 		
+		// The results of the game
 		Map<String, Object> results = gameEnvironment.endMatch();
 	    String winner = (String) results.get("winner");
 	    String score = (String) results.get("score");
@@ -1464,7 +1525,6 @@ public class MainGame {
 		winnerText.setFont(new Font("Cooper Black", Font.PLAIN, 30));
 		winnerText.setBounds(0, 230, 984, 84);
 		matchResultPanel.add(winnerText);
-		
 
 		JLabel scoreText = new JLabel(score);
 		scoreText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1478,7 +1538,8 @@ public class MainGame {
 		winningPoints.setFont(new Font("Cooper Black", Font.PLAIN, 40));
 		winningPoints.setBounds(0, 389, 493, 130);
 		matchResultPanel.add(winningPoints);
-		winningPoints.setForeground(new Color(0, 200, 0)); // Set green color for winning points
+		// Set the colour for the amount of points won to be green
+		winningPoints.setForeground(new Color(0, 200, 0)); 
 
 		
 		JLabel winningMoney = new JLabel("+ " + gameEnvironment.getMoneyFormatted(prizeMoney));
@@ -1486,20 +1547,27 @@ public class MainGame {
 		winningMoney.setFont(new Font("Cooper Black", Font.PLAIN, 40));
 		winningMoney.setBounds(491, 389, 493, 130);
 		matchResultPanel.add(winningMoney);
-		winningMoney.setForeground(new Color(0, 200, 0)); // Set green color for winning money
+		// Set the colour for the amount of money won to be green
+		winningMoney.setForeground(new Color(0, 200, 0)); 
 
-		 // Set the background color based on the winner
+		 /*
+		  * Sets colour of the winning team to reflect the result of the game: green if the user's team won and red in the case of a loss
+		  * If the game was a draw, there was no winning team and the name of the winning team is hidden
+		  */
 		 if (winner.equals(gameEnvironment.getTeamName() )) {
-			 winningTeamName.setForeground(new Color(0, 200, 0)); // Set green color for winning team name
+			 winningTeamName.setForeground(new Color(0, 200, 0)); 
 		 } else if (winner == "Draw") {
 			winnerText.setVisible(false);
 		 } else {
-			 winningTeamName.setForeground(new Color(200, 0, 0)); // Set red color for losing team name
+			 winningTeamName.setForeground(new Color(200, 0, 0)); 
 		     winningMoney.setVisible(false);
 		     winningPoints.setVisible(false);
 		 }
 		 
-	    
+	    /*
+	     * Selecting the next button shows the view of the panel of athlete panel cards in the team with their updated statistics after the match.
+	     * The endMatchButton will then be displayed, and if selected redirects to the main menu.
+	     */
  		nextButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		matchResultPanel.setVisible(false);
@@ -2031,7 +2099,7 @@ public class MainGame {
 		lblNewLabel.setBounds(265, 11, 364, 51);
 		sellScreenpannel.add(lblNewLabel);
 		
-		JButton sellPlayer = new JButton("SellPlayer");
+		JButton sellPlayer = new JButton("Sell Player");
 		sellPlayer.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		sellPlayer.setBounds(297, 107, 308, 122);
 		sellScreenpannel.add(sellPlayer);
@@ -2044,7 +2112,7 @@ public class MainGame {
 		});
 		
 		
-		JButton sellItemButton = new JButton("SellItem");
+		JButton sellItemButton = new JButton("Sell Item");
 		sellItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		sellItemButton.setBounds(297, 264, 308, 122);
 		sellScreenpannel.add(sellItemButton);
@@ -2291,7 +2359,10 @@ public class MainGame {
 		
 	}
 	
-	
+	/**
+	 * Displays the screen to confirm if the user selects to move to the next week.
+	 * The user has the option to return to the menu screen and continue in the week or move to the next week in the season.
+	 */
 	private void byeConfirmationScreen() {
 		JPanel byeConfirmationPanel = createScreenPanel();
 		frame.getContentPane().add(byeConfirmationPanel);
@@ -2334,6 +2405,11 @@ public class MainGame {
 		
 	}
 	
+	/**
+	 * Displays the information for the bye including the current week
+	 * Each athlete panel card for all athletes in the team is shown with their statistics updated to reflect the restoration of their stamina after the week had ended. 
+	 * Selecting a the panel card for an athlete will redirect the user to the train athlete screen.
+	 */
 	private void byeInfoScreen() {
 		gameEnvironment.increaseWeek();
 		
@@ -2344,7 +2420,7 @@ public class MainGame {
 		weekText.setHorizontalAlignment(SwingConstants.CENTER);
 		weekText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		weekText.setSize(width, 25);
-		weekText.setForeground(Color.GREEN); // Set foreground color to green
+		weekText.setForeground(Color.GREEN);
 		weekText.setLocation(0, 50);
 		byeInfoPanel.add(weekText);
 		
@@ -2352,7 +2428,7 @@ public class MainGame {
 		staminaText.setHorizontalAlignment(SwingConstants.CENTER);
 		staminaText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		staminaText.setSize(width, 25);
-		staminaText.setForeground(Color.GREEN); // Set foreground color to green
+		staminaText.setForeground(Color.GREEN); 
 		staminaText.setLocation(0, 50 + 25);
 		byeInfoPanel.add(staminaText);
 		
@@ -2396,10 +2472,15 @@ public class MainGame {
 		        }
 		    });
 		}
-        
-        
 	}
 	
+	/**
+	 * Displays the screen showing the selected athlete's panel card with specific information about the athlete
+	 * Options to train the athlete selecting the train button or return to the bye info screen to select another athlete
+	 * If the athlete is trained, the athlete's panel card will refresh to reflect their updated statistics and show text with the result of the action.
+	 * A button with text "ok" will appear and when selected will move to a random event screen if a random event occurs, otherwise returns to the main menu to play the next week.
+	 * @param athlete the select athlete that can be trained
+	 */
 	private void byeTrainAthleteScreen(Athlete athlete) {
         
 		JPanel singleAthletePanel = createScreenPanel();
@@ -2433,6 +2514,10 @@ public class MainGame {
         resultText.setText("Athlete has been trained");
         singleAthletePanel.add(resultText);        
         
+        /*
+         * If the athlete is selected to be trained, the athlete's panel card will update to reflect their updated statistics. 
+         * The ok button will appear and the train and back buttons will not be visible
+         */
 		trainButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		gameEnvironment.trainAthlete(athlete);
@@ -2450,7 +2535,11 @@ public class MainGame {
 	    		byeInfoScreen();
 	    		}
 	    });
-
+		
+		/*
+		 * If a random event occurs in the game environment at the end of the week, the user will move to the random events screen when selecting ok
+		 * Otherwise, the user will return to the main menu and the game will continue in the next week.
+		 */
 		okButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
@@ -2469,7 +2558,10 @@ public class MainGame {
 		
 	}
 	
-	
+	/**
+	 * Displays the end game confirmation screen, prompting a user to confirm ending the game or returning to the main menu using the back button.
+	 * The end game confirmation screen is only displayed when the user has reached their last week of the season and selects end game.
+	 */
 	private void endGameConfirmationScreen() {
 		JPanel endConfirmationScreen = createScreenPanel();
 		frame.getContentPane().add(endConfirmationScreen);
@@ -2507,9 +2599,14 @@ public class MainGame {
 	    		endGameSummaryScreen();
 	    		}
 	    });
-		
 	}
 	
+	/**
+	 * Displays the summary of the game played.
+	 * If the game ended early due to a lack of money and players to play any matches, the game ended early text will be shown.
+	 * Summary of the game includes the number of weeks played out of the season length, points and money earned over the game and the name of the user's team.
+	 * The user can select between quitting the game or playing again, in the latter case a new game will begin and a setup screen will appear.
+	 */
 	private void endGameSummaryScreen() {
 		JPanel gameSummaryPanel = createScreenPanel();
 		frame.getContentPane().add(gameSummaryPanel);
@@ -2657,7 +2754,9 @@ public class MainGame {
 
 		
 	
-	
+	/**
+	 * Closes the application window by disposing the main frame
+	 */
 	public void closeWindow() {
 		frame.dispose();
 	}
