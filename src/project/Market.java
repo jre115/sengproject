@@ -89,8 +89,8 @@ public class Market   {
 	public void updateShopAthletesStats(int currentWeek) {
 	    for (Athlete athlete : currentAthletesAvailable) {
 	        
-	        int statIncrease = currentWeek*2 ; // Adjust the increase rate as desired
-	        athlete.increaseStatistics(statIncrease);
+	        int statIncrease = currentWeek*4 ; // Adjust the increase rate as desired
+	        athlete.increaseStat(statIncrease);
 	    }
 	}
 
