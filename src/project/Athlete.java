@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import ProjectExceptions.NameException;
+import projectExceptions.NameException;
 
 public class Athlete extends Purchasable {
 	
@@ -50,9 +50,10 @@ public class Athlete extends Purchasable {
 	public Athlete() {
 		setGeneratedStatistics();
 		setName(generateName());
-        setContractPrice(0); // initialize contract price to 0
-        setSellBackPrice(0); // initialize sell-back price to 0
-        setDescription(""); // initialize description to empty string
+		// contract price and sell-back prices are initialised to 0, both generated in super class
+        setContractPrice(0); 
+        setSellBackPrice(0); 
+        setDescription(""); 
 	}
 	
 	/**
@@ -63,7 +64,7 @@ public class Athlete extends Purchasable {
 	* @param staminaStatistic an integer representing the stamina statistic of the athlete
 	* @param athleteName a String representing the name of the athlete
 	* @param athletePosition a String representing the position of the athlete
-	* @param contractPrice an integer representing the contract price of the athlete
+	* @param contractPrice an integer representing the contract price of the athlete when purchasing in the market
 	* @param sellbackPrice an integer representing the sell-back price of the athlete
 	* @param description a String representing the description of the athlete
 	*  
@@ -85,7 +86,6 @@ public class Athlete extends Purchasable {
      * The defensive statistic is calculated as 100 minus the offensive statistic to ensure randomly generated athletes are not overpowered.
      * The stamina statistic is generated as a random integer between 60 and 100.
      */
-    
 	private void setGeneratedStatistics() {
 		Random offensive = new Random();
 		int min = 30;
@@ -100,6 +100,7 @@ public class Athlete extends Purchasable {
 	
 	/**
 	 * Generates a random name by selecting a first name and a last name from pre-defined arrays.
+	 * generateName generates 4712 possible combinations of names.
 	 *
 	 * @return a String representing a random name generated from pre-defined arrays.
 	 */
@@ -118,6 +119,7 @@ public class Athlete extends Purchasable {
 				"Grimaldi", "Everhart", "Blackburn", "Beaumont", "Middleton", "Westbourne", "Wakefield", "Cattermole", "Nettlebed", "Macnair", "Ellwood", "Jorkins", "Ingleby"};
 		
 		Random random = new Random();
+		// generates a name from randomly selected first and last name. nextInt is bound by the length of the list as it is exclusive. 
 		String randomName = firstNames[random.nextInt(firstNames.length)] + " " + lastNames[random.nextInt(lastNames.length)];
 		
 		return randomName;
@@ -269,11 +271,19 @@ public class Athlete extends Purchasable {
     	return athleteName;
     }
     
-
+    /**
+     * Sets the athlete's position to the alternate position from getAlternatePosition.
+     * If an athlete is a defender, their position will be set to attacker and vice versa. If an athlete is injured or a reserve, their position will remain.
+     */
 	public void changeAthletePosition() {
 		this.setPosition(getAlternatePosition());
 	}
 	
+	/**
+	 * Returns a string with the alternative position of the athlete
+	 * If an athlete is an attacker, returns "Defender" and vice versa. If an athlete is injured or a reserve, their position will remain.
+	 * @return
+	 */
 	public String getAlternatePosition() {
 		String position = null;
 		if (this.getPosition() == "Attacker") {
@@ -287,69 +297,28 @@ public class Athlete extends Purchasable {
 	}
 	
 	
+   
     
     /**
-	* Returns a string representation of the Athlete object, including the athlete's name, contract price, and offensive, defensive, and stamina statistics.
-    * @return a String containing the athlete's name, contract price, and statistics.
-    */
-    public String toString() {
-    	String result = ("Athlete name: " + athleteName);
-    	if (athletePosition != null && athletePosition != "Injured") {
-    		result += ("\nPosition: " + athletePosition);
-    	} else if (athletePosition != null && athletePosition == "Injured") {
-    		result += ("\n" + athletePosition);
-    	} else {
-    		result += ("\nPrice: " + this.getContractPriceFormatted());
-    	}
-        result += ("\nOffensive Statistic: " + this.getOffensive());
-        result += ("\nDefensive Statistic: " + this.getDefensive());
-        result += ("\nStamina Statistic: " + this.getStamina());
-        
-        return result;
-
-        
-    }
-    
-    
-    /**
-	* Returns a string representation in HTML of the Athlete object, including the athlete's name, contract price, and offensive, defensive, and stamina statistics.
-    * @return a String containing the athlete's name, contract price, and statistics.
-    */
-    public String toStringHTML() {
-    	String result;
-    	if (this.getPosition() != null) {
-    		if (this.getPosition() == "Reserve") {
-    			result = "<html>" + ("Reserve player");
-    		} else if (athletePosition == "Injured"){
-    			result = "<html>" + ("Injured player");
-    		} else {
-        		result = "<html>" + ("Position: " + this.getPosition());
-    		}
-    	} else {
-    		result = "<html>" + ("Price: " + this.getContractPriceFormatted());
-    	}
-        result += ("<br>Offensive Statistic: " + this.getOffensive());
-        result += ("<br>Defensive Statistic: " + this.getDefensive());
-        result += ("<br>Stamina Statistic: " + this.getStamina()) + "</html>";
-        
-        return result;
-        
-    }
-    
-    
+     * Uses the specified item to modify the defensive and offensive statistics of this Athlete.
+     *
+     * @param item the Item used
+     */
     public void useItem(Item item) {
         
         this.defensiveStatistic += item.getDefence();
         this.offensiveStatistic += item.getOffence();
-        
-        
-
-        
-        
-    
     }
-    
-    public Boolean matchesAthlete(Athlete comparedAthlete) {
+   
+    /**
+     * Compares this Athlete object with the specified Athlete object for equality.
+     * Returns true if the specified Athlete object has the same name, defensive statistic,
+     * offensive statistic, and stamina statistic as this Athlete object; otherwise, returns false.
+     *
+     * @param comparedAthlete the Athlete object to be compared for equality
+     * @return true if the specified Athlete object is equal to this Athlete object, false otherwise
+     */
+    public Boolean equals(Athlete comparedAthlete) {
     	if (comparedAthlete.getName() == athleteName && comparedAthlete.getDefensive() == defensiveStatistic && comparedAthlete.getOffensive() == offensiveStatistic && comparedAthlete.getStamina() == staminaStatistic) {
     		return true;
     	} else {
@@ -357,24 +326,41 @@ public class Athlete extends Purchasable {
     	}
     }
     
+    /**
+     * Increases the offensive, defensive, and stamina statistics of this Athlete by the specified multiplier. The stamina statistic is capped at 100.
+     *
+     * @param increaseMultiplier the multiplier by which to increase the statistics
+     */
     public void increaseStatistics(double increaseMultiplier) {
         offensiveStatistic = (int) (offensiveStatistic * increaseMultiplier);
         defensiveStatistic = (int) (defensiveStatistic * increaseMultiplier);
         staminaStatistic = (int) Math.min(staminaStatistic * increaseMultiplier, 100);
     }
     
-    public void increaseStat(double increaseMultiplier) {
-        offensiveStatistic = (int) (offensiveStatistic + increaseMultiplier);
-        defensiveStatistic = (int) (defensiveStatistic + increaseMultiplier);
-    }
     
+    /**
+     * Sets the athlete's statistics based on the defensive score generated from a selected team. 
+     * The defensive score is the sum of the defensive statistic of defenders in the selected team. 
+     * Defensive score is divided by 2 and then adjusted with a random value between -5 to 5 and set to be the defensive statistic of the Athlete
+     * This should generate a defensive statistic that is similar to the team that the defensiveScore was from.
+     * 
+     * @param defensiveScore sum of the defensive statistic of defenders in the selected team
+     */
     public void setAthleteStatisticsBasedOnDefensive(int defensiveScore) {
 
         Random rand = new Random();
         int randomDefensive = rand.nextInt(11) - 5;
         defensiveStatistic = ((defensiveScore/2) - randomDefensive);
     }
-
+    
+    /**
+     * Sets the athlete's statistics based on the offensive score generated from a selected team. 
+     * The offensive score is the sum of the defensive statistic of defenders in the selected team. 
+     * Defensive score is divided by 2 and then adjusted with a random value between -5 to 5 and set to be the offensive statistic of the Athlete
+     * This should generate an offensive statistic that is similar to the team that the offensiveScore was from.
+     * 
+     * @param offensiveScore
+     */
     public void setAthleteStatisticsBasedOnOffensive(int offensiveScore) {
 
         Random rand = new Random();
@@ -382,6 +368,13 @@ public class Athlete extends Purchasable {
         offensiveStatistic = (offensiveScore/2) - randomOffensive;
     }
     
+    
+    /**
+     * Decreases the stamina statistic of the athlete by the specified amount. 
+     * If the resulting stamina statistic is less than 0, it is set to 0 and and the athlete position is set to injured
+     * The previous position of the athlete is set for the athlete's position to return to when their stamina is restored.
+     * @param amountDecreased the specified amount to decrease stamina by.
+     */
     public void decreaseStamina(int amountDecreased) {
     	staminaStatistic -= amountDecreased;
     	if (staminaStatistic < 0) {
@@ -394,17 +387,27 @@ public class Athlete extends Purchasable {
     	}
     }
     
-    
+    /**
+     * Increases the offensive statistic of the athlete by the specified amount.
+     * @param increaseAmount amount to increase the offensiveStatistic by
+     */
     public void increaseOffensive(int increaseAmount) {
     	offensiveStatistic += increaseAmount;
 
     }
     
+    /**
+     * Increases the defensive statistic of the athlete by the specified amount.
+     * @param increaseAmount amount to increase the defensiveStatistic by
+     */
     public void increaseDefensive(int increaseAmount) {
     	defensiveStatistic += increaseAmount;
-
     }
     
+    /**
+     * Restores the stamina of the athlete.
+     * If the athlete was injured, once their stamina reaches 100 their position will be restored to the previous position they were in before they became injured.
+     */
     public void restoreStamina() {
     	if (athletePosition == "Injured") {
     		setPosition(previousPosition);
@@ -412,35 +415,128 @@ public class Athlete extends Purchasable {
     	staminaStatistic = 100;
     }
     
+    /**
+     * Trains athlete by increasing their offensive and defensive statistics with random values between 5 and 15 (inclusive).
+     */
     public void trainAthlete() {
         Random random = new Random();
-        int offensiveIncrease = random.nextInt(11) + 5; // Generates a random number between 5 and 15 (inclusive)
-        int defensiveIncrease = random.nextInt(11) + 5; // Generates a random number between 5 and 15 (inclusive)
+        int offensiveIncrease = random.nextInt(11) + 5;
+        int defensiveIncrease = random.nextInt(11) + 5; 
 
         increaseOffensive(offensiveIncrease);
         increaseDefensive(defensiveIncrease);
     }
     
+    /**
+     * Checks if the athlete is currently in the reserve position or if they are a reserve but currently injured
+     * @return true if the athlete is a reserve, false otherwise
+     */
     public boolean isReserve() {
     	return (athletePosition == "Reserve" || previousPosition == "Reserve");
     }
     
+    /**
+     * Checks if the athlete is currently in the injured position
+     * @return true if injured, false otherwise
+     */
     public boolean isInjured() {
     	return (athletePosition == "Injured");
     }
     
+    /**
+     * Sets the previous position of the athlete to the specified position string
+     * Used for determining the athlete's previous position before they became injured
+     * @param position the previous position of the athlete
+     */
     public void setPreviousPosition(String position) {
     	previousPosition = position;
     }
     
+    /**
+     * retrieves the previous position of the athlete
+     * @return previousPosition the previous position of the athlete
+     */
     public String getPreviousPosition() {
     	return previousPosition;
     }
+    
+    /**
+   	* Returns a string representation of the Athlete object, including the athlete's name, contract price, and offensive, defensive, and stamina statistics.
+       * @return a String containing the athlete's name, contract price or position and statistics.
+       */
+       public String toString() {
+       	String result = ("Athlete name: " + athleteName);
+       	if (athletePosition != null && athletePosition != "Injured") {
+       		result += ("\nPosition: " + athletePosition);
+       	} else if (athletePosition != null && athletePosition == "Injured") {
+       		result += ("\n" + athletePosition);
+       	} else {
+       		result += ("\nPrice: " + this.getContractPriceFormatted());
+       	}
+           result += ("\nOffensive Statistic: " + this.getOffensive());
+           result += ("\nDefensive Statistic: " + this.getDefensive());
+           result += ("\nStamina Statistic: " + this.getStamina());
+           
+           return result;
+       }
+       
+       
+       /**
+   	* Returns a string representation in HTML of the Athlete object, including the athlete's name, contract price, and offensive, defensive, and stamina statistics.
+   	* If the athlete has a position (defender, attacker, injured or reserve) then the String representation includes the position or "Injured player"
+   	* Otherwise, athlete's contract price will be included. 
+       * @return a String containing the athlete's name, contract price or position, and statistics.
+       */
+       public String toStringHTML() {
+       	String result;
+       	if (this.getPosition() != null) {
+       		if (this.getPosition() == "Reserve") {
+       			result = "<html>" + ("Reserve player");
+       		} else if (athletePosition == "Injured"){
+       			result = "<html>" + ("Injured player");
+       		} else {
+           		result = "<html>" + ("Position: " + this.getPosition());
+       		}
+       	} else {
+       		result = "<html>" + ("Price: " + this.getContractPriceFormatted());
+       	}
+           result += ("<br>Offensive Statistic: " + this.getOffensive());
+           result += ("<br>Defensive Statistic: " + this.getDefensive());
+           result += ("<br>Stamina Statistic: " + this.getStamina()) + "</html>";
+           
+           return result;
+       }
+       
+       
+       /**
+   	* Returns a string representation in HTML of the Athlete object, including the athlete's name, sell-back price, and offensive, defensive, and stamina statistics.
+   	* If the athlete has a position (defender, attacker, injured or reserve) then the String representation includes the position or "Injured player"
+   	* Sell-back price included for use in the market sell panel.
+       * @return a String containing the athlete's name, contract price or position, and statistics.
+       */
+       public String toStringHTMLSell() {
+       	String result = "";
+       	if (this.getPosition() != null) {
+       		if (this.getPosition() == "Reserve") {
+       			result = "<html>" + ("Reserve player");
+       		} else if (athletePosition == "Injured"){
+       			result = "<html>" + ("Injured player");
+       		} else {
+           		result = "<html>" + ("Position: " + this.getPosition());
+       		}
+       	} 
+       	
+       	result += "<br>Sellback Price: " + this.getSellBackPriceFormatted();
+           result += ("<br>Offensive Statistic: " + this.getOffensive());
+           result += ("<br>Defensive Statistic: " + this.getDefensive());
+           result += ("<br>Stamina Statistic: " + this.getStamina()) + "</html>";
+           
+           return result;
+           
+       }
 	
 }
 
 	
 	
 	
-
-
