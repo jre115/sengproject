@@ -1,4 +1,4 @@
-package ProjectUI;
+package projectUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,16 +16,16 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import ProjectExceptions.IllegalTeamException;
-import ProjectExceptions.InsufficientFundsException;
-import ProjectExceptions.InventoryFullException;
-import ProjectExceptions.NameException;
-import ProjectExceptions.NoReserveAthletesException;
 import project.Athlete;
 import project.GameEnvironment;
 import project.Item;
 import project.LimitException;
 import project.Match;
+import projectExceptions.IllegalTeamException;
+import projectExceptions.InsufficientFundsException;
+import projectExceptions.InventoryFullException;
+import projectExceptions.NameException;
+import projectExceptions.NoReserveAthletesException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -292,7 +292,8 @@ public class MainGame {
             
             panels.add(athletePanel);
 
-            refreshAthletePanel(athletePanel, athlete, 0.4);
+            refreshAthletePanel(athletePanel, athlete, 0.4, false);
+            
         }
         
         return panels;
@@ -383,8 +384,9 @@ public class MainGame {
 	 *@param panel as JPanel to add in athlte's information
 	 *@param athlete to populate the panel with the athlete's information
 	 *@param sizeMultiplier scales all items on the panel to size where 1 is full size.
+	 *@param inMarket reflects whether the game is currently in the market: if true will include the sell-back price of athlete in athlete info
 	 */
-	private void refreshAthletePanel(JPanel athletePanel, Athlete athlete, double sizeMultiplier) {
+	private void refreshAthletePanel(JPanel athletePanel, Athlete athlete, double sizeMultiplier, boolean inMarket) {
 		
 	    athletePanel.removeAll();
 
@@ -448,6 +450,10 @@ public class MainGame {
 	    athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
 	    athleteInfo.setBounds((int)(23 * sizeMultiplier), (int)(305 * sizeMultiplier), (int)(311 * sizeMultiplier), (int)(143 * sizeMultiplier));
 	    athletePanel.add(athleteInfo);
+	    
+	    if (inMarket) {
+	    	athleteInfo.setText(gameEnvironment.athleteToStringHTMLSell(athlete));
+	    }
 
 	    athletePanel.revalidate();
 	    athletePanel.repaint();
@@ -698,7 +704,7 @@ public class MainGame {
 	    athletePanel.setLayout(null);
 	    clubSingleAthletePanel.add(athletePanel);
 	    
-	    refreshAthletePanel(athletePanel, athlete, 1);
+	    refreshAthletePanel(athletePanel, athlete, 1, false);
 	    
 	    // JTextField athleteName will sit over the athlete name from refresh athlete panel so that the name is able to be updated to set athlete's name
 	    JTextField athleteName = new JTextField(gameEnvironment.getAthleteName(athlete));
@@ -849,7 +855,7 @@ public class MainGame {
 		athleteSwapPanel.add(mainAthletePanel);
 		mainAthletePanel.setLayout(null);
 		
-		refreshAthletePanel(mainAthletePanel, athlete, 0.75);
+		refreshAthletePanel(mainAthletePanel, athlete, 0.75, false);
 		
 		int numberAthletesPerRow = 0;
 		ArrayList<Athlete> swappableList = null;
@@ -1118,7 +1124,7 @@ public class MainGame {
 		UseItemSingleAthletePanel.add(athletePanel);
 		athletePanel.setLayout(null);
 		
-		refreshAthletePanel(athletePanel, athlete, 1);
+		refreshAthletePanel(athletePanel, athlete, 1, false);
 		
         JButton UseItemButton = new JButton("Use on " + gameEnvironment.getAthleteName(athlete));
         UseItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
@@ -1139,7 +1145,7 @@ public class MainGame {
         UseItemButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		gameEnvironment.useItemOnAthlete(item, athlete);
-	    		refreshAthletePanel(athletePanel, athlete, 1);
+	    		refreshAthletePanel(athletePanel, athlete, 1, false);
 	    		UseItemButton.setVisible(false);
 	    		okButton.setVisible(true);
 	    		backButton.setVisible(false);
@@ -1428,7 +1434,7 @@ public class MainGame {
 			encounterPanel.add(athletePanel);
 			athletePanel.setLayout(null);
 			
-			refreshAthletePanel(athletePanel, athletes.get(i), decreaseSizeMultiplier);
+			refreshAthletePanel(athletePanel, athletes.get(i), decreaseSizeMultiplier, false);
 		}
 		
         int buttonWidth = ((int) (360 * decreaseSizeMultiplier)/2) - 10;
@@ -1903,7 +1909,7 @@ public class MainGame {
 		BuySingleAthletePanel.add(athletePanel);
 		athletePanel.setLayout(null);
 		
-		refreshAthletePanel(athletePanel, athlete, 1);
+		refreshAthletePanel(athletePanel, athlete, 1, false);
         
 
         JButton purchaseAthleteButton = new JButton("Purchase Athlete");
@@ -2028,7 +2034,7 @@ public class MainGame {
 			}
 		});
 		
-		// If the team is full, user will be taken to swapPurchaseAthleteScreen to select which player to swap with.
+		// If the team is full, user will be taken to swapPurchaseAthleteScreen to select which athlete to swap with.
 		
 		addToTeamFull.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -2056,7 +2062,7 @@ public class MainGame {
 		athleteSwapPanel.add(mainAthletePanel);
 		mainAthletePanel.setLayout(null);
 		
-		refreshAthletePanel(mainAthletePanel, athlete, 0.75);
+		refreshAthletePanel(mainAthletePanel, athlete, 0.75, false);
 		
 		int numberAthletesPerRow = 4;
 		ArrayList<Athlete> swappableList = gameEnvironment.getTeamList();
@@ -2093,7 +2099,7 @@ public class MainGame {
 		frame.getContentPane().add(sellScreenpannel);
 		sellScreenpannel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("What Do You Want To Sell");
+		JLabel lblNewLabel = new JLabel("What Do You Want To Sell?");
 		lblNewLabel.setFont(new Font("Cooper Black", Font.PLAIN, 26));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(265, 11, 364, 51);
@@ -2221,7 +2227,7 @@ public class MainGame {
 		sellSingleAthletePanel.add(athletePanel);
 		athletePanel.setLayout(null);
 		
-		refreshAthletePanel(athletePanel, athlete, 1);
+		refreshAthletePanel(athletePanel, athlete, 1, true);
         
         JButton sellButton = new JButton("Sell Athlete");
         sellButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
@@ -2492,7 +2498,7 @@ public class MainGame {
 	    athletePanel.setLayout(null);
 	    singleAthletePanel.add(athletePanel);
 		
-		refreshAthletePanel(athletePanel, athlete, 1);
+		refreshAthletePanel(athletePanel, athlete, 1, false);
 		
 		JButton trainButton = new JButton("Train");
 		trainButton.setSize(buttonWidth, buttonHeight);
@@ -2521,7 +2527,7 @@ public class MainGame {
 		trainButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		gameEnvironment.trainAthlete(athlete);
-	    		refreshAthletePanel(athletePanel, athlete, 1);
+	    		refreshAthletePanel(athletePanel, athlete, 1, false);
 	    		trainButton.setVisible(false);
 	    		okButton.setVisible(true);
 	    		backButton.setVisible(false);

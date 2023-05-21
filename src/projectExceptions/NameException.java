@@ -1,4 +1,4 @@
-package ProjectExceptions;
+package projectExceptions;
 
 public class NameException extends IllegalArgumentException{
 	

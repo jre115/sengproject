@@ -1,4 +1,4 @@
-package ProjectUI;
+package projectUI;
 
 import java.awt.EventQueue;
 
@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import ProjectExceptions.NameException;
+import projectExceptions.NameException;
 import project.GameEnvironment;
 import project.Athlete;
 

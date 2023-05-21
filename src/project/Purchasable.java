@@ -29,6 +29,18 @@ public class Purchasable {
 	    formatted += "$" + String.format("%,d", contractPrice);
 	    return formatted;
 	}
+	
+	public String getSellBackPriceFormatted() {
+	    String formatted = "";
+	    int sellPrice = getSellBackPrice();
+	    if (sellPrice < 0) {
+	        formatted += "-";
+	        sellPrice = -sellPrice;
+	    }
+	    formatted += "$" + String.format("%,d", sellPrice);
+	    return formatted;
+	}
+
 
     
     public void setContractPrice(int contractPrice) {
@@ -64,8 +76,3 @@ public class Purchasable {
 }
     
     
-
-
-
-
-

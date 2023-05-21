@@ -124,7 +124,7 @@ public class Market   {
 	    for (Athlete athlete : currentAthletesAvailable) {
 	        
 	        int statIncrease = currentWeek*4 ; // Adjust the increase rate as desired
-	        athlete.increaseStat(statIncrease);
+	        athlete.increaseStatistics(statIncrease);
 	    }
 	}
 

@@ -1,4 +1,4 @@
-package ProjectExceptions;
+package projectExceptions;
 
 public class IllegalTeamException extends Exception {
     public IllegalTeamException(String message) {
