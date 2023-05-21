@@ -90,7 +90,7 @@ public class RandomEvents {
 
         Map<String, Object> eventDetails = new HashMap<>();
 
-        if (eventChance < 80) { // 1% chance for athlete quits
+        if (eventChance < 1) { // 1% chance for athlete quits
             Athlete athleteToQuit = athleteQuits(team);
             if (athleteToQuit == null) {
             	eventDetails.put("eventType", "athleteQuitsFalse");

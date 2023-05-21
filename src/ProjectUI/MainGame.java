@@ -2455,6 +2455,9 @@ public class MainGame {
 		okButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
+	    		if(gameEnvironment.getTeamList().size() == 0) {
+	    			mainMenu();
+	    		}else {
 	    		Map<String, Object> randomEvents = gameEnvironment.getRandomEvent();
 	    		String result = (String) randomEvents.get("eventType");
 	    		if (result == "rest") {
@@ -2463,7 +2466,7 @@ public class MainGame {
 	    			randomEventScreen(result);
 	    			
 	    		}
-	    }});
+	    }}});
 		
 	}
 	
