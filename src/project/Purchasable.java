@@ -36,7 +36,18 @@ public class Purchasable {
     }
     
     public int getSellBackPrice() {
-        return sellbackPrice;
+    	if (this instanceof Athlete) {
+    		Athlete athlete = (Athlete) this;
+    		int basePrice = (athlete.getOffensive() + athlete.getDefensive()) * 10;
+    		int staminaPenalty = 100 - athlete.getStamina();
+    		int price = basePrice - (staminaPenalty * 10); 
+    		return price;
+            } else {
+            	return sellbackPrice;
+            }
+    	
+    	
+        
     }
     
     public void setSellBackPrice(int sellBackPrice) {
