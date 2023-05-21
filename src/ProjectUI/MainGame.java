@@ -2645,6 +2645,9 @@ public class MainGame {
 		        	randomEventText.setText("an athlete has left the Team, be sure to manage your stamina");
 		        	
 		        	
+		        }else if (result.equals("athleteQuitsFalse")) {
+		        	randomEventText.setText("An athlete in your Team considered leaving");
+		        	
 		        }
 		    }
 		});

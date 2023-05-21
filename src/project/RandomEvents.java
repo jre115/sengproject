@@ -13,7 +13,7 @@ public class RandomEvents {
         ArrayList<Athlete> teamList = team.getTeamList();
         int teamSize = teamList.size();
         Random random = new Random();
-        Athlete athlete = teamList.get(random.nextInt(teamSize));
+        Athlete athlete = teamList.get(random.nextInt(teamSize-1));
 
         if (athlete.getPosition().equals("Injured")) {
             int quitChance = 50; // 50% chance if injured
@@ -55,7 +55,7 @@ public class RandomEvents {
         
         if (teamSize > 0) {
             Random random = new Random();
-            Athlete randomPlayer = teamList.get(random.nextInt(teamSize));
+            Athlete randomPlayer = teamList.get(random.nextInt(teamSize-1));
 
             // Determine which statistic to increase (offensive, defensive, or stamina)
             int statToIncrease = random.nextInt(3); // 0 - Offensive, 1 - Defensive, 2 - Stamina
@@ -90,8 +90,14 @@ public class RandomEvents {
 
         Map<String, Object> eventDetails = new HashMap<>();
 
-        if (eventChance < 1) { // 1% chance for athlete quits
+        if (eventChance < 80) { // 1% chance for athlete quits
             Athlete athleteToQuit = athleteQuits(team);
+            if (athleteToQuit == null) {
+            	eventDetails.put("eventType", "athleteQuitsFalse");
+            	
+            	
+            }
+            
             if (athleteToQuit != null) {
                 eventDetails.put("eventType", "athleteQuits");
                 eventDetails.put("athlete", athleteToQuit);
