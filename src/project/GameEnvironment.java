@@ -32,7 +32,6 @@ public class GameEnvironment {
     
 	
 	public GameEnvironment() {
-		market = new Market();
 		randomEvents = new RandomEvents();
 		inventory = new ArrayList<>();
 		playerMoney = 20000;
@@ -111,31 +110,6 @@ public class GameEnvironment {
 		modifyPlayerMoney(- athlete.getContractPrice());
 	}
 	
-	/**
-	 * Adds reserve to the team automatically assigning them to the position there are less of in the team
-	 *
-	 * @param reserve the reserve athlete that is being added to the team 
-	 */
-	public void addReserveToTeam(Athlete reserve) throws LimitException {
-		if (getTeamList().size() >= 4) {
-			throw new LimitException("Cannot have more than 4 players in the playing team");
-		}
-		int defenderCount = 0;
-		int attackerCount = 0;
-		for (Athlete athlete : getTeamList()) {
-			if (athlete.getPosition() == "Defender") {
-				defenderCount += 1;
-			} else {
-				attackerCount += 1;
-			}
-		}
-		if (attackerCount < defenderCount) {
-			team.addToTeam(reserve, "Attacker");
-		} else {
-			team.addToTeam(reserve, "Defender");
-		}
-	}
-	
 	
 	public ArrayList<Athlete> getTeamList() {
 		return team.getTeamList();
@@ -144,12 +118,11 @@ public class GameEnvironment {
 	public ArrayList<Athlete> getReservesList() {
 		return team.getReservesList();
 	}
-	//*cpe81 added get player shop
 	public ArrayList<Athlete> getShopAthletes() {
-        return market.playerShop();
+        return market.getShopAthletes();
     }
 	public ArrayList<Item> getShopItems(){
-		return market.itemShop();
+		return market.getShopItems();
 	}
 	
     
@@ -206,11 +179,10 @@ public class GameEnvironment {
 	
 	
 	public void increaseWeek() {
-		//// JR NOTE
-		//when i have cam's market i need to make a game finish if the player does not have a full team nor enough money to buy more athletes;
 		if (currentWeek < seasonLength) {
 			currentWeek += 1;
 	    	stadium.setStadium(team, currentWeek);
+			market.refreshMarket();
 	    	team.restoreAthletes();
 	    	if (currentWeek == seasonLength) {
 	    		finalWeek = true;
@@ -233,7 +205,7 @@ public class GameEnvironment {
 	}
 	
 	public Map<String, Object> endGame() {
-	    if (!finalWeek) {
+	    if (!finalWeek && checkGameContinues()) {
 	        throw new IllegalStateException("The game has not ended yet.");
 	    }
 
@@ -249,12 +221,11 @@ public class GameEnvironment {
 
 	
 	public void startGame() {
-		
 		market = new Market();
 		currentWeek = 0;
 		
 		if (gameDifficulty == "Normal") {
-			setPlayerMoney(20000);
+			setPlayerMoney(5000);
 		}
 		else if (gameDifficulty == "Hard") {
 			setPlayerMoney(0);
@@ -273,16 +244,6 @@ public class GameEnvironment {
 	    }
 	    return true;
 	}
-	
-	public boolean athleteIsReserve(Athlete athlete) {
-		for (Athlete reserve : team.getReservesList()) {
-		    if (athlete == reserve) {
-		    	return true;
-		    }
-		}
-		return false;
-	}
-	
 	
 	
     /**
@@ -326,56 +287,75 @@ public class GameEnvironment {
         } else {
             modifyPlayerMoney(-item.getContractPrice());
             inventory.add(item);
+            market.purchaseItem(item);
         }
     }
     
-    public void purchaseAthlete(Athlete athlete, String position) throws InsufficientFundsException, LimitException {
+    public void purchaseAthlete(Athlete athlete) throws InsufficientFundsException, LimitException {
     	
     	if (playerMoney < athlete.getContractPrice()) {
     		throw new InsufficientFundsException();
+    	} else if (team.isTeamFull()) {
+    		throw new LimitException("Team is full!");
     	} else {
-    		modifyPlayerMoney(-athlete.getContractPrice());
-    		team.addToTeam(athlete, position);
+        	modifyPlayerMoney(-athlete.getContractPrice());
+        	market.purchaseAthlete(athlete);
     	}
     }
-    public void purchaseReserveAthlete(Athlete athlete) throws InsufficientFundsException, LimitException {
-        if (playerMoney < athlete.getContractPrice()) {
-            throw new InsufficientFundsException();
-        } else {
-            modifyPlayerMoney(-athlete.getContractPrice());
-            reservesList.add(athlete);
-        }
+    
+    public void addAthleteAsReserve(Athlete athlete) throws LimitException{
+    	try {
+    		team.addToReserves(athlete);
+    	} catch (LimitException e) {
+    		throw new LimitException();
+    	}
     }
     
+    /**
+	 * Adds reserve to the team - if position is not specified it automatically assigns athlete to the position there are less of in the team
+	 *
+	 * @param reserve the reserve athlete that is being added to the team 
+	 * @param the position the athlete is being added as - if null then the athlete's position will be whatever there are less of in the team
+	 */
+    public void addAthleteToTeam(Athlete athlete, String position) {
+    	if (position == null) {
+    		int defenderCount = 0;
+    		int attackerCount = 0;
+    		for (Athlete teamAthlete : getTeamList()) {
+    			if (teamAthlete.getPosition() == "Defender") {
+    				defenderCount += 1;
+    			} else {
+    				attackerCount += 1;
+    			}
+    		}
+    		if (attackerCount < defenderCount) {
+    			position = "Attacker";
+    		} else {
+    			position = "Defender";
+    		}
+    	}
+    	
+    	team.addToTeam(athlete, position);
+    }
+    
+    public void addAthleteToTeamFull(Athlete added, Athlete swapped) {
+    	team.addAthleteAndSwap(added, swapped);
+    }
+    
+
     
     
 
     public void sellItem(Item item) {
-        if (inventory.contains(item)) {
-            modifyPlayerMoney(+item.getSellBackPrice());
-            inventory.remove(item);
-        } else {
-            System.out.println("Item not found in inventory!");
-        }
+    	modifyPlayerMoney(+item.getSellBackPrice());
+    	inventory.remove(item);
     }
 
     public void sellPlayer(Athlete athlete) {
-        if (team.getTeamList().contains(athlete)) {
-            modifyPlayerMoney(+athlete.getSellBackPrice());
-            team.removeFromTeam(athlete);
-        } else {
-            System.out.println("Player not found in team list!");
-        }
+    	modifyPlayerMoney(+athlete.getSellBackPrice());
+    	team.removeAthlete(athlete);
     }
-
-    public void sellReservePlayer(Athlete athlete) {
-        if (team.getReservesList().contains(athlete)) {
-            modifyPlayerMoney(+athlete.getSellBackPrice());
-            team.removeFromReserve(athlete);
-        } else {
-            System.out.println("Player not found in reserves list!");
-        }
-    }
+    	
     public void displayPlayerList(ArrayList<Athlete> playerList) {
         int index = 1;
         System.out.println("\nPlayer List:");
@@ -400,11 +380,6 @@ public class GameEnvironment {
     }
     
     
-    
-    public void removeItem(Item item) {
-    	inventory.remove(item);
-       
-        }
     
     public ArrayList<Match> getStadiumMatches() {
     	return stadium.getMatches(team);
@@ -438,6 +413,20 @@ public class GameEnvironment {
     	return result;
     }
     
+    public Map<String, Integer> getCurrentMatchInformation() {
+	    Map<String, Object> information = new HashMap<>();
+	    
+	    int playerScore = match.getPlayerScore();
+	    int oppositionScore = match.getOppositionScore();
+	    
+	    
+	    results.put("name", team.getTeamName());
+	    results.put("weeks", seasonLength);
+	    results.put("points", playerPoints);
+	    results.put("money", playerMoney);
+
+	    
+    }
     
     public ArrayList<Integer> getMatchScore() {
     	ArrayList<Integer> score = new ArrayList<Integer>();
@@ -452,7 +441,8 @@ public class GameEnvironment {
     	Map<String, Object> result = currentMatch.endGame();
     	ArrayList<Athlete> updatedTeam = currentMatch.getUpdatedTeam();
     	
-    	team.updateTeamAfterMatch(updatedTeam);
+    	// JR NOTE REMOVE THIS OR DONT DEPENDING ON IF IT WORKS
+    	//team.updateTeamAfterMatch(updatedTeam);
     	
         int prizeMoney = (int) result.get("money");
         int pointsWon = (int) result.get("points");
@@ -515,6 +505,78 @@ public class GameEnvironment {
 		return randomEvents.performRandomEvent(team);
 		
 	}
+	
+	public Boolean checkGameContinues() {
+		// Currently each athlete in the market costs $5000 so this is the minimum amount required to buy a player
+		if (playerMoney < 5000) {
+			int teamSize = team.getTeamList().size();
+			teamSize += team.getReservesList().size();
+			if (teamSize < 4) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	// The following methods will relate to athletes
+	
+	public String getAthletePosition(Athlete athlete) {
+		return athlete.getPosition();
+	}
+	
+	public String getAthleteName(Athlete athlete) {
+		return athlete.getName();
+	}
+	
+	public void setAthleteName(Athlete athlete, String name) {
+		athlete.setName(name);
+	}
+	
+	public String getAthleteImageName(Athlete athlete) {
+		return athlete.getImageName();
+	}
+	
+	public String athleteToStringHTML(Athlete athlete) {
+		return athlete.toStringHTML();
+	}
+	
+	public boolean athleteIsReserve(Athlete athlete) {
+		for (Athlete reserve : team.getReservesList()) {
+		    if (athlete == reserve) {
+		    	return true;
+		    }
+		}
+		return false;
+	}
+	
+	public boolean athleteIsInjured(Athlete athlete) {
+		return athlete.isInjured();
+	}
+	
+	public String getAthleteAlternatePosition(Athlete athlete) {
+		return athlete.getAlternatePosition();
+	}
+	
+	public void athleteSetPosition(Athlete athlete, String position) {
+		athlete.setPosition(position);
+	}
+	
+	// The following methods will relate to items
+	
+	public String getItemName(Item item) {
+		return item.getName();
+	}
+	
+	public void useItemOnAthlete(Item item, Athlete athlete) {
+		athlete.useItem(item);
+    	inventory.remove(item);
+	}
+	
+	public String itemToStringHTML(Item item) {
+		return item.toStringHTML();
+	}
+	
+
 
 }
 

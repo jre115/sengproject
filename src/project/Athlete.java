@@ -32,11 +32,10 @@ public class Athlete extends Purchasable {
     private String athletePosition;
     
 	/**
-	 * The position of the athlete before they became injured.
+	 * The position the athlete was in before they became injured
 	 */
     private String previousPosition;
-    
-    
+
 	/**
 	 * The string for the name of the athlete's associated image
 	 */
@@ -103,8 +102,18 @@ public class Athlete extends Purchasable {
 	 * @return a String representing a random name generated from pre-defined arrays.
 	 */
 	public String generateName() {
-		String[] firstNames = {"Alastair", "Ambrosius", "Archibald", "Augustus", "Belladonna", "Balthazar", "Caspian", "Cedric", "Celestina", "Cornelius", "Cyprian", "Desdemona", "Darian", "Draco", "Drusilla", "Endora", "Fabian", "Gideon", "Ginevra", "Hadrian", "Hecate", "Hyacinth", "Ignatius", "Isadora", "Leopold", "Lucian", "Magnus", "Merlin", "Morgana", "Niamh", "Oberon", "Percival", "Phineas", "Remus", "Rowena", "Sabrina", "Salazar", "Seraphina", "Silas", "Sybill", "Thaddeus", "Uriel", "Ursula", "Xanthe"};
-		String[] lastNames = {"Aberforth", "Blackwood", "Bones", "Chaucer", "Crewe", "Davenport", "Eldritch", "Fairweather", "Fawley", "Flamel", "Gammidge", "Goshawk", "Greengrass", "Holloway", "Iscariot", "Jorkins", "Kettleburn", "Lestrange", "Macnair", "Malkin", "Montague", "Nott", "Ogden", "Peverell", "Prewett", "Quesne", "Rosier", "Sacharissa", "Skeeter", "Slytherin", "Sparks", "Travers", "Umbridge", "Vablatsky", "Van Helsing", "Weasley", "Wilberforce", "Xenophilius", "Yaxley", "Zabini"};
+		String[] firstNames = {"Alastair", "Ambrosius", "Archibald", "Augustus", "Belladonna", "Balthazar", 
+				"Caspian", "Cedric", "Celestina", "Cornelius", "Cyprian", "Desdemona", "Darian", "Draco", "Drusilla", "Endora",
+				"Fabian", "Gideon", "Ginevra", "Hadrian", "Hecate", "Hyacinth", "Ignatius", "Isadora", "Leopold", "Lucian", "Magnus",
+				"Merlin", "Morgana", "Niamh", "Oberon", "Percival", "Phineas", "Remus", "Rowena", "Sabrina", "Salazar", "Seraphina", "Silas",
+				"Sybill", "Thaddeus", "Uriel", "Ursula", "Xanthe", "Xenia", "Atticus", "Penelope", "Bianca", "Nicolette", "Cressida", "Arabella",
+				"Maximilian", "Juliette", "Octavia", "Helena", "Jasper", "Alaric"};
+		String[] lastNames = {"Aberforth", "Blackwood", "Bones", "Chaucer", "Crewe", "Davenport", "Eldritch", "Fairweather", "Fawley", "Flamel",
+				"Gammidge", "Goshawk", "Greengrass", "Holloway", "Iscariot", "Jorkins", "Kettleburn", "Lestrange", "Macnair", "Malkin", "Montague", "Kettleburn",
+				"Nott", "Ogden", "Peverell", "Prewett", "Quesne", "Rosier", "Sacharissa", "Skeeter", "Slytherin", "Sparks", "Travers", "Umbridge", "Vablatsky",
+				"Van Helsing", "Weasley", "Wilberforce", "Xenophilius", "Yaxley", "Zabini", "Blackwood", "Rookwood", "Davenport", "Greengrass", "Fletchley",
+				"Vablatsky", "Kensington", "Nightshade", "Thornfield", "Fairchild", "Nightingale", "Hawthorn", "Everly", "Devereaux", "Montgomery", "Vanderbilt",
+				"Grimaldi", "Everhart", "Blackburn", "Beaumont", "Middleton", "Westbourne", "Wakefield", "Cattermole", "Nettlebed", "Macnair", "Ellwood", "Jorkins", "Ingleby"};
 		
 		Random random = new Random();
 		String randomName = firstNames[random.nextInt(firstNames.length)] + " " + lastNames[random.nextInt(lastNames.length)];
@@ -119,7 +128,9 @@ public class Athlete extends Purchasable {
 	 *
 	 */
 	public void setRandomImage() {
-		List<String> femaleNames = Arrays.asList("Belladonna", "Celestina", "Desdemona", "Drusilla", "Endora", "Ginevra", "Hecate", "Isadora", "Morgana", "Niamh", "Rowena", "Sabrina", "Seraphina", "Sybill", "Ursula", "Xanthe");
+		List<String> femaleNames = Arrays.asList("Belladonna", "Celestina", "Desdemona", "Drusilla", "Endora", "Ginevra", "Hecate",
+				"Isadora", "Morgana", "Niamh", "Rowena", "Sabrina", "Seraphina", "Sybill", "Ursula", "Xanthe", "Xenia", "Penelope", "Bianca", "Nicolette", "Cressida", "Arabella",
+				"Juliette", "Octavia", "Helena");
 		Random randomNumber = new Random();
 		int imageNumber = randomNumber.nextInt(24 - 1 + 1) + 1;
 		String imageName;
@@ -345,9 +356,8 @@ public class Athlete extends Purchasable {
     }
     
     public void increaseStatistics(double increaseMultiplier) {
-    	// JR NOTE do i want offensive stats and defensive stats to be cappaed at 100 or not??
-        offensiveStatistic = (int) Math.min(offensiveStatistic * increaseMultiplier, 100);
-        defensiveStatistic = (int) Math.min(defensiveStatistic * increaseMultiplier, 100);
+        offensiveStatistic = (int) (offensiveStatistic * increaseMultiplier);
+        defensiveStatistic = (int) (defensiveStatistic * increaseMultiplier);
         staminaStatistic = (int) Math.min(staminaStatistic * increaseMultiplier, 100);
     }
     
@@ -372,7 +382,7 @@ public class Athlete extends Purchasable {
     	}
     	
     	if (staminaStatistic == 0) {
-    		previousPosition = athletePosition;
+    		setPreviousPosition(athletePosition);
     		setPosition("Injured");
     	}
     }
@@ -405,13 +415,20 @@ public class Athlete extends Purchasable {
     }
     
     public boolean isReserve() {
-    	return (athletePosition == "Reserve");
+    	return (athletePosition == "Reserve" || previousPosition == "Reserve");
     }
     
     public boolean isInjured() {
     	return (athletePosition == "Injured");
     }
     
+    public void setPreviousPosition(String position) {
+    	previousPosition = position;
+    }
+    
+    public String getPreviousPosition() {
+    	return previousPosition;
+    }
 	
 }
 

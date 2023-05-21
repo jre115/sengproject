@@ -88,10 +88,11 @@ public class SetupScreen2 {
 		int scaledHeight = (int) (icon.getIconHeight() * 0.15);
 		Image scaledImage = originalImage.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
 		ImageIcon scaledIcon = new ImageIcon(scaledImage);
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(scaledIcon);
-		lblNewLabel.setBounds(545, 265, scaledWidth, scaledHeight);
-		startPanel.add(lblNewLabel);
+		
+		JLabel imageLabel = new JLabel("");
+		imageLabel.setIcon(scaledIcon);
+		imageLabel.setBounds(545, 265, scaledWidth, scaledHeight);
+		startPanel.add(imageLabel);
 
 	   
 	    /** 
