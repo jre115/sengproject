@@ -11,7 +11,7 @@ import ProjectExceptions.InventoryFullException;
 import ProjectExceptions.NameException;
 import ProjectExceptions.NoReserveAthletesException;
 import ProjectUI.MainGame;
-import ProjectUI.SetupScreen2;
+import ProjectUI.SetupScreen;
 
 
 public class GameEnvironment {
@@ -19,7 +19,7 @@ public class GameEnvironment {
 	int seasonLength;
 	int playerMoney;
 	int playerPoints;
-    private SetupScreen2 setupWindow;
+    private SetupScreen setupWindow;
     private MainGame mainGame;
     boolean gameEnded;
     boolean finalWeek;
@@ -30,7 +30,6 @@ public class GameEnvironment {
     Market market;
     RandomEvents randomEvents; 
     Stadium stadium;
-    //ArrayList<Match> stadiumMatches;
     Match currentMatch;
     
     ArrayList<Athlete> reservesList;
@@ -161,7 +160,7 @@ public class GameEnvironment {
 	}
 	
 	public void launchSetupScreen() {
-		 setupWindow = new SetupScreen2(this);
+		 setupWindow = new SetupScreen(this);
 		 
 	}
 	
@@ -501,8 +500,13 @@ public class GameEnvironment {
 	}
 	
 	public Boolean checkGameContinues() {
-		// Currently each athlete in the market costs $5000 so this is the minimum amount required to buy a player
-		if (playerMoney < 5000) {
+		int minPrice = 100000000;
+		for (Athlete athlete : market.getShopAthletes()) {
+			if (athlete.getContractPrice() < minPrice) {
+				minPrice = athlete.getContractPrice();
+			}
+		}
+		if (playerMoney < minPrice) {
 			int teamSize = team.getTeamList().size();
 			teamSize += team.getReservesList().size();
 			if (teamSize < 4) {
@@ -522,8 +526,8 @@ public class GameEnvironment {
 		return athlete.getName();
 	}
 	
-	public void setAthleteName(Athlete athlete, String name) {
-		athlete.setName(name);
+	public boolean setAthleteName(Athlete athlete, String name) throws NameException {
+		return athlete.setName(name);
 	}
 	
 	public String getAthleteImageName(Athlete athlete) {
@@ -551,10 +555,10 @@ public class GameEnvironment {
 		return athlete.getAlternatePosition();
 	}
 	
-	public void athleteSetPosition(Athlete athlete, String position) {
+	public void setAthletePosition(Athlete athlete, String position) {
 		athlete.setPosition(position);
 	}
-	
+		
 	// The following methods will relate to items
 	
 	public String getItemName(Item item) {

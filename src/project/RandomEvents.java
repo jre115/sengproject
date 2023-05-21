@@ -15,7 +15,7 @@ public class RandomEvents {
         entireTeam.addAll(team.getReservesList());
         int teamSize = entireTeam.size();
         Random random = new Random();
-        Athlete athlete = entireTeam.get(random.nextInt(teamSize));
+        Athlete athlete = entireTeam.get(random.nextInt(teamSize) - 1);
         
         if (athlete.getPosition().equals("Injured")) {
             team.removeAthlete(athlete);

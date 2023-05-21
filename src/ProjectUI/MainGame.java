@@ -419,7 +419,7 @@ public class MainGame {
 		}
 	    
 
-	    JLabel athleteName = new JLabel(athlete.getName());
+	    JLabel athleteName = new JLabel(gameEnvironment.getAthleteName(athlete));
 	    athleteName.setFont(new Font("Cooper Black", Font.PLAIN, nameFontSize));
 	    athleteName.setHorizontalAlignment(SwingConstants.CENTER);
 	    athleteName.setBackground(Color.WHITE); 
@@ -435,13 +435,13 @@ public class MainGame {
 
 		JLabel athleteImage = new JLabel("");
 		ClassLoader classLoader = getClass().getClassLoader();
-		ImageIcon icon = new ImageIcon(classLoader.getResource("Pictures/" + athlete.getImageName() + ".png"));
+		ImageIcon icon = new ImageIcon(classLoader.getResource("Pictures/" + gameEnvironment.getAthleteImageName(athlete) + ".png"));
 		Image image = icon.getImage().getScaledInstance((int)((icon.getIconWidth()*imageMultiplier)), (int)((icon.getIconHeight()*imageMultiplier)), Image.SCALE_SMOOTH);
 		athleteImage.setIcon(new ImageIcon(image));
 		athleteImage.setHorizontalAlignment(SwingConstants.CENTER);
 		athleteImagePanel.add(athleteImage, BorderLayout.CENTER);
 
-	    JLabel athleteInfo = new JLabel(athlete.toStringHTML());
+	    JLabel athleteInfo = new JLabel(gameEnvironment.athleteToStringHTML(athlete));
 	    athleteInfo.setFont(new Font("Calibiri", Font.BOLD, bodyFontSize));
 	    athleteInfo.setHorizontalAlignment(SwingConstants.CENTER);
 	    athleteInfo.setBounds((int)(23 * sizeMultiplier), (int)(305 * sizeMultiplier), (int)(311 * sizeMultiplier), (int)(143 * sizeMultiplier));
@@ -698,7 +698,7 @@ public class MainGame {
 	    
 	    refreshAthletePanel(athletePanel, athlete, 1);
 	    
-	    JTextField athleteName = new JTextField(athlete.getName());
+	    JTextField athleteName = new JTextField(gameEnvironment.getAthleteName(athlete));
 	    athleteName.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 	    athleteName.setHorizontalAlignment(SwingConstants.CENTER);
 	    athleteName.setBounds(10, 11, 340, 57);
@@ -732,7 +732,7 @@ public class MainGame {
     	 * If the player is a reserve, the swap button is hidden and the add to team button is shown
     	 * If the player is not injured and is in the main team, adds button to swap athlete's position in the team
     	 */
-        if (athlete.isReserve()) {
+        if (gameEnvironment.athleteIsReserve(athlete)) {
         	if (playerTeamSize < 4) {
         		addToTeamButton.setText("<html><center>"+"Add reserve"+"<br>"+"to team"+"</center></html>");
         		addToTeamButton.setVisible(true);
@@ -744,17 +744,17 @@ public class MainGame {
         else {
         	swapButton.setText("<html><center>"+"Swap reserve"+"<br>"+"with player"+"</center></html>");
         	
-        	if (!athlete.isInjured()) {
+        	if (!gameEnvironment.athleteIsInjured(athlete)) {
         		swapButton.setLocation(centreButtonX - buttonWidth - 20, buttonY);
 				setAthleteNameButton.setLocation(centreButtonX + buttonWidth + 20, buttonY);
 				
         		JButton swapPositionButton = createButtonBelowAthleteCard(centreButtonX);
         		clubSingleAthletePanel.add(swapPositionButton);
-        		swapPositionButton.setText("<html><center>"+"Swap position"+"<br>"+"to " + athlete.getAlternatePosition() +"</center></html>");
+        		swapPositionButton.setText("<html><center>"+"Swap position"+"<br>"+"to " + gameEnvironment.getAthleteAlternatePosition(athlete) +"</center></html>");
         		
         		swapPositionButton.addActionListener(new ActionListener() {
 			    	public void actionPerformed(ActionEvent a) {
-			    		athlete.setPosition(athlete.getAlternatePosition());
+			    		gameEnvironment.setAthletePosition(athlete, gameEnvironment.getAthleteAlternatePosition(athlete));
 			    		resultText.setText("Athlete position updated");
 			    		clubSingleAthletePanel.setVisible(false);
 			    		clubSingleAthleteScreen(athlete);
@@ -775,7 +775,7 @@ public class MainGame {
 		setAthleteNameButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		try {
-	    			boolean nameChanged = athlete.setName(athleteName.getText());
+	    			boolean nameChanged = gameEnvironment.setAthleteName(athlete, athleteName.getText());
 	    			if (nameChanged == true) {
 		    			resultText.setText("Athlete nickname updated");
 		    			errorText.setVisible(false); 
@@ -852,7 +852,7 @@ public class MainGame {
 		
 		
 		// If the athlete is a reserve, the swappable athletes be on the team, otherwise the swappable players will be reserves.
-		if (!athlete.isReserve()) {
+		if (!gameEnvironment.athleteIsReserve(athlete)) {
 			swapText.setText("Select a reserve player to swap with");
 			swappableList = gameEnvironment.getReservesList();
 			numberAthletesPerRow = swappableList.size();
@@ -883,7 +883,7 @@ public class MainGame {
 		        @Override
 		        public void mouseClicked(MouseEvent e) {
 		        	athleteSwapPanel.setVisible(false);
-		            if (!athlete.isReserve()) {
+		            if (!gameEnvironment.athleteIsReserve(athlete)) {
 		            	Athlete swappedAthlete = (gameEnvironment.getReservesList().get(index));
 		            	gameEnvironment.swapAthletes(athlete, swappedAthlete);
 		            } else {
@@ -1086,7 +1086,7 @@ public class MainGame {
 		
 		refreshAthletePanel(athletePanel, athlete, 1);
 		
-        JButton UseItemButton = new JButton("Use on " + athlete.getName());
+        JButton UseItemButton = new JButton("Use on " + gameEnvironment.getAthleteName(athlete));
         UseItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
         UseItemButton.setBounds(312, 586, 360, 47);
         UseItemSingleAthletePanel.add(UseItemButton);
@@ -1382,7 +1382,6 @@ public class MainGame {
 			athletePanel.setLayout(null);
 			
 			refreshAthletePanel(athletePanel, athletes.get(i), decreaseSizeMultiplier);
-			
 		}
 		
         int buttonWidth = ((int) (360 * decreaseSizeMultiplier)/2) - 10;
@@ -2542,7 +2541,7 @@ public class MainGame {
 		teamNameText.setLocation(0, 155);
 		gameSummaryPanel.add(teamNameText);
 		
-		JLabel seasonLength = new JLabel("Season length: " + gameEnvironment.getCurrentWeek() + "/" + gameEnvironment.getSeasonLength() + " weeks");
+		JLabel seasonLength = new JLabel("Season length: " + weeks + "/" + gameEnvironment.getSeasonLength() + " weeks");
 		seasonLength.setHorizontalAlignment(SwingConstants.CENTER);
 		seasonLength.setFont(new Font("Cooper Black", Font.PLAIN, 30));
 		seasonLength.setBounds(0, 288, 984, 64);
