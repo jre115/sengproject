@@ -42,7 +42,7 @@ public class Athlete extends Purchasable {
     private String athletePosition;
     
 	/**
-	 * The position the athlete was in before they became injured
+	 * The position the athlete was in before they became injured or if they were previously injured
 	 */
     private String previousPosition;
 
@@ -451,6 +451,7 @@ public class Athlete extends Purchasable {
     	return (athletePosition == "Injured");
     }
     
+    
     /**
      * Sets the previous position of the athlete to the specified position string
      * Used for determining the athlete's previous position before they became injured
@@ -542,6 +543,10 @@ public class Athlete extends Purchasable {
            return result;
            
        }
+       
+     
+       
+  
 	
 }
 

@@ -189,7 +189,7 @@ public class GameEnvironment {
 	
 	public void increaseWeek() {
 		if (currentWeek < seasonLength) {
-			// Only begin performing random events after the first week
+			// Only begin performing random events after the first week 
 			if (currentWeek != 0) {
 		    	currentRandomEvent = randomEvents.performRandomEvent(team);
 			}
@@ -197,6 +197,7 @@ public class GameEnvironment {
 	    	stadium.setStadium(team, currentWeek);
 			market.refreshMarket();
 	    	team.restoreAthletes();
+
 	    	if (currentWeek == seasonLength) {
 	    		finalWeek = true;
 	    	}
@@ -406,21 +407,6 @@ public class GameEnvironment {
     	return result;
     }
     
-    public Map<String, Integer> getCurrentMatchInformation() {
-	    Map<String, Object> information = new HashMap<>();
-	    
-	    int playerScore = match.getPlayerScore();
-	    int oppositionScore = match.getOppositionScore();
-	    
-	    
-	    results.put("name", team.getTeamName());
-	    results.put("weeks", seasonLength);
-	    results.put("points", playerPoints);
-	    results.put("money", playerMoney);
-
-	    
-    }
-    
     public ArrayList<Integer> getMatchScore() {
     	ArrayList<Integer> score = new ArrayList<Integer>();
     	int playerScore = currentMatch.getPlayerScore();
@@ -432,10 +418,6 @@ public class GameEnvironment {
     
     public Map<String, Object> endMatch() throws IllegalStateException {
     	Map<String, Object> result = currentMatch.endGame();
-    	ArrayList<Athlete> updatedTeam = currentMatch.getUpdatedTeam();
-    	
-    	// JR NOTE REMOVE THIS OR DONT DEPENDING ON IF IT WORKS
-    	//team.updateTeamAfterMatch(updatedTeam);
     	
         int prizeMoney = (int) result.get("money");
         int pointsWon = (int) result.get("points");

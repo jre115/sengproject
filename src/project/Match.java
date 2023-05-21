@@ -6,24 +6,70 @@ import java.util.Random;
 import java.util.HashMap;
 
 
+/**
+ * Represents a match between a player's team and an opposition team
 
+ */
 public class Match {
 	
+	/**
+	 * The prize money for winning the match
+	 */
 	int prizeMoney;
+	
+	/**
+	 * The player's score in the current match
+	 */
 	int playerScore;
+	
+	/**
+	 * The opposition's score in the current match
+	 */
 	int oppositionScore;
+	
+	/**
+	 * The number of points gained for winning the match
+	 */
 	int points;
+	
+	/**
+	 * The list of unplayed athletes for the player's team
+	 */
 	ArrayList<Athlete> unplayedAthletes;
+	
+	/**
+	 * The list of unplayed athletes for the opposition team
+	 */
 	ArrayList<Athlete> unplayedOpposition;
 	
-	ArrayList<Athlete> playedAthletes;
+	/**
+	 * The list of athletes that have played in the match from the player team
+	 */
+	ArrayList<Athlete> playedTeamAthletes;
 	
+	/**
+	 * The name of player's team
+	 */
 	String playerTeamName;
+	
+	/**
+	 * The name of the opposition team
+	 */
 	String oppositionTeamName;
 	
+	/**
+	 * The opposition team
+	 */
 	Team oppositionTeam;
 	
 	
+	/**
+	 * Constructs new Match object with the specified player team, opposition team, prize money and points available to be won. 
+	 * @param playerTeam the player's team
+	 * @param oppositionTeam the opposition team that the match is against
+	 * @param money the money reward on offer for winning the game
+	 * @param points the points reward on offer for winning the game
+	 */
 	public Match(Team playerTeam, Team oppositionTeam, int money, int points) {
 		this.prizeMoney = money;
 		this.points = points;
@@ -32,16 +78,67 @@ public class Match {
 		playerTeamName = playerTeam.getTeamName();
 		oppositionTeamName = oppositionTeam.getTeamName();
 		
+		// Initialises the game scores to 0
 		playerScore = 0;
 		oppositionScore = 0;
 		
 		unplayedAthletes = new ArrayList<Athlete>();
 		unplayedOpposition = new ArrayList<Athlete>();
-		playedAthletes = new ArrayList<Athlete>();
+		playedTeamAthletes = new ArrayList<Athlete>();
 		
 		unplayedAthletes.addAll(playerTeam.getTeamList());
 		unplayedOpposition.addAll(oppositionTeam.getTeamList());
 	}
+	
+	/**
+	 * Returns the name of the opposition team
+	 * @return oppositionTeamName the name belonging to the opposition team
+	 */
+	public String getOppositionTeamName() {
+		return oppositionTeamName;
+	}
+	
+	/**
+	 * Returns the opposition team
+	 * @return oppositionTeam the opposition team
+	 */
+	public Team getOppositionTeam() {
+		return oppositionTeam;
+	}
+	
+	/**
+	 * Returns the value of the prize money
+	 * @return prizeMoney the amount of money awarded to the winning team
+	 */
+	public int getMoney() {
+		return prizeMoney;
+	}
+	
+	/**
+	 * Returns the value of the points reward
+	 * @return points the amount of points awarded to the winning team
+	 */
+	public int getPointsValue() {
+		return points;
+	}
+	
+	/**
+	 * Returns the value of the player team's score in the match
+	 * @return playerScore the score for the player team
+	 */
+	public int getPlayerScore() {
+		return playerScore;
+	}
+	
+	/**
+	 * Returns the value of the opposition team's score in the match
+	 * @return oppositionScore the score for the opposition team
+	 */
+	public int getOppositionScore() {
+		return oppositionScore;
+	}
+	
+	
 	
 	/**
 	 * Generates a random string describing a scenario where the attacker wins the encounter by a certain score difference.
@@ -88,6 +185,11 @@ public class Match {
 		Random random = new Random();
 		String result = null;
 		
+		/*
+		 * If the difference in the scores of each team is less than five it is considered a close game
+		 * If the score difference is between 5 and 15, it is considered a win by a medium amount
+		 * If the score difference is greater than 15, the encounter is considered to be won by a large amount
+		 */
 		if (scoreDifference < 5) {
 			int randomIndex = random.nextInt(closeStrings.size());
 			result = closeStrings.get(randomIndex);
@@ -158,41 +260,16 @@ public class Match {
 		}
 		
 		return result;
-		
-	}
-	
-	public String getOppositionTeamName() {
-		return oppositionTeamName;
-	}
-	
-	public Team getOppositionTeam() {
-		return oppositionTeam;
-	}
-	
-	
-	public String toString() {
-		String result = "Team name: " + oppositionTeamName;
-		result += "\nPoints: " + points;
-		result += "\nPrize money: " + getMoneyFormatted();
-		
-		return result;
-	}
-	
-	public int getMoney() {
-		return prizeMoney;
-	}
-	
-	public String getMoneyFormatted() {
-	    String formatted = "";
-	    int absPrizeMoney = Math.abs(prizeMoney);
-	    if (prizeMoney < 0) {
-	        formatted += "-";
-	    }
-	    formatted += "$" + String.format("%,d", absPrizeMoney);
-	    return formatted;
 	}
 
-	
+	/**
+	 * Returns the encounter athletes for the match
+	 * Selects encounter athletes by taking the first remaining unplayed athlete from the unplayed player's list, 
+	 * The selected athlete is removed from the unplayed athletes list and added to the list of encounter athletes.
+	 * If the athlete selected is an attacker, a defender from the opposition team will be selected for the encounter,
+	 * removed from the unplayed opposition athletes list and vice versa if the athlete was a defender.
+	 * @return a list of athletes: one from each team in opposing positions that will play each other in the encounter
+	 */
 	public ArrayList<Athlete> getEncounterAthletes() {
 		ArrayList<Athlete> encounterAthletes = new ArrayList<Athlete>();
 		Athlete athlete = unplayedAthletes.get(0);
@@ -222,10 +299,23 @@ public class Match {
 				
 	}
 	
+	/**
+	 * Simulates an encounter between two athletes and determines the outcome.
+	 * A defender will use their defensive score for the encounter and an attacker will use their attacking score.
+	 * If an attacker wins their team gains 10 points. If a defender wins, their team does not gain points but the other team does not score. 
+	 * A string will be generated based on the result of the encounter (which athlete won the encounter and based on how close the scores were)
+	 * If an athlete loses the encounter, their stamina's will decrease more than if they win.
+	 * @param athlete the player's athete;
+	 * @param opposition the opposition athlete;
+	 * @return a string describing the result of the encounter including which player won, depending on how close the score difference was.
+	 */
 	public String encounter(Athlete athlete, Athlete opposition) {
-        playedAthletes.add(athlete);
-        //playedAthletes.add(opposition);
-
+        playedTeamAthletes.add(athlete);
+        
+        /*
+         *  If an athlete loses the encounter, they lose more energy (stamina) than if they won.
+         *  The amount varies for each (win onr lost), inclusive of the following integers.
+         */
 		int minWinStaminaDecreaseVal = 10;
 		int maxWinStaminaDecreaseVal = 50;
 		int minLossStaminaDecreaseVal = 50;
@@ -236,6 +326,7 @@ public class Match {
 		
 		if (athlete.getPosition() == "Defender") {
 			int result = athlete.getDefensive() - opposition.getOffensive();
+			// in the case that it is a tie, the defender will "win" since the attacker will not have been able to score. 
 			if (result >= 0) {
 		        athlete.decreaseStamina(random.nextInt(maxWinStaminaDecreaseVal - minWinStaminaDecreaseVal + 1) + minWinStaminaDecreaseVal);
 				return defenderWinString(athlete.getName(), result, opposition.getName());
@@ -258,23 +349,8 @@ public class Match {
 
 	}
 	
+
 	
-	public ArrayList<Athlete> getUnplayedOpposition() {
-		return unplayedOpposition;
-	}
-	
-	public int getPlayerScore() {
-		return playerScore;
-	}
-	
-	public int getOppositionScore() {
-		return oppositionScore;
-	}
-	
-	
-	public int getPointsValue() {
-		return points;
-	}
 	
 	public void increaseTeamStats() {
 		// Increase statistic amount for the position they played in
@@ -287,7 +363,7 @@ public class Match {
 		
 		Random random = new Random();
 		
-		for (Athlete athlete : playedAthletes) {
+		for (Athlete athlete : playedTeamAthletes) {
 			if (athlete.getPosition().equals("Attacker")) {
 				int increaseAmountOffensive = random.nextInt(maxIncreasePosition - minIncreasePosition + 1) + minIncreasePosition;
 				athlete.increaseOffensive(increaseAmountOffensive);
@@ -302,12 +378,9 @@ public class Match {
 		}
 	}
 	
-	public ArrayList<Athlete> getUpdatedTeam() {
-		return playedAthletes;
-	}
 	
 	public boolean allPlayersInjured() {
-	    for (Athlete athlete : playedAthletes) {
+	    for (Athlete athlete : playedTeamAthletes) {
 	        if (athlete.getStamina() != 0) {
 	            return false; // At least one athlete has non-zero stamina, so return false
 	        }
@@ -319,7 +392,7 @@ public class Match {
 	    Map<String, Object> result = new HashMap<>();
 
 
-	    if (playedAthletes.size() < 4) {
+	    if (playedTeamAthletes.size() < 4) {
 	        throw new IllegalStateException("Game not over");
 	    } else if (allPlayersInjured()) {
 	        result.put("winner", oppositionTeamName);
@@ -351,11 +424,33 @@ public class Match {
 	}
 	
 	public Boolean isMatchRunning() {
-		if (playedAthletes.size() < 4) {
+		if (playedTeamAthletes.size() < 4) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Returns a string with the prize money formatted to include a dollar sign and separate the thousands by a comma
+	 * @return formatted the prize money as a formatted string
+	 */
+	public String getMoneyFormatted() {
+	    String formatted = "";
+	    int absPrizeMoney = Math.abs(prizeMoney);
+	    if (prizeMoney < 0) {
+	        formatted += "-";
+	    }
+	    formatted += "$" + String.format("%,d", absPrizeMoney);
+	    return formatted;
+	}
+	
+	public String toString() {
+		String result = "Team name: " + oppositionTeamName;
+		result += "\nPoints: " + points;
+		result += "\nPrize money: " + getMoneyFormatted();
+		
+		return result;
 	}
 
 }

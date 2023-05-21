@@ -1924,7 +1924,7 @@ public class MainGame {
     	
     	JButton addToTeam = createButtonBelowAthleteCard(312);
     	addToTeam.setText("<html><center>"+"Add athlete"+"<br>"+"to team"+"</center></html>");
-    	BuySingleAthletePanel.add(addToReserves);
+    	BuySingleAthletePanel.add(addToTeam);
     	addToTeam.setVisible(false);
     	
     	JButton addToTeamFull = createButtonBelowAthleteCard(312);
@@ -1942,8 +1942,6 @@ public class MainGame {
     	BuySingleAthletePanel.add(addAsAttacker);
     	addAsAttacker.setVisible(false);
     	
-        
-
         purchaseAthleteButton.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent a) {
 	    		try {
@@ -1955,7 +1953,7 @@ public class MainGame {
 		            balanceText.setText("Player balance: " + gameEnvironment.getMoneyFormatted() + "   ");
 		        	addToReserves.setVisible(true);
 		        	if (gameEnvironment.getTeamList().size() < 4) {
-		            	addToTeam.setVisible(false);
+		            	addToTeam.setVisible(true);
 		        	} else {
 		        		addToTeamFull.setVisible(true);
 		        	}
@@ -2110,6 +2108,7 @@ public class MainGame {
 		sellPlayer.setBounds(297, 107, 308, 122);
 		sellScreenpannel.add(sellPlayer);
 		
+		
 		sellPlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				sellScreenpannel.setVisible(false);
@@ -2168,6 +2167,9 @@ public class MainGame {
 		JPanel reservesPanel = createTeamPanel(reservesList.size(), 460);
 		sellPlayerPanel.add(reservesPanel);
 		
+		if (reservesList.isEmpty()) {
+			reservesPanel.setVisible(false);
+		}
 		
 		ArrayList<JPanel> panels = new ArrayList<JPanel>();
 		panels.addAll(addAthletesToPanel(teamPanel, teamList, teamList.size()));
@@ -2313,10 +2315,7 @@ public class MainGame {
 	}
 	
 	public void sellSingleItemScreen(Item item) {
-		
-		
-		// JR PLACEHOLDER
-		
+				
 		JPanel sellSingleItemPanel = createScreenPanel();
 		frame.getContentPane().add(sellSingleItemPanel);
 		
@@ -2368,6 +2367,8 @@ public class MainGame {
 	/**
 	 * Displays the screen to confirm if the user selects to move to the next week.
 	 * The user has the option to return to the menu screen and continue in the week or move to the next week in the season.
+	 * If yes, move to the next week is selected, there is a chance that a random event will occur and the user will be sent to that screen,
+	 * Otherwise, the bye info screen will be shown.
 	 */
 	private void byeConfirmationScreen() {
 		JPanel byeConfirmationPanel = createScreenPanel();
@@ -2398,16 +2399,30 @@ public class MainGame {
 	    		mainMenu();
 	    		}
 	    });
-		
+		/*
+		 * If a random event occurs in the game environment at the end of the week, the user will move to the random events screen when selecting yes
+		 * Otherwise, the user will skip this screen and continue to the bye info screen
+		 */
 		yesButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		byeConfirmationPanel.setVisible(false);
 	    		if (!gameEnvironment.checkGameContinues()) {
 	    			endGameSummaryScreen();
 	    		}
-	    		byeInfoScreen();
+	    		if(gameEnvironment.getTeamList().size() == 0) {
+	    			gameEnvironment.increaseWeek();
+	    			byeInfoScreen();
+	    		}else {
+	    			gameEnvironment.increaseWeek();
+	    		Map<String, Object> randomEvents = gameEnvironment.getRandomEvent();
+	    		String result = (String) randomEvents.get("eventType");
+	    		if (result == "rest") {
+	    			byeInfoScreen();
+	    		}else {
+	    			randomEventScreen(result);
+	    			
 	    		}
-	    });
+	    }}});
 		
 	}
 	
@@ -2417,8 +2432,6 @@ public class MainGame {
 	 * Selecting a the panel card for an athlete will redirect the user to the train athlete screen.
 	 */
 	private void byeInfoScreen() {
-		gameEnvironment.increaseWeek();
-		
 		JPanel byeInfoPanel = createScreenPanel();
 		frame.getContentPane().add(byeInfoPanel);
 		
@@ -2449,12 +2462,15 @@ public class MainGame {
 		
 		JPanel teamPanel = createTeamPanel(maxAthletesInTeam, teamPanelY);
 		byeInfoPanel.add(teamPanel);
-        panels.addAll(addAthletesToPanel(teamPanel, gameEnvironment.getTeamList(), maxAthletesInTeam));
+        panels.addAll(addAthletesToPanel(teamPanel, gameEnvironment.getTeamList(), gameEnvironment.getTeamList().size()));
 		
 		JPanel reservesPanel = createTeamPanel(maxAthletesInReserve, reservesPanelY);
 		byeInfoPanel.add(reservesPanel);
-        panels.addAll(addAthletesToPanel(reservesPanel, gameEnvironment.getReservesList(), maxAthletesInReserve));
-
+        panels.addAll(addAthletesToPanel(reservesPanel, gameEnvironment.getReservesList(), gameEnvironment.getReservesList().size()));
+        
+        if (gameEnvironment.getReservesList().isEmpty()) {
+        	reservesPanel.setVisible(false);
+        }
         
         /**
 		* trains specific athlete depends on which of the athlete panels is selected
@@ -2484,7 +2500,7 @@ public class MainGame {
 	 * Displays the screen showing the selected athlete's panel card with specific information about the athlete
 	 * Options to train the athlete selecting the train button or return to the bye info screen to select another athlete
 	 * If the athlete is trained, the athlete's panel card will refresh to reflect their updated statistics and show text with the result of the action.
-	 * A button with text "ok" will appear and when selected will move to a random event screen if a random event occurs, otherwise returns to the main menu to play the next week.
+	 * A button with text "ok" will appear and when selected will return to the main menu to play the next week.
 	 * @param athlete the select athlete that can be trained
 	 */
 	private void byeTrainAthleteScreen(Athlete athlete) {
@@ -2542,25 +2558,13 @@ public class MainGame {
 	    		}
 	    });
 		
-		/*
-		 * If a random event occurs in the game environment at the end of the week, the user will move to the random events screen when selecting ok
-		 * Otherwise, the user will return to the main menu and the game will continue in the next week.
-		 */
+
 		okButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		singleAthletePanel.setVisible(false);
-	    		if(gameEnvironment.getTeamList().size() == 0) {
-	    			mainMenu();
-	    		}else {
-	    		Map<String, Object> randomEvents = gameEnvironment.getRandomEvent();
-	    		String result = (String) randomEvents.get("eventType");
-	    		if (result == "rest") {
 	    		mainMenu();
-	    		}else {
-	    			randomEventScreen(result);
-	    			
 	    		}
-	    }}});
+	    });
 		
 	}
 	
@@ -2707,9 +2711,7 @@ public class MainGame {
 		randomEventsLabel.setFont(new Font("Cooper Black", Font.PLAIN, 25));
 		randomEventsLabel.setBounds(163, 11, 644, 68);
 		randomEventPanel.add(randomEventsLabel);
-		
-		
-		
+
 	
 		
 		JLabel randomEventText = new JLabel("");
@@ -2727,7 +2729,7 @@ public class MainGame {
 		continueButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				randomEventPanel.setVisible(false);
-				mainMenu();
+				byeInfoScreen();
 				
 			}
 		});
@@ -2745,13 +2747,13 @@ public class MainGame {
 		        if (result.equals("increaseStat")) {
 		            randomEventText.setText("An athlete in your team trained with a pro, thier stats have increased ");
 		        } else if (result.equals("athleteJoins")) {
-		            randomEventText.setText("An aspiring quditch player has snuck into your team");
+		            randomEventText.setText("An aspiring Broomstick Blitz player has snuck into your team");
 		        }else if (result.equals("athleteQuits")) {
-		        	randomEventText.setText("an athlete has left the Team, be sure to manage your stamina");
+		        	randomEventText.setText("An athlete has quit the team, be sure to manage your player's stamina");
 		        	
 		        	
 		        }else if (result.equals("athleteQuitsFalse")) {
-		        	randomEventText.setText("An athlete in your Team considered leaving");
+		        	randomEventText.setText("An athlete in your team considered leaving");
 		        	
 		        }
 		    }

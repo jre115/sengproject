@@ -27,7 +27,7 @@ public class RandomEvents {
         Random random = new Random();
         Athlete athlete = entireTeam.get(random.nextInt(teamSize) - 1);
         
-        if (athlete.getPosition().equals("Injured")) {
+        if (athlete.isInjured()) {
             int quitChance = 50; // 50% chance if injured
             if (random.nextInt(100) < quitChance) {
                 team.removeAthlete(athlete);
@@ -57,6 +57,7 @@ public class RandomEvents {
         	team.addToTeam(athlete, null);
         } else {
         	try {
+        		athlete.setPosition("Reserve");
         		team.addToReserves(athlete);
         	} catch (LimitException e) {
         		return null;
