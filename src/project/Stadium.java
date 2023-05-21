@@ -83,18 +83,9 @@ public class Stadium {
 			
 		}
 		Random rand = new Random();
-		int reserveNumber = rand.nextInt(2);
 		
-		for (int i = 0; i < reserveNumber ; i ++) {
-			Athlete athlete = new Athlete();
-			try {
-				oppositionTeam.addToTeam(athlete, "Reserve");
-			} catch (LimitException e){
-			}
-		}
-		
-		int minMoneyVal = 100;
-		int maxMoneyVal = 300;
+		int minMoneyVal = 500;
+		int maxMoneyVal = 1500;
 		int moneyVal = (int) Math.round((rand.nextInt(maxMoneyVal - minMoneyVal + 1) + minMoneyVal)
                 * difficultyMultiplier * (0.95 + currentWeek * 0.01));
 		
@@ -111,33 +102,31 @@ public class Stadium {
 	public Match generateMediumOpposition() {
 		Team oppositionTeam = new Team();
 		oppositionTeam.setTeamName(getTeamName());
-		
-		ArrayList<Athlete> teamList = new ArrayList<Athlete>();
-		
-		for (int i = 0 ; i < 4 ; i ++) {
-			Athlete athlete = new Athlete();
-			athlete.increaseStatistics(0.95 + (currentWeek*0.05));
-			if (athlete.getDefensive() > athlete.getOffensive()) {
-				oppositionTeam.addToInitialTeam(athlete, "Defender");
-			} else {
-				oppositionTeam.addToInitialTeam(athlete, "Attacker");
-			}
-			teamList.add(athlete);
-		}
+				
+		int attackerCount = 0;
+	    int defenderCount = 0;
+
+	    while (attackerCount < 2 || defenderCount < 2) {
+	        Athlete athlete = new Athlete();
+	        athlete.increaseStatistics(0.95 + (currentWeek * 0.05));
+
+	        if (athlete.getDefensive() > athlete.getOffensive()) {
+	            if (defenderCount < 2) {
+	                oppositionTeam.addToInitialTeam(athlete, "Defender");
+	                defenderCount++;
+	            }
+	        } else {
+	            if (attackerCount < 2) {
+	                oppositionTeam.addToInitialTeam(athlete, "Attacker");
+	                attackerCount++;
+	            }
+	        }
+	    }
 		
 		Random rand = new Random();
-		int reserveNumber = rand.nextInt(3);
 		
-		for (int i = 0; i < reserveNumber ; i ++) {
-			Athlete athlete = new Athlete();
-			try {
-				oppositionTeam.addToTeam(athlete, "Reserve");
-			} catch (LimitException e){
-			}
-		}
-		
-		int minMoneyVal = 300;
-		int maxMoneyVal = 450;
+		int minMoneyVal = 1000;
+		int maxMoneyVal = 2000;
 		int moneyVal = (int) Math.round((rand.nextInt(maxMoneyVal - minMoneyVal + 1) + minMoneyVal)
                 * difficultyMultiplier * (0.95 + currentWeek * 0.01));
 		
@@ -153,32 +142,31 @@ public class Stadium {
 		Team oppositionTeam = new Team();
 		oppositionTeam.setTeamName(getTeamName());
 		
-		ArrayList<Athlete> teamList = new ArrayList<Athlete>();
-		
-		for (int i = 0 ; i < 4 ; i ++) {
-			Athlete athlete = new Athlete();
-			athlete.increaseStatistics(1.1 + (currentWeek*0.05));
-			if (athlete.getDefensive() > athlete.getOffensive()) {
-				oppositionTeam.addToInitialTeam(athlete, "Defender");
-			} else {
-				oppositionTeam.addToInitialTeam(athlete, "Attacker");
-			}
-			teamList.add(athlete);
-		}
-		
+		int attackerCount = 0;
+	    int defenderCount = 0;
+	    
+	    while (attackerCount < 2 || defenderCount < 2) {
+	        Athlete athlete = new Athlete();
+	        athlete.increaseStatistics(1.1 + (currentWeek * 0.05));
+
+	        if (athlete.getDefensive() > athlete.getOffensive()) {
+	            if (defenderCount < 2) {
+	                oppositionTeam.addToInitialTeam(athlete, "Defender");
+	                defenderCount++;
+	            }
+	        } else {
+	            if (attackerCount < 2) {
+	                oppositionTeam.addToInitialTeam(athlete, "Attacker");
+	                attackerCount++;
+	            }
+	        }
+	    }
+	    
+
 		Random rand = new Random();
-		int reserveNumber = rand.nextInt(4);
 		
-		for (int i = 0; i < reserveNumber ; i ++) {
-			Athlete athlete = new Athlete();
-			try {
-				oppositionTeam.addToTeam(athlete, "Reserve");
-			} catch (LimitException e){
-			}
-		}
-		
-		int minMoneyVal = 500;
-		int maxMoneyVal = 700;
+		int minMoneyVal = 1500;
+		int maxMoneyVal = 2500;
 		int moneyVal = (int) Math.round((rand.nextInt(maxMoneyVal - minMoneyVal + 1) + minMoneyVal)
                 * difficultyMultiplier * (0.95 + currentWeek * 0.01));
 		

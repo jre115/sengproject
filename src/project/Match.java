@@ -51,9 +51,9 @@ public class Match {
 	 * @param defenderName a String representing the name of the defender
 	 * @return a String representing a description of the attacker winning the encounter
 	 */
-	public String attackerWinString(String attackerName, int value,  String defenderName) {
+	public String attackerWinString(String attackerName, int scoreDifference,  String defenderName) {
 		
-		int scoreDifference = Math.abs(value);
+		scoreDifference = Math.abs(scoreDifference);
 
 		// Strings for depicting the attacker winning the encounter by a small amount - the contest was close
 		ArrayList<String> closeStrings = new ArrayList<String>();
@@ -111,9 +111,9 @@ public class Match {
 	 * @param attackerName a String representing the name of the attacker
 	 * @return a String representing a description of the defender winning the encounter
 	 */
-	public String defenderWinString(String defenderName, int value, String attackerName) {
+	public String defenderWinString(String defenderName, int scoreDifference, String attackerName) {
 		
-		int scoreDifference = Math.abs(value);
+		scoreDifference = Math.abs(scoreDifference);
 		
 		// Strings for depicting the defender winning the encounter by a small amount - the contest was close
 		ArrayList<String> closeStrings = new ArrayList<String>();
@@ -184,15 +184,14 @@ public class Match {
 	
 	public String getMoneyFormatted() {
 	    String formatted = "";
+	    int absPrizeMoney = Math.abs(prizeMoney);
 	    if (prizeMoney < 0) {
 	        formatted += "-";
-	        prizeMoney = -prizeMoney;
 	    }
-	    formatted += "$" + String.format("%,d", prizeMoney);
+	    formatted += "$" + String.format("%,d", absPrizeMoney);
 	    return formatted;
 	}
-	
-	
+
 	
 	public ArrayList<Athlete> getEncounterAthletes() {
 		ArrayList<Athlete> encounterAthletes = new ArrayList<Athlete>();
@@ -201,9 +200,9 @@ public class Match {
 		unplayedAthletes.remove(athlete);
 		String position = athlete.getPosition();
 		
-		if (position == "Attacker") {
+		if (position.equals("Attacker")) {
 			for (Athlete oppositionAthlete : unplayedOpposition) {
-				if (oppositionAthlete.getPosition() == "Defender") {
+				if (oppositionAthlete.getPosition().equals("Defender")) {
 					encounterAthletes.add(oppositionAthlete);
 					unplayedOpposition.remove(oppositionAthlete);
 					break;
@@ -224,6 +223,9 @@ public class Match {
 	}
 	
 	public String encounter(Athlete athlete, Athlete opposition) {
+        playedAthletes.add(athlete);
+        //playedAthletes.add(opposition);
+
 		int minWinStaminaDecreaseVal = 10;
 		int maxWinStaminaDecreaseVal = 50;
 		int minLossStaminaDecreaseVal = 50;
@@ -236,11 +238,9 @@ public class Match {
 			int result = athlete.getDefensive() - opposition.getOffensive();
 			if (result >= 0) {
 		        athlete.decreaseStamina(random.nextInt(maxWinStaminaDecreaseVal - minWinStaminaDecreaseVal + 1) + minWinStaminaDecreaseVal);
-		        playedAthletes.add(athlete);
 				return defenderWinString(athlete.getName(), result, opposition.getName());
 			} else {
 		        athlete.decreaseStamina(random.nextInt(maxLossStaminaDecreaseVal - minLossStaminaDecreaseVal + 1) + minLossStaminaDecreaseVal);
-		        playedAthletes.add(athlete);
 				oppositionScore += 10;
 				return attackerWinString(opposition.getName(), result, athlete.getName());
 			}
@@ -249,11 +249,9 @@ public class Match {
 			if (result > 0) {
 		        athlete.decreaseStamina(random.nextInt(maxWinStaminaDecreaseVal - minWinStaminaDecreaseVal + 1) + minWinStaminaDecreaseVal);
 				playerScore += 10;
-		        playedAthletes.add(athlete);
 				return attackerWinString(athlete.getName(), result, opposition.getName());
 			} else {
 		        athlete.decreaseStamina(random.nextInt(maxLossStaminaDecreaseVal - minLossStaminaDecreaseVal + 1) + minLossStaminaDecreaseVal);
-		        playedAthletes.add(athlete);
 				return defenderWinString(opposition.getName(), result, athlete.getName());
 			}
 		}
@@ -290,7 +288,7 @@ public class Match {
 		Random random = new Random();
 		
 		for (Athlete athlete : playedAthletes) {
-			if (athlete.getPosition() == "Attacker") {
+			if (athlete.getPosition().equals("Attacker")) {
 				int increaseAmountOffensive = random.nextInt(maxIncreasePosition - minIncreasePosition + 1) + minIncreasePosition;
 				athlete.increaseOffensive(increaseAmountOffensive);
 				int increaseAmountDefensive = random.nextInt(maxIncreaseAlternative - minIncreaseAlternative + 1) + minIncreaseAlternative;
