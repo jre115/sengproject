@@ -85,6 +85,14 @@ public class Market   {
 		currentItemsAvailable.remove(item);
 	}
 	
+	
+	public void updateShopAthletesStats(int currentWeek) {
+	    for (Athlete athlete : currentAthletesAvailable) {
+	        
+	        int statIncrease = currentWeek*2 ; // Adjust the increase rate as desired
+	        athlete.increaseStatistics(statIncrease);
+	    }
+	}
 
 	
 }

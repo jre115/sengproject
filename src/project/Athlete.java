@@ -363,6 +363,11 @@ public class Athlete extends Purchasable {
         staminaStatistic = (int) Math.min(staminaStatistic * increaseMultiplier, 100);
     }
     
+    public void increaseStat(double increaseMultiplier) {
+        offensiveStatistic = (int) (offensiveStatistic + increaseMultiplier);
+        defensiveStatistic = (int) (defensiveStatistic + increaseMultiplier);
+    }
+    
     public void setAthleteStatisticsBasedOnDefensive(int defensiveScore) {
 
         Random rand = new Random();

@@ -6,8 +6,18 @@ import java.util.Map;
 import java.util.Random;
 
 
-
+/**
+ * 
+ * 
+ *
+ */
 public class RandomEvents {
+	/**
+	 * 
+	 * @param team
+	 * @return
+	 */
+	
 
 	public Athlete athleteQuits(Team team) {
         ArrayList<Athlete> entireTeam = team.getTeamList();
@@ -32,7 +42,11 @@ public class RandomEvents {
 
         return null; // No athlete quit
     }
-
+/**
+ * 
+ * @param team
+ * @return
+ */
     public Athlete athleteJoins(Team team) {
        
         Athlete athlete = new Athlete();

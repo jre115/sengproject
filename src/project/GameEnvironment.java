@@ -573,6 +573,9 @@ public class GameEnvironment {
 	public String itemToStringHTML(Item item) {
 		return item.toStringHTML();
 	}
+	public void updateShopStats() {
+		market.updateShopAthletesStats(currentWeek);
+	}
 	
 
 
