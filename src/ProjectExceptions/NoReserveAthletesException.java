@@ -1,4 +1,4 @@
-package project;
+package ProjectExceptions;
 
 public class NoReserveAthletesException extends Exception {
     public NoReserveAthletesException() {

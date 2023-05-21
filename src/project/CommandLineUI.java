@@ -11,6 +11,12 @@ import java.util.InputMismatchException;
  */
 
 import java.util.Scanner;  // Import the Scanner class
+
+import ProjectExceptions.IllegalTeamException;
+import ProjectExceptions.InsufficientFundsException;
+import ProjectExceptions.NameException;
+import ProjectExceptions.NoReserveAthletesException;
+
 import java.util.Map;
 
 

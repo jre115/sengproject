@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import ProjectExceptions.IllegalTeamException;
+import ProjectExceptions.InsufficientFundsException;
+import ProjectExceptions.InventoryFullException;
+import ProjectExceptions.NameException;
+import ProjectExceptions.NoReserveAthletesException;
+
 
 public class GameEnvironment {
 	

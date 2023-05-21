@@ -15,6 +15,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+
+import ProjectExceptions.IllegalTeamException;
+import ProjectExceptions.InsufficientFundsException;
+import ProjectExceptions.InventoryFullException;
+import ProjectExceptions.NameException;
+import ProjectExceptions.NoReserveAthletesException;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;

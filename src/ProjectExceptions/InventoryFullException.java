@@ -1,4 +1,4 @@
-package project;
+package ProjectExceptions;
 
 public class InventoryFullException extends Exception {
     public InventoryFullException() {

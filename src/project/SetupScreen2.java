@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import ProjectExceptions.NameException;
 import lab.Athlete;
 
 import java.awt.Font;

@@ -1,4 +1,4 @@
-package project;
+package ProjectExceptions;
 
 public class InsufficientFundsException extends Exception{
     public InsufficientFundsException() {
