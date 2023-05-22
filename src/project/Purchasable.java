@@ -115,6 +115,20 @@ public class Purchasable {
     }
     
     /**
+     * Generates a contract price for the athlete based on their statistics
+     * For an Athlete, the contract price is calculated from the offensive and defensive scores.
+     */
+    public int generateContractPrice() {
+    	if (this instanceof Athlete) {
+    		Athlete athlete = (Athlete) this;
+    		int price = (athlete.getOffensive() + athlete.getDefensive()) * 50;
+    		return price;
+            } else {
+            	return sellbackPrice;
+            }
+    }
+    
+    /**
      * Sets the sell-back price of the purchasable thing to a specified value
      * @param sellBackPrice the sell-back price to be set
      */

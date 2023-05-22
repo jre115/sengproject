@@ -53,9 +53,11 @@ public class Market   {
 	
 	/**
 	 * generates a random number between 3-5 and adds that number of random athletes to the arraylist
+	 * The current week to increases all athletes' statistics in the shop as the weeks increase
+	 * @param currentWeek and integer value that represents the current week of the game and scale of statistic increase
 	 * @return an array list(shop athletes) of random athletes between 3-5
 	 */
-	public ArrayList<Athlete> playerShop() {
+	public ArrayList<Athlete> playerShop(int currentWeek) {
 		Random R = new Random();
 		int min = 3;
 		int max = 5;
@@ -67,7 +69,10 @@ public class Market   {
 		
 		for (int i = 1; i <= Num; i ++) {
 			Athlete athlete = new Athlete();
-			athlete.setContractPrice(5000);
+			double range = 0.95 + (R.nextDouble() * 0.05);
+	        double statIncrease = range + (currentWeek * 0.05);
+	        athlete.increaseStatistics(statIncrease);
+			athlete.setContractPrice(athlete.generateContractPrice());
 			ShopAthletes.add(athlete);
 		}
 		
@@ -94,10 +99,12 @@ public class Market   {
 	
 	/**
 	 * sets selectedItem to varible(currentItemsAvailable) and shop athletes to vairble(currentAthletesAvailable)
+	 * @param currentWeek and integer value that represents the current week of the game
+
 	 */
-	public void refreshMarket() {
+	public void refreshMarket(int currentWeek) {
 		currentItemsAvailable = itemShop();
-		currentAthletesAvailable = playerShop();
+		currentAthletesAvailable = playerShop(currentWeek);
 	}
 	
 	/**
@@ -116,17 +123,7 @@ public class Market   {
 		currentItemsAvailable.remove(item);
 	}
 	
-	/**
-	 * methods that increase all athletes' statistics in shop as weeks go by
-	 * @param currentWeek and integer value that represents the current week of the game and scale of statistic increase
-	 */
-	public void updateShopAthletesStats(int currentWeek) {
-	    for (Athlete athlete : currentAthletesAvailable) {
-	        
-	        double statIncrease = 0.95 * (currentWeek * 0.05);
-	        athlete.increaseStatistics(statIncrease);
-	    }
-	}
+
 
 	
 }

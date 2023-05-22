@@ -268,7 +268,7 @@ public class GameEnvironment {
 			}
 			currentWeek += 1;
 	    	stadium.setStadium(team, currentWeek);
-			market.refreshMarket();
+			market.refreshMarket(currentWeek);
 	    	team.restoreAthletes();
 
 	    	if (currentWeek == seasonLength) {
@@ -609,10 +609,6 @@ public class GameEnvironment {
 	public String itemToStringHTML(Item item) {
 		return item.toStringHTML();
 	}
-	public void updateShopStats() {
-		market.updateShopAthletesStats(currentWeek);
-	}
-	
 
 
 }
