@@ -55,10 +55,10 @@ public class Stadium {
     	teamNames = new ArrayList<String>();
 		if (difficulty == "Normal") {
 			difficultyMultiplier = 1.15;
-			difficultyDivider = 2;
+			difficultyDivider = 1.7;
 		} else {
 			difficultyMultiplier = 1;
-			difficultyDivider = 1.7;
+			difficultyDivider = 2;
 		}
     }
     
@@ -101,7 +101,7 @@ public class Stadium {
 		}
 		
 		Random random = new Random();
-		String randomName = teamNames.get(random.nextInt(teamNames.size() - 1));
+		String randomName = teamNames.get(random.nextInt(teamNames.size()));
 		
 		return randomName;
 		
@@ -113,8 +113,8 @@ public class Stadium {
 	 * @param match the match to be removed
 	 */
 	public void playMatch(Match match) {
-		teamNames.remove(match.getOppositionTeamName());
 		matches.remove(match);
+		teamNames.remove(match.getOppositionTeamName());
 	}
 	
 	
@@ -182,7 +182,7 @@ public class Stadium {
 	        } else {
 	            if (attackerCount < 2) {
 	                oppositionTeam.addToInitialTeam(athlete, "Attacker");
-	                attackerCount++;
+	                attackerCount++; 
 	            }
 	        }
 	    }
@@ -264,7 +264,7 @@ public class Stadium {
     	int numOfEasyMatches = rand.nextInt(2) + 1;
     	
     	for (int i = 0 ; i < numOfEasyMatches ; i ++) {
-    		matchOptions.add(generateEasyOpposition());
+    		matchOptions.add(generateEasyOpposition()); 
     	}
     	if (numOfEasyMatches == 1) {
     		matchOptions.add(generateMediumOpposition());
@@ -273,7 +273,7 @@ public class Stadium {
     	matchOptions.add(generateDifficultOpposition());
     	
     	matches = matchOptions;
-    	
+    	 
     }
     
     /**
@@ -285,5 +285,15 @@ public class Stadium {
     public ArrayList<Match> getMatches() {
     	return matches;
     }
+    
+    /**
+     * Returns the array list of strings with the available names to be generated for the opposition teams. 
+     * @return teamNames the list of available strings to name an opposition team.
+     */
+    public ArrayList<String> getAvailableOppositionTeamNames() {
+    	return teamNames;
+    }
+    
+
    
 }
