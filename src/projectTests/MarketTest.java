@@ -11,8 +11,11 @@ import project.Item;
 import project.Market;
 
 class MarketTest {
-
+	
 	@Test
+	/**
+	 * test if item shop generates the correct number of items "4"
+	 */
 	void testItemShop() {
 		Market market = new Market();
 		ArrayList<Item> selectedItems = market.itemShop();
@@ -20,6 +23,9 @@ class MarketTest {
 	}
 
 	@Test
+	/**
+	 * tests player shop fuctionality and that it return a valid number of athletes between 3-5
+	 */
 	void testPlayerShop() {
 		Market market = new Market();
 		ArrayList<Athlete> shopAthletes = market.playerShop(1);
@@ -27,6 +33,9 @@ class MarketTest {
 	}
 
 	@Test
+	/**
+	 * checks if current shop items and athletes are refreshing correctly
+	 */
 	void testRefreshMarket() {
 		Market market = new Market();
 		int currentWeek = 1;
@@ -38,6 +47,9 @@ class MarketTest {
 	}
 
 	@Test
+	/**
+	 * tests the purchase player method by checking if athlete is removed from the shop
+	 */
 	void testPurchaseAthlete() {
 		Market market = new Market();
 		int currentWeek = 1;
@@ -49,6 +61,10 @@ class MarketTest {
 	}
 
 	@Test
+	/**
+	 *  tests the purchase item method by checking if item is removed from the shop
+	 */
+	 
 	void testPurchaseItem() {
 		Market market = new Market();
 		int currentWeek = 1;
@@ -59,8 +75,5 @@ class MarketTest {
 		assertFalse(shopItems.contains(item));
 	}
 	
-	/**
-	 * Tests the increase of athletes' stats as the weeks increase in the Market class.
-	 */
 	
 }

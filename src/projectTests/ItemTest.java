@@ -10,13 +10,13 @@ class ItemTest {
 
 	@Test
 	void testItemConstructor() {
-		Item item = new Item("Fireflyer Charm", 5, 5, 1000, 200, "A charm that enhances your broom's attack and defense capabilities with its enchanting glow");
-		assertEquals("Fireflyer Charm", item.getName());
+		Item item = new Item("Charm", 5, 5, 1000, 200, "check");
+		assertEquals("Charm", item.getName());
 		assertEquals(5, item.getOffence());
 		assertEquals(5, item.getDefence());
 		assertEquals(1000, item.getContractPrice());
 		assertEquals(200, item.getSellBackPrice());
-		assertEquals("A charm that enhances your broom's attack and defense capabilities with its enchanting glow", item.getDescription());
+		assertEquals("check", item.getDescription());
 	}
 
 	
