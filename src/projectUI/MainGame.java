@@ -1624,7 +1624,11 @@ public class MainGame {
 	}
 	
 	
-
+	/**
+	 * Displays the market screen, wich has current players money, and a back button
+	 * shows buttons that take player to sell screen, buy athlete screen and buy item screen
+	 * 
+	 */
 	private void marketScreen() {
 		
 		JPanel marketpanel = new JPanel();
@@ -1644,7 +1648,9 @@ public class MainGame {
 		backButton.setFont(new Font("Cooper Black", Font.PLAIN, 15));
 		backButton.setBounds(10, 11, 81, 48);
 		marketpanel.add(backButton);
-		
+		/**
+		 * adds back button that sets current screen as not visible and takes player to mainMenu
+		 */
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				marketpanel.setVisible(false);
@@ -1656,6 +1662,10 @@ public class MainGame {
 		JLabel marketlabel = createTitleText("Market");
 		marketpanel.add(marketlabel);
 		
+		/**
+		 * adds sell button
+		 * adds action wich sets current screen to not visible and takes player to sell screen
+		 */
 		JButton sellButton = new JButton("SELL");
 		sellButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		sellButton.setBounds(72, 325, 267, 111);
@@ -1668,7 +1678,10 @@ public class MainGame {
 			}
 		});
 		
-		
+		/**
+		 * adds a buy Item button to current screen
+		 * sets current screen to not visible when pushed and takes player to buy player screen
+		 */
 		JButton Buyplayerbutton = new JButton("BUY PLAYER");
 		Buyplayerbutton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		Buyplayerbutton.setBounds(626, 325, 267, 111);
@@ -1680,7 +1693,10 @@ public class MainGame {
 				buyPlayerScreen();
 			}
 		});
-		
+		/**
+		 * adds buy item button to current screen
+		 * adds action when pushed sets current screen to not visible then takes player to buy item screen
+		 */
 		JButton buyItemButton = new JButton("BUY ITEM");
 		buyItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		buyItemButton.setBounds(349, 325, 267, 111);
@@ -1698,6 +1714,11 @@ public class MainGame {
 		
 		
 	}
+	/**
+	 * screen which displays items available for purchase
+	 * displays current money
+	 * displays back button 
+	 */
 	
 	public void buyItemsScreen() {
 		JPanel itemDisplayPanel = createScreenPanel();
@@ -1734,7 +1755,10 @@ public class MainGame {
         	infoText.setText("No items left to purchase this week. Come back next week and the market will be restocked");
         	ItemPanel.setVisible(false);
         }
-        
+        /**
+         * takes player to the items that was clicked
+         * sets current screen to false and class the single item screen of the item that was clicked
+         */
         for (int i = 0; i < panels.size(); i++) {
 			final int index = i;
 		    JPanel panel = panels.get(i);
@@ -1746,7 +1770,10 @@ public class MainGame {
 		        }
 		    });
 		}
-        
+        /**
+         * back button which takes player back to market screen
+         * adds action lister which takes player to market screen sets current panel to false
+         */
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				itemDisplayPanel.setVisible(false);
@@ -1756,7 +1783,11 @@ public class MainGame {
 		
 		
 	}
-	
+	/**
+	 * displays a single screen of the item that was clicked on 
+	 * displays option to purchase item or go back
+	 * @param item the item that was clicked
+	 */
 	public void buySingleItemScreen(Item item) {
 		JPanel BuySingleItemPanel = createScreenPanel();
 		frame.getContentPane().add(BuySingleItemPanel);
@@ -1789,13 +1820,18 @@ public class MainGame {
 		itemPanel.setLayout(null);
 		
 		refreshItemPanel(itemPanel, item, 1);
-		
+		/**
+		 * adds button which purchases the item
+		 * the action calls purchase item method from game environment
+		 * sets text which displays current money after purchase
+		 * 
+		 */
         JButton purchaseItemButton = new JButton("Purchase Item");
         purchaseItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
         purchaseItemButton.setBounds(312, 586, 360, 47);
         BuySingleItemPanel.add(purchaseItemButton);
         
-
+        
         purchaseItemButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		try {
@@ -1813,7 +1849,9 @@ public class MainGame {
 					}
 	    	}
 	    });
-		
+		/**
+		 * goes back to previous screen(buyItemScreen) and sets current panel to not visible
+		 */
 		backButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		BuySingleItemPanel.setVisible(false);
@@ -1823,7 +1861,9 @@ public class MainGame {
 	}
 		
 	
-
+	/**
+	 * displays 3-5 athletes available for purchase
+	 */
 	public void  buyPlayerScreen(){
 		JPanel BuyPlayerPanel = createScreenPanel();
 		frame.getContentPane().add(BuyPlayerPanel);
@@ -1855,12 +1895,17 @@ public class MainGame {
 		BuyPlayerPanel.add(athletesPanel);
 		
 		ArrayList<JPanel> panels = addAthletesToPanel(athletesPanel, shopAthletes, shopAthletes.size());
-		
+		/**
+		 * checks if all athletes have been purchased
+		 * 
+		 */
 		if (shopAthletes.size() == 0) {
         	infoText.setText("No athletes left to purchase this week. Come back next week and the market will be restocked");
         	athletesPanel.setVisible(false);
         }
-        
+        /**
+         * adds action where if athlete is clicked, sets current screen to not visible and takes you to single player screen
+         */
         for (int i = 0; i < panels.size(); i++) {
 			final int index = i;
 		    JPanel panel = panels.get(i);
@@ -1872,7 +1917,10 @@ public class MainGame {
 		        }
 		    });
 		}
-        
+        /**
+         * takes you back to market
+         * sets current panel not visible and takes you to market screen
+         */
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BuyPlayerPanel.setVisible(false);
@@ -1881,11 +1929,16 @@ public class MainGame {
 			}
 		});
 	}
-	
+	/**
+	 * single athlete screen wich displays athlete wich was clicked on and gives option to add to reserve or team
+	 * @param athlete to be purchased added to team
+	 */
 	public void buySingleAthletePanel(Athlete athlete) {
 		JPanel BuySingleAthletePanel = createScreenPanel();
 		frame.getContentPane().add(BuySingleAthletePanel);
-		
+		/**
+		 * shows current money
+		 */
 		JLabel balanceText = new JLabel("Player balance: " + gameEnvironment.getMoneyFormatted() + "   ");
 		balanceText.setHorizontalAlignment(SwingConstants.TRAILING);
 		balanceText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
@@ -1942,6 +1995,11 @@ public class MainGame {
     	BuySingleAthletePanel.add(addAsAttacker);
     	addAsAttacker.setVisible(false);
     	
+    	/**
+    	 * purchases athlete
+    	 * calls purchaseAthlete when button is pressed
+    	 * shows purchaseAthlete exception when caught
+    	 */
         purchaseAthleteButton.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent a) {
 	    		try {
@@ -1966,7 +2024,9 @@ public class MainGame {
 					}
 	    	}
 	    });
-        
+        /**
+         * takes player back to previous screen(buyPlayerScreen)
+         */
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BuySingleAthletePanel.setVisible(false);
@@ -1975,7 +2035,11 @@ public class MainGame {
 			}
 		});
         
-		
+		/**
+		 * adds athlete as reserve
+		 * when pressed calls addAthleteAsReserve
+		 * 
+		 */
 		addToReserves.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
