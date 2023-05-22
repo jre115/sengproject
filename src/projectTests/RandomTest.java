@@ -38,7 +38,7 @@ class RandomTest {
      * checks if player a player stat is increased
      */
     void testIncreaseRandomPlayerStat_TeamWithPlayers() {
-        // Add players to the team
+        
         Athlete player1 = new Athlete();
         
         try {
@@ -55,13 +55,17 @@ class RandomTest {
        
 		
 
-        // Increase a random player's stat
+        /**
+         *  Increase a random player's stat
+         */
         
         Athlete increasedPlayer = randomEvents.increaseRandomPlayerStat(team);
 
         assertNotNull(increasedPlayer); 
         
-        //checks if increased stat player is in eithe team
+        /**
+         * checks if increased stat player is in eithe team
+         */
         assertTrue(team.getTeamList().contains(increasedPlayer) || team.getReservesList().contains(increasedPlayer)); 
 
       
@@ -91,20 +95,15 @@ class RandomTest {
 	     * 
 	     */
 	    void testAthleteJoins() {
-	        
-	        
-
-	        
 	        RandomEvents randomEvents = new RandomEvents();
 
-	        // Test when the team's roster is not full
+	        /**
+	         *  Test when the team's roster is not full
+	         */
 	        Athlete addedAthlete = randomEvents.athleteJoins(team);
-	        
 	        assertNotNull(addedAthlete); 
 	        assertTrue(team.getTeamList().contains(addedAthlete)); 
 	        assertFalse(team.getReservesList().contains(addedAthlete)); 
-
-	        
 	        for (int i = 0; i < 4; i++) {
 	            Athlete athlete = new Athlete();
 	            try {
@@ -117,11 +116,12 @@ class RandomTest {
 
 	        
 	        Athlete addedAthlete2 = randomEvents.athleteJoins(team);
-	        
 	        assertFalse(team.getTeamList().contains(addedAthlete2)); 
 	        assertTrue(team.getReservesList().contains(addedAthlete2)); 
 	        
-	        // Fill up the reserves list
+	        /**
+	         *  Fill up the reserves list
+	         */
 	        for (int i = 0; i < 5; i++) {
 	            Athlete athlete = new Athlete();
 	            try {
@@ -131,8 +131,9 @@ class RandomTest {
 					
 				}
 	        }
-
-	        // Test when the reserves list is full
+	        /**
+	         *  Test when the reserves list is full
+	         */
 	        Athlete addedAthlete3 = randomEvents.athleteJoins(team);
 	        assertNull(addedAthlete3); 
 	        assertFalse(team.getReservesList().contains(addedAthlete3)); 
@@ -147,7 +148,6 @@ class RandomTest {
 	     * errors are ok as long as differnt events are happening it passes
 	     */
 	    void testPerformRandomEvent_AthleteQuits() {
-	        
 	        Athlete athlete = new Athlete();
 	        try {
 				team.addToTeam(athlete, null);
@@ -155,10 +155,7 @@ class RandomTest {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        
-	        
 	        Map<String, Object> eventDetails = randomEvents.performRandomEvent(team);
-	        
 	        assertEquals("athleteQuits", eventDetails.get("eventType"));
 	        
 	    }
@@ -167,17 +164,7 @@ class RandomTest {
 	   
 	    void testPerformRandomEvent_IncreaseRandomPlayerStat() {
 	        
-	        Athlete athlete = new Athlete();
-	        try {
-				team.addToTeam(athlete, null);
-			} catch (LimitException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        
-	        
 	        Map<String, Object> eventDetails = randomEvents.performRandomEvent(team);
-	        
 	        assertEquals("increaseStat", eventDetails.get("eventType"));
 	        
 	        
@@ -186,9 +173,7 @@ class RandomTest {
 	    @Test
 	    
 	    void testPerformRandomEvent_AthleteJoins() {
-	        
 	        Map<String, Object> eventDetails = randomEvents.performRandomEvent(team);
-	        
 	        assertEquals("athleteJoins", eventDetails.get("eventType"));
 	        
 	        
@@ -197,10 +182,8 @@ class RandomTest {
 	    @Test
 	    
 	    void testPerformRandomEvent_RestEvent() {
-	       
-	        Map<String, Object> eventDetails = randomEvents.performRandomEvent(team);
-	        
-	        assertEquals("rest", eventDetails.get("eventType"));
+	       Map<String, Object> eventDetails = randomEvents.performRandomEvent(team);
+	       assertEquals("rest", eventDetails.get("eventType"));
 	       
 	    }
 	}
