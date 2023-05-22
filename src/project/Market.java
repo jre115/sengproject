@@ -117,14 +117,14 @@ public class Market   {
 	}
 	
 	/**
-	 * methods that increase all athletes stats in shop as weeks go by
-	 * @param currentWeek and integer value that represents the current week of the game and scale of stat increase
+	 * methods that increase all athletes' statistics in shop as weeks go by
+	 * @param currentWeek and integer value that represents the current week of the game and scale of statistic increase
 	 */
 	public void updateShopAthletesStats(int currentWeek) {
 	    for (Athlete athlete : currentAthletesAvailable) {
 	        
-	        int statIncrease = currentWeek*2 ; // Adjust the increase rate as desired
-	        athlete.increaseStat(statIncrease);
+	        double statIncrease = 0.95 * (currentWeek * 0.05);
+	        athlete.increaseStatistics(statIncrease);
 	    }
 	}
 
