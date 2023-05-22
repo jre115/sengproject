@@ -362,7 +362,12 @@ public class GameEnvironment {
     }
     
     
-
+/**
+ * buys item, modifys players money by cost then adds item to inventory the calls methods to remove item from shop
+ * @param item item to be added to inventory
+ * @throws InsufficientFundsException when player can't afford item
+ * @throws InventoryFullException when inventory is full
+ */
     public void purchaseItem(Item item) throws InsufficientFundsException, InventoryFullException {
         if (playerMoney <= item.getContractPrice()) {
             throw new InsufficientFundsException();
@@ -374,7 +379,12 @@ public class GameEnvironment {
             market.purchaseItem(item);
         }
     }
-    
+    /**
+     * method to buy athlete, modify player money add to team or reserve list depending on circumstance then calls methods to remove athlete from shop
+     * @param athlete to be added to team and removed from shop
+     * @throws InsufficientFundsException when player cant afford athlete 
+     * @throws LimitException when both team lists are full
+     */
     public void purchaseAthlete(Athlete athlete) throws InsufficientFundsException, LimitException {
     	
     	if (playerMoney < athlete.getContractPrice()) {
@@ -404,7 +414,7 @@ public class GameEnvironment {
     public void addAthleteToTeam(Athlete athlete, String position) {
     	team.addToTeam(athlete, position);
     }
-    
+   
     public void addAthleteToTeamFull(Athlete added, Athlete swapped) {
     	team.addAthleteAndSwap(added, swapped);
     }
@@ -412,12 +422,18 @@ public class GameEnvironment {
 
     
     
-
+/**
+ * sells items, gets item sell back price and updates current players money then removes item from inventory
+ * @param item the item to modify player money and removed from inventory
+ */
     public void sellItem(Item item) {
     	modifyPlayerMoney(+item.getSellBackPrice());
     	inventory.remove(item);
     }
-
+/**
+ * sells player, updates player money by the sell price then removes player from team
+ * @param athlete the athlete that is to be sold and removed
+ */
     public void sellPlayer(Athlete athlete) {
     	modifyPlayerMoney(+athlete.getSellBackPrice());
     	team.removeAthlete(athlete);
