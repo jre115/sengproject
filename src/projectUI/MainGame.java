@@ -2741,7 +2741,15 @@ public class MainGame {
 		frame.getContentPane().add(gameSummaryPanel);
 		gameSummaryPanel.setLayout(null);
 		
-		Map<String, Object> results = gameEnvironment.endGame();
+		Map<String, Object> results = null;
+		try {
+			results = gameEnvironment.endGame();
+
+		} catch (IllegalStateException e) {
+			gameSummaryPanel.setVisible(false);
+			mainMenu();
+		}
+		
 		String teamName = (String) results.get("name");
 		int weeks = (int) results.get("weeks");
 		int points = (int) results.get("points");

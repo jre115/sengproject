@@ -188,20 +188,26 @@ public class CommandLineUI {
 		if (option == 2) {
 			mainMenu();
 		} else {
-			Map<String, Object> results = game.endGame();
-			String teamName = (String) results.get("name");
-			int weeks = (int) results.get("weeks");
-			int points = (int) results.get("points");
-			int money = (int) results.get("money");
+			try {
+				Map<String, Object> results = game.endGame();
+				String teamName = (String) results.get("name");
+				int weeks = (int) results.get("weeks");
+				int points = (int) results.get("points");
+				int money = (int) results.get("money");
+				
+				System.out.println("GAME OVER");
+				System.out.println(teamName);
+				System.out.println(weeks + " weeks");
+				System.out.println(points + " points gained");
+				System.out.println(money + " money gained");
+				
+				keyToContinue();
+				gameOver();
+			} catch (IllegalStateException e) {
+				System.out.println(e.getMessage());
+				mainMenu();
+			}
 			
-			System.out.println("GAME OVER");
-			System.out.println(teamName);
-			System.out.println(weeks + " weeks");
-			System.out.println(points + " points gained");
-			System.out.println(money + " money gained");
-			
-			keyToContinue();
-			gameOver();
 
 		}
 	}
