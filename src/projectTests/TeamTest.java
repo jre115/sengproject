@@ -9,6 +9,11 @@ import projectExceptions.LimitException;
 import projectExceptions.NameException;
 import projectExceptions.NoReserveAthletesException;
 
+/**
+ * Testing for the team class.
+ * @author jordan redfern
+ *
+ */
 class TeamTest {
 
 	/**
