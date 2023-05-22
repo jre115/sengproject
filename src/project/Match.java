@@ -155,6 +155,161 @@ public class Match {
 		return oppositionScore;
 	}
 	
+	/**
+	 * Returns the encounter athletes for the match
+	 * Selects encounter athletes by taking the first remaining unplayed athlete from the unplayed player's list, 
+	 * The selected athlete is removed from the unplayed athletes list and added to the list of encounter athletes.
+	 * If the athlete selected is an attacker, a defender from the opposition team will be selected for the encounter,
+	 * removed from the unplayed opposition athletes list and vice versa if the athlete was a defender.
+	 * @return a list of athletes: one from each team in opposing positions that will play each other in the encounter, null if the match has finished
+	 */
+	public ArrayList<Athlete> getEncounterAthletes() {
+		if (!isMatchRunning()) {
+			return null;
+		}
+		ArrayList<Athlete> encounterAthletes = new ArrayList<Athlete>();
+		Athlete athlete = unplayedAthletes.get(0); 
+		encounterAthletes.add(athlete);
+		String position = athlete.getPosition();
+		
+		if (position.equals("Attacker")) {
+			for (Athlete oppositionAthlete : unplayedOpposition) {
+				if (oppositionAthlete.getPosition().equals("Defender")) {
+					encounterAthletes.add(oppositionAthlete);
+					break;
+				}
+			}
+		} else {
+			for (Athlete oppositionAthlete : unplayedOpposition) {
+				if (oppositionAthlete.getPosition().equals("Attacker")) {
+					encounterAthletes.add(oppositionAthlete);
+					break;
+				}
+			}
+		}
+		
+		return encounterAthletes;
+	}
+	
+	/**
+	 * Simulates an encounter between two athletes and determines the outcome.
+	 * A defender will use their defensive score for the encounter and an attacker will use their attacking score.
+	 * If an attacker wins their team gains 10 points. If a defender wins, their team does not gain points but the other team does not score. 
+	 * A string will be generated based on the result of the encounter (which athlete won the encounter and based on how close the scores were)
+	 * If an athlete loses the encounter, their stamina's will decrease more than if they win.
+	 * @param athlete the player's athlete;
+	 * @param opposition the opposition athlete;
+	 * @return a string describing the result of the encounter including which player won, depending on how close the score difference was.
+	 */
+	public String encounter(Athlete athlete, Athlete opposition) {
+        playedTeamAthletes.add(athlete);
+		unplayedOpposition.remove(opposition);
+		unplayedAthletes.remove(athlete);
+
+        /*
+         *  If an athlete loses the encounter, they lose more energy (stamina) than if they won.
+         *  The amount varies for each (win or loss), inclusive of the following integers.
+         */
+		int minWinStaminaDecreaseVal = 10;
+		int maxWinStaminaDecreaseVal = 50;
+		int minLossStaminaDecreaseVal = 50;
+		int maxLossStaminaDecreaseVal = 100;
+
+				
+		Random random = new Random();
+		
+		if (athlete.getPosition() == "Defender") {
+			int result = athlete.getDefensive() - opposition.getOffensive();
+			// in the case that it is a tie, the defender will "win" since the attacker will not have been able to score. 
+			if (result >= 0) {
+		        athlete.decreaseStamina(random.nextInt(maxWinStaminaDecreaseVal - minWinStaminaDecreaseVal + 1) + minWinStaminaDecreaseVal);
+				return defenderWinString(athlete.getName(), result, opposition.getName());
+			} else {
+		        athlete.decreaseStamina(random.nextInt(maxLossStaminaDecreaseVal - minLossStaminaDecreaseVal + 1) + minLossStaminaDecreaseVal);
+				oppositionScore += 10;
+				return attackerWinString(opposition.getName(), result, athlete.getName());
+			}
+		} else {
+			int result = athlete.getOffensive() - opposition.getDefensive();
+			if (result > 0) {
+		        athlete.decreaseStamina(random.nextInt(maxWinStaminaDecreaseVal - minWinStaminaDecreaseVal + 1) + minWinStaminaDecreaseVal);
+				playerScore += 10;
+				return attackerWinString(athlete.getName(), result, opposition.getName());
+			} else {
+		        athlete.decreaseStamina(random.nextInt(maxLossStaminaDecreaseVal - minLossStaminaDecreaseVal + 1) + minLossStaminaDecreaseVal);
+				return defenderWinString(opposition.getName(), result, athlete.getName());
+			}
+		}
+
+	}
+	
+	/**
+	 * Ends the match and returns the result of the match. 
+	 * @return a map containing the game result including winner (or draw), money and points won by the player team and the game score (or a string if the player team due to stamina loss)
+	 * @throws IllegalStateException if the game is not over (there are less than 4 players in the played team)
+	 */
+	public Map<String, Object> endGame() throws IllegalStateException {
+	    Map<String, Object> result = new HashMap<>();
+
+
+	    if (playedTeamAthletes.size() < 4) {
+	        throw new IllegalStateException("Game not over");
+	    } else if (allPlayersInjured()) {
+	        result.put("winner", oppositionTeamName);
+	    	result.put("money", 0);
+	    	result.put("points", 0);
+	    	result.put("score", "All " + playerTeamName + " athletes were injured, resulting in a loss");
+	    	// no stats increased for players if they are all injured
+			return result;
+
+	    } else if (playerScore > oppositionScore) {
+	        result.put("winner", playerTeamName);
+	    	result.put("money", prizeMoney);
+	    	result.put("points", points);
+		} else if (playerScore == oppositionScore) {
+	        result.put("winner", "Draw");
+	        // win a third of points and money on offer if game results in a draw
+	    	result.put("money", (int) prizeMoney/3);
+	    	result.put("points", (int)  points/3);
+		} else {
+	        result.put("winner", oppositionTeamName);
+	    	result.put("money", 0);
+	    	result.put("points", 0);
+		}
+		
+	    result.put("score",  playerTeamName + ": " + playerScore + " " + oppositionTeamName + ": " + oppositionScore);	
+	    
+		increaseTeamStats();
+		return result;
+	}
+	
+	/**
+	 * Returns a whether all athletes in the player team are injured
+	 * If so - the match will have to end early
+	 * @return true if all players in the team are injured, false if at least one or more is not.
+	 */
+	public boolean allPlayersInjured() {
+	    for (Athlete athlete : playedTeamAthletes) {
+	        if (athlete.getStamina() != 0) {
+	        	// At least one athlete has non-zero stamina, so return false
+	            return false; 
+	        }
+	    }
+	 // All athletes have stamina 0, so return true
+	    return true; 
+	}
+	
+	/**
+	 * Checks that the match is currently running by checking if there are 4 players that have had encounters
+	 * @return true if the match is running and not all athletes have been played and false otherwise
+	 */
+	public Boolean isMatchRunning() {
+		if (playedTeamAthletes.size() < 4) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	
 	/**
@@ -279,97 +434,7 @@ public class Match {
 		return result;
 	}
 
-	/**
-	 * Returns the encounter athletes for the match
-	 * Selects encounter athletes by taking the first remaining unplayed athlete from the unplayed player's list, 
-	 * The selected athlete is removed from the unplayed athletes list and added to the list of encounter athletes.
-	 * If the athlete selected is an attacker, a defender from the opposition team will be selected for the encounter,
-	 * removed from the unplayed opposition athletes list and vice versa if the athlete was a defender.
-	 * @return a list of athletes: one from each team in opposing positions that will play each other in the encounter, null if the match has finished
-	 */
-	public ArrayList<Athlete> getEncounterAthletes() {
-		if (!isMatchRunning()) {
-			return null;
-		}
-		ArrayList<Athlete> encounterAthletes = new ArrayList<Athlete>();
-		Athlete athlete = unplayedAthletes.get(0); 
-		encounterAthletes.add(athlete);
-		String position = athlete.getPosition();
-		
-		if (position.equals("Attacker")) {
-			for (Athlete oppositionAthlete : unplayedOpposition) {
-				if (oppositionAthlete.getPosition().equals("Defender")) {
-					encounterAthletes.add(oppositionAthlete);
-					break;
-				}
-			}
-		} else {
-			for (Athlete oppositionAthlete : unplayedOpposition) {
-				if (oppositionAthlete.getPosition().equals("Attacker")) {
-					encounterAthletes.add(oppositionAthlete);
-					break;
-				}
-			}
-		}
-		
-		return encounterAthletes;
-	}
 	
-	/**
-	 * Simulates an encounter between two athletes and determines the outcome.
-	 * A defender will use their defensive score for the encounter and an attacker will use their attacking score.
-	 * If an attacker wins their team gains 10 points. If a defender wins, their team does not gain points but the other team does not score. 
-	 * A string will be generated based on the result of the encounter (which athlete won the encounter and based on how close the scores were)
-	 * If an athlete loses the encounter, their stamina's will decrease more than if they win.
-	 * @param athlete the player's athete;
-	 * @param opposition the opposition athlete;
-	 * @return a string describing the result of the encounter including which player won, depending on how close the score difference was.
-	 */
-	public String encounter(Athlete athlete, Athlete opposition) {
-        playedTeamAthletes.add(athlete);
-		unplayedOpposition.remove(opposition);
-		unplayedAthletes.remove(athlete);
-
-		
-        
-        /*
-         *  If an athlete loses the encounter, they lose more energy (stamina) than if they won.
-         *  The amount varies for each (win onr lost), inclusive of the following integers.
-         */
-		int minWinStaminaDecreaseVal = 10;
-		int maxWinStaminaDecreaseVal = 50;
-		int minLossStaminaDecreaseVal = 50;
-		int maxLossStaminaDecreaseVal = 100;
-
-				
-		Random random = new Random();
-		
-		if (athlete.getPosition() == "Defender") {
-			int result = athlete.getDefensive() - opposition.getOffensive();
-			// in the case that it is a tie, the defender will "win" since the attacker will not have been able to score. 
-			if (result >= 0) {
-		        athlete.decreaseStamina(random.nextInt(maxWinStaminaDecreaseVal - minWinStaminaDecreaseVal + 1) + minWinStaminaDecreaseVal);
-				return defenderWinString(athlete.getName(), result, opposition.getName());
-			} else {
-		        athlete.decreaseStamina(random.nextInt(maxLossStaminaDecreaseVal - minLossStaminaDecreaseVal + 1) + minLossStaminaDecreaseVal);
-				oppositionScore += 10;
-				return attackerWinString(opposition.getName(), result, athlete.getName());
-			}
-		} else {
-			int result = athlete.getOffensive() - opposition.getDefensive();
-			if (result > 0) {
-		        athlete.decreaseStamina(random.nextInt(maxWinStaminaDecreaseVal - minWinStaminaDecreaseVal + 1) + minWinStaminaDecreaseVal);
-				playerScore += 10;
-				return attackerWinString(athlete.getName(), result, opposition.getName());
-			} else {
-		        athlete.decreaseStamina(random.nextInt(maxLossStaminaDecreaseVal - minLossStaminaDecreaseVal + 1) + minLossStaminaDecreaseVal);
-				return defenderWinString(opposition.getName(), result, athlete.getName());
-			}
-		}
-
-	}
-	
-
 	
 	/**
 	 * Increases the statistics of the athletes in the played team.
@@ -401,73 +466,6 @@ public class Match {
 		}
 	}
 	
-	/**
-	 * Returns a whether all athletes in the player team are injured
-	 * If so - the match will have to end early
-	 * @return true if all players in the team are injured, false if at least one or more is not.
-	 */
-	public boolean allPlayersInjured() {
-	    for (Athlete athlete : playedTeamAthletes) {
-	        if (athlete.getStamina() != 0) {
-	        	// At least one athlete has non-zero stamina, so return false
-	            return false; 
-	        }
-	    }
-	 // All athletes have stamina 0, so return true
-	    return true; 
-	}
-	
-	/**
-	 * Ends the match and returns the result of the match. 
-	 * @return a map containing the game result including winner (or draw), money and points won by the player team and the game score (or a string if the player team due to stamina loss)
-	 * @throws IllegalStateException if the game is not over (there are less than 4 players in the played team)
-	 */
-	public Map<String, Object> endGame() throws IllegalStateException {
-	    Map<String, Object> result = new HashMap<>();
-
-
-	    if (playedTeamAthletes.size() < 4) {
-	        throw new IllegalStateException("Game not over");
-	    } else if (allPlayersInjured()) {
-	        result.put("winner", oppositionTeamName);
-	    	result.put("money", 0);
-	    	result.put("points", 0);
-	    	result.put("score", "All " + playerTeamName + " athletes were injured, resulting in a loss");
-	    	// no stats increased for players if they are all injured
-			return result;
-
-	    } else if (playerScore > oppositionScore) {
-	        result.put("winner", playerTeamName);
-	    	result.put("money", prizeMoney);
-	    	result.put("points", points);
-		} else if (playerScore == oppositionScore) {
-	        result.put("winner", "Draw");
-	        // win a third of points and money on offer if game results in a draw
-	    	result.put("money", (int) prizeMoney/3);
-	    	result.put("points", (int)  points/3);
-		} else {
-	        result.put("winner", oppositionTeamName);
-	    	result.put("money", 0);
-	    	result.put("points", 0);
-		}
-		
-	    result.put("score",  playerTeamName + ": " + playerScore + " " + oppositionTeamName + ": " + oppositionScore);	
-	    
-		increaseTeamStats();
-		return result;
-	}
-	
-	/**
-	 * Checks that the match is currently running by checking if there are 4 players that have had encounters
-	 * @return true if the match is running and not all athletes have been played and false otherwise
-	 */
-	public Boolean isMatchRunning() {
-		if (playedTeamAthletes.size() < 4) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 	
 	/**
 	 * Returns a string with the prize money formatted to include a dollar sign and separate the thousands by a comma
