@@ -98,7 +98,7 @@ public class Market   {
 	}
 	
 	/**
-	 * sets selectedItem to variable(currentItemsAvailable) and shop athletes to vairble(currentAthletesAvailable)
+	 * sets selectedItem to variable(currentItemsAvailable) and shop athletes to vairble(currentAthletesAvailable) calls itemshop and playershop for the refresh
 	 * @param currentWeek and integer value that represents the current week of the game
 
 	 */
