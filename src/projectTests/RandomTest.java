@@ -2,6 +2,8 @@ package projectTests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import projectExceptions.LimitException;
@@ -102,13 +104,13 @@ class RandomTest {
 	        assertTrue(team.getTeamList().contains(addedAthlete)); 
 	        assertFalse(team.getReservesList().contains(addedAthlete)); 
 
-	        // Fill up the team's roster
+	        
 	        for (int i = 0; i < 4; i++) {
 	            Athlete athlete = new Athlete();
 	            try {
 					team.addToTeam(athlete, null);
 				} catch (LimitException e) {
-					// TODO Auto-generated catch block
+					
 					
 				}
 	        }
@@ -137,11 +139,77 @@ class RandomTest {
 	        assertFalse(team.getTeamList().contains(addedAthlete3)); 
 	    }
 	    
+	    @Test
+	    /**
+	     * Test when an athlete quits,increase stat, atheletejoins, restevent
+	     * lets me check the j unit failures to see what happens just repeat untill i know all events have posibilty of happening
+	     * i would have tried to set the seed to to force test chance but since event chance is calculated in the methods i didn't know how
+	     * errors are ok as long as differnt events are happening it passes
+	     */
+	    void testPerformRandomEvent_AthleteQuits() {
+	        
+	        Athlete athlete = new Athlete();
+	        try {
+				team.addToTeam(athlete, null);
+			} catch (LimitException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+	        
+	        Map<String, Object> eventDetails = randomEvents.performRandomEvent(team);
+	        
+	        assertEquals("athleteQuits", eventDetails.get("eventType"));
+	        
+	    }
+	    
+	    @Test
+	   
+	    void testPerformRandomEvent_IncreaseRandomPlayerStat() {
+	        
+	        Athlete athlete = new Athlete();
+	        try {
+				team.addToTeam(athlete, null);
+			} catch (LimitException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+	        
+	        Map<String, Object> eventDetails = randomEvents.performRandomEvent(team);
+	        
+	        assertEquals("increaseStat", eventDetails.get("eventType"));
+	        
+	        
+	    }
+	    
+	    @Test
+	    
+	    void testPerformRandomEvent_AthleteJoins() {
+	        
+	        Map<String, Object> eventDetails = randomEvents.performRandomEvent(team);
+	        
+	        assertEquals("athleteJoins", eventDetails.get("eventType"));
+	        
+	        
+	    }
+	    
+	    @Test
+	    
+	    void testPerformRandomEvent_RestEvent() {
+	       
+	        Map<String, Object> eventDetails = randomEvents.performRandomEvent(team);
+	        
+	        assertEquals("rest", eventDetails.get("eventType"));
+	       
+	    }
+	}
+	    
 	    
 	    
 	    
 	    
 
-}
+
 	    
 
