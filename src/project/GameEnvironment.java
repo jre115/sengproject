@@ -100,7 +100,7 @@ public class GameEnvironment {
 	public GameEnvironment() {
 		randomEvents = new RandomEvents();
 		inventory = new ArrayList<>();
-		playerMoney = 20000;
+		playerMoney = 20000; 
 		team = new Team();
 		playerPoints = 0;
 	}
@@ -160,10 +160,10 @@ public class GameEnvironment {
 		return playerMoney;
 	}
 	
-	public int getPlayerPoints() {
-		return playerPoints;
-	}
-	
+	/**
+	 * Returns the formatted string representation of the player's money. 
+	 * @return formatted the string representation for the money
+	 */
 	public String getMoneyFormatted() {
 	    String formatted = "";
 	    if (playerMoney < 0) {
@@ -174,6 +174,11 @@ public class GameEnvironment {
 	    return formatted;
 	}
 	
+	/**
+	 * Returns the formatted string representation of the specified money amount
+	 * @param moneyInput the money amount to be formatted
+	 * @return the formatted string representation of the moneyInput
+	 */
 	public String getMoneyFormatted(int moneyInput) {
 	    String formatted = "";
 	    if (moneyInput < 0) {
@@ -183,40 +188,30 @@ public class GameEnvironment {
 	    formatted += "$" + String.format("%,d", moneyInput);
 	    return formatted;
 	}
-
-	public ArrayList<Athlete> getInitialAthletes() {
-		return team.getInitialAthletes();
+	
+	/**
+	 * Returns the amount of points that the player has
+	 * @return playerPoints the amount of points the player has won
+	 */
+	public int getPlayerPoints() {
+		return playerPoints;
 	}
 	
-	public void purchaseInitialAthlete(Athlete athlete, String position) {
-		team.addToInitialTeam(athlete, position);
-		modifyPlayerMoney(- athlete.getContractPrice());
-	}
-	
-	
-	public ArrayList<Athlete> getTeamList() {
-		return team.getTeamList();
-	}
-	
-	public ArrayList<Athlete> getReservesList() {
-		return team.getReservesList();
-	}
-	public ArrayList<Athlete> getShopAthletes() {
-        return market.getShopAthletes();
-    }
-	public ArrayList<Item> getShopItems(){
-		return market.getShopItems();
-	}
-	
-    
-	
+	/**
+	 * Modifies the players' money by a specified amount.
+	 * Player money cannot be lower than 0.
+	 * @param money the amount of money to modify
+	 */
 	private void modifyPlayerMoney(int money) {
 		playerMoney += money;
 		if (playerMoney < 0) {
 			playerMoney = 0;
 		}
 	}
-	
+	/**
+	 * Modifies the players' points by a specified amount.
+	 * @param points the amount of points to modify
+	 */
 	private void modifyPlayerPoints(int points) {
 		playerPoints += points;
 		if (playerPoints < 0) {
@@ -259,6 +254,51 @@ public class GameEnvironment {
 	    GameEnvironment game = new GameEnvironment();
 	    game.launchSetupScreen(); // Launch the setup screen to start a new game
 	}
+	
+	
+	/**
+	 * Returns the array list containing the 4 athletes to select from when setting up the game
+	 * @return the ArrayList containing the initial set of athletes to select from
+	 */
+	public ArrayList<Athlete> getInitialAthletes() {
+		return team.getInitialAthletes();
+	}
+	
+	/**
+	 * Purchases an athlete to add to the initial team at a spefied position during games setup.
+	 * @param athlete the athlete being purchased for the initial team
+	 * @param position the positon at which the athlete will be added in the team
+	 */
+	public void purchaseInitialAthlete(Athlete athlete, String position) {
+		team.addToInitialTeam(athlete, position);
+		modifyPlayerMoney(- athlete.getContractPrice());
+	}
+	
+	/**
+	 * Returns the list of athetes in the team. This does not include any reserve athletes.
+	 * @return the list of athletes in the team
+	 */
+	public ArrayList<Athlete> getTeamList() {
+		return team.getTeamList();
+	}
+	
+	/**
+	 * Returns the list of athletes in the reserves list.
+	 * @return the list of athlete in the reserves.
+	 */
+	public ArrayList<Athlete> getReservesList() {
+		return team.getReservesList();
+	}
+	
+	
+	public ArrayList<Athlete> getShopAthletes() {
+        return market.getShopAthletes();
+    }
+	public ArrayList<Item> getShopItems(){
+		return market.getShopItems();
+	}
+	
+    
 	
 	
 	public void increaseWeek() {
