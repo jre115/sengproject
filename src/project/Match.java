@@ -64,6 +64,12 @@ public class Match {
 	 */
 	Team oppositionTeam;
 	
+	/**
+	 * The player's team
+	 */
+	Team playerTeam;
+	
+	
 	
 	/**
 	 * Constructs new Match object with the specified player team, opposition team, prize money and points available to be won. 
@@ -76,6 +82,7 @@ public class Match {
 		this.prizeMoney = money;
 		this.points = points;
 		this.oppositionTeam = oppositionTeam;
+		this.playerTeam = playerTeam;
 		
 		playerTeamName = playerTeam.getTeamName();
 		oppositionTeamName = oppositionTeam.getTeamName();
@@ -106,6 +113,14 @@ public class Match {
 	 */
 	public Team getOppositionTeam() {
 		return oppositionTeam;
+	}
+	
+	/**
+	 * Returns the player's team
+	 * @return playerTeam the player's team
+	 */
+	public Team getPlayerTeam() {
+		return playerTeam;
 	}
 	
 	/**
@@ -270,35 +285,34 @@ public class Match {
 	 * The selected athlete is removed from the unplayed athletes list and added to the list of encounter athletes.
 	 * If the athlete selected is an attacker, a defender from the opposition team will be selected for the encounter,
 	 * removed from the unplayed opposition athletes list and vice versa if the athlete was a defender.
-	 * @return a list of athletes: one from each team in opposing positions that will play each other in the encounter
+	 * @return a list of athletes: one from each team in opposing positions that will play each other in the encounter, null if the match has finished
 	 */
 	public ArrayList<Athlete> getEncounterAthletes() {
+		if (!isMatchRunning()) {
+			return null;
+		}
 		ArrayList<Athlete> encounterAthletes = new ArrayList<Athlete>();
-		Athlete athlete = unplayedAthletes.get(0);
+		Athlete athlete = unplayedAthletes.get(0); 
 		encounterAthletes.add(athlete);
-		unplayedAthletes.remove(athlete);
 		String position = athlete.getPosition();
 		
 		if (position.equals("Attacker")) {
 			for (Athlete oppositionAthlete : unplayedOpposition) {
 				if (oppositionAthlete.getPosition().equals("Defender")) {
 					encounterAthletes.add(oppositionAthlete);
-					unplayedOpposition.remove(oppositionAthlete);
 					break;
 				}
 			}
 		} else {
 			for (Athlete oppositionAthlete : unplayedOpposition) {
-				if (oppositionAthlete.getPosition() == "Attacker") {
+				if (oppositionAthlete.getPosition().equals("Attacker")) {
 					encounterAthletes.add(oppositionAthlete);
-					unplayedOpposition.remove(oppositionAthlete);
 					break;
 				}
 			}
 		}
 		
 		return encounterAthletes;
-				
 	}
 	
 	/**
@@ -313,6 +327,10 @@ public class Match {
 	 */
 	public String encounter(Athlete athlete, Athlete opposition) {
         playedTeamAthletes.add(athlete);
+		unplayedOpposition.remove(opposition);
+		unplayedAthletes.remove(athlete);
+
+		
         
         /*
          *  If an athlete loses the encounter, they lose more energy (stamina) than if they won.

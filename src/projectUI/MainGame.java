@@ -414,7 +414,7 @@ public class MainGame {
 		
 		// Updates athlete panel background colour to reflect the position of the athlete: red for defenders and blue for attackers.
 		String position = gameEnvironment.getAthletePosition(athlete);
-		if (!(position == null)) {
+		if (!(position == null || gameEnvironment.athleteIsInjured(athlete))) {
 			if (position.equals(("Attacker"))) {
 		        athletePanel.setBackground(new Color(173, 216, 230));
 		    } else if (position.equals("Defender")) {
@@ -478,10 +478,10 @@ public class MainGame {
 		int buttonY = 180;
 		int textBoxWidth = (width - buttonWidth)/2;
 		int textBoxHeight = 70;
-		int textX = (width + buttonWidth) / 2;
+		int textX = (width + buttonWidth) / 2; 
 		int textY = 116;
 		
-		JPanel mainMenuPanel = createScreenPanel();
+		JPanel mainMenuPanel = createScreenPanel(); 
 		frame.getContentPane().add(mainMenuPanel);
 		
 		JLabel mainMenuText = createTitleText("Main Menu");
@@ -752,7 +752,7 @@ public class MainGame {
         	}
         }
         else {
-        	swapButton.setText("<html><center>"+"Swap reserve"+"<br>"+"with player"+"</center></html>");
+        	swapButton.setText("<html><center>"+"Swap player"+"<br>"+"with reserve"+"</center></html>");
         	
         	if (!gameEnvironment.athleteIsInjured(athlete)) {
         		swapButton.setLocation(centreButtonX - buttonWidth - 20, buttonY);

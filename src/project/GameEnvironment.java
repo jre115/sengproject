@@ -312,10 +312,10 @@ public class GameEnvironment {
 		currentWeek = 0;
 		
 		if (gameDifficulty == "Normal") {
-			setPlayerMoney(5000);
+			setPlayerMoney(10000);
 		}
 		else if (gameDifficulty == "Hard") {
-			setPlayerMoney(0);
+			setPlayerMoney(5000);
 		}
 		stadium = new Stadium(gameDifficulty);
 		increaseWeek();
@@ -412,7 +412,10 @@ public class GameEnvironment {
 	 * @param the position the athlete is being added as - if null then the athlete's position will be whatever there are less of in the team
 	 */
     public void addAthleteToTeam(Athlete athlete, String position) {
-    	team.addToTeam(athlete, position);
+    	try {
+			team.addToTeam(athlete, position);
+		} catch (LimitException e) {
+		}
     }
    
     public void addAthleteToTeamFull(Athlete added, Athlete swapped) {
@@ -441,7 +444,7 @@ public class GameEnvironment {
     
     
     public ArrayList<Match> getStadiumMatches() {
-    	return stadium.getMatches();
+    	return stadium.getMatches(team);
     }
     
     public void startMatch(Match match) throws IllegalTeamException {

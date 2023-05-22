@@ -305,13 +305,20 @@ public class Stadium {
     
     /**
      * Returns the current matches available.
-     * Note: The currentPlayerTeam parameter is directly used within the game environment, 
-     * so there is no need to refresh the team from when matches were refreshed.
+     * Note: each time getMatches is called, the player team will be refreshed to the current team.
      * @return list of match objects representing the available matches to play for the current week
      */
-    public ArrayList<Match> getMatches() {
+    public ArrayList<Match> getMatches(Team currentPlayerTeam) {
+    	ArrayList<Match> refreshedMatches = new ArrayList<Match>();
+    	for (Match match : matches) {
+    		Match newMatch = new Match(currentPlayerTeam, match.getOppositionTeam(), match.getMoney(), match.getPointsValue());
+    		refreshedMatches.add(newMatch);
+    	}
+    	matches = refreshedMatches;
     	return matches;
     }
+   
+
     
     /**
      * Returns the array list of strings with the available names to be generated for the opposition teams. 
