@@ -53,7 +53,7 @@ public class Stadium {
     	playerTeam = new Team();
     	matches = new ArrayList<Match>();
     	teamNames = new ArrayList<String>();
-		if (difficulty == "Normal") {
+		if (difficulty.equals("Normal")) {
 			difficultyMultiplier = 1.15;
 			difficultyDivider = 1.7;
 		} else {
@@ -144,7 +144,7 @@ public class Stadium {
     }
     
     /**
-     * Generates the match object for a "medium" match. 
+     * Generates the match object for a "difficult" match. 
      * @return the Match object including the player team, the opposition team and the points and money reward for the match. 
      */
     public Match generateDifficultMatch() {
