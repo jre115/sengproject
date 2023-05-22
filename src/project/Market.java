@@ -48,7 +48,7 @@ public class Market   {
 	    return selectedItems;
 	}
 	
-	/// generates random number between 3,5
+	
 
 	
 	/**
@@ -62,7 +62,7 @@ public class Market   {
 		int min = 3;
 		int max = 5;
 		
-		int Num = R.nextInt(max - min + 1) + min;
+		int Num = R.nextInt(max - min + 1) + min; 
 		
 		ArrayList<Athlete> ShopAthletes = new ArrayList<Athlete>();
 		
@@ -98,7 +98,7 @@ public class Market   {
 	}
 	
 	/**
-	 * sets selectedItem to varible(currentItemsAvailable) and shop athletes to vairble(currentAthletesAvailable)
+	 * sets selectedItem to variable(currentItemsAvailable) and shop athletes to vairble(currentAthletesAvailable)
 	 * @param currentWeek and integer value that represents the current week of the game
 
 	 */
