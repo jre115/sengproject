@@ -2038,6 +2038,8 @@ public class MainGame {
 		/**
 		 * adds athlete as reserve
 		 * when pressed calls addAthleteAsReserve
+		 * shows limit exception when caught
+		 * when athlete is added confirmation text is shown on panel
 		 * 
 		 */
 		addToReserves.addActionListener(new ActionListener() {
@@ -2059,7 +2061,9 @@ public class MainGame {
 				}
 		});
 		
-		
+		/**
+		 * when add to main team button i pressed prompt to add as defender or attacker is shown
+		 */
 		addToTeam.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 		    	addAsAttacker.setVisible(true);
@@ -2071,7 +2075,9 @@ public class MainGame {
 				resultText.setVisible(false);
 			}
 		});
-		
+		/**
+		 * calls addAthleteToTeam methods and sets position to attacker
+		 */
 		addAsAttacker.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				gameEnvironment.addAthleteToTeam(athlete, "Attacker");
@@ -2083,7 +2089,9 @@ public class MainGame {
 				backButton.setVisible(true);
 			}
 		});
-		
+		/**
+		 * calls addAthleteToTeam methods and sets position to Defender
+		 */
 		addAsDefender.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				gameEnvironment.addAthleteToTeam(athlete, "Defender");
@@ -2106,7 +2114,10 @@ public class MainGame {
 		});
 
 	}
-	
+	/**
+	 * gives option to swap purchased athlete with team
+	 * @param athlete that is going to be swapped
+	 */
 	private void buyAthleteSwapScreen(Athlete athlete) {
 		JPanel athleteSwapPanel = createScreenPanel();
 		frame.getContentPane().add(athleteSwapPanel);
@@ -2153,7 +2164,9 @@ public class MainGame {
 	
 		
 	
-	
+	/**
+	 * gives player option to sell either player or Item
+	 */
 	private void sellScreen(){
 		JPanel sellScreenpannel = new JPanel();
 		sellScreenpannel.setBackground(new Color(255, 255, 255));
@@ -2172,7 +2185,9 @@ public class MainGame {
 		sellPlayer.setBounds(297, 107, 308, 122);
 		sellScreenpannel.add(sellPlayer);
 		
-		
+		/**
+		 * button that takes user to sell  player screen
+		 */
 		sellPlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				sellScreenpannel.setVisible(false);
@@ -2185,7 +2200,9 @@ public class MainGame {
 		sellItemButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		sellItemButton.setBounds(297, 264, 308, 122);
 		sellScreenpannel.add(sellItemButton);
-		
+		/**
+		 * button that takes user to sell item screen
+		 */
 		sellItemButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				sellScreenpannel.setVisible(false);
@@ -2197,7 +2214,9 @@ public class MainGame {
 		
 			
 		
-		
+		/**
+		 * take user back to market screen
+		 */
 		JButton backbutton = new JButton("Back");
 		backbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -2212,6 +2231,9 @@ public class MainGame {
 		
 		
 	}
+	/**
+	 * shows reserve list and team list of athletes to sell
+	 */
 	public void sellPlayerScreen() {
 		JPanel sellPlayerPanel = createScreenPanel();
 		frame.getContentPane().add(sellPlayerPanel);
@@ -2238,7 +2260,9 @@ public class MainGame {
 		ArrayList<JPanel> panels = new ArrayList<JPanel>();
 		panels.addAll(addAthletesToPanel(teamPanel, teamList, teamList.size()));
 		panels.addAll(addAthletesToPanel(reservesPanel, reservesList, reservesList.size()));
-    
+		/**
+		 * when athlete is selected, takes user to sell single athlete view
+		 */
         for (int i = 0; i < panels.size(); i++) {
 			final int index = i;
 		    JPanel panel = panels.get(i);
@@ -2256,7 +2280,9 @@ public class MainGame {
 		        }
 		    });
 		}
-            
+            /**
+             * button that takes user back to market screen
+             */
     		backButton.addActionListener(new ActionListener() {
     			public void actionPerformed(ActionEvent e) {
     				sellPlayerPanel.setVisible(false);
@@ -2265,11 +2291,16 @@ public class MainGame {
     		});
 		
 	}
-	
+	/**
+	 * single display of the athlete that is clicked
+	 * @param athlete that is to be sold
+	 */
 	public void sellSingleAthleteView(Athlete athlete) {
 		JPanel sellSingleAthletePanel = createScreenPanel();
 		frame.getContentPane().add(sellSingleAthletePanel);
-		
+		/**
+		 * shows current money 
+		 */
 		JLabel balanceText = new JLabel("Player balance: " + gameEnvironment.getMoneyFormatted() + "   ");
 		balanceText.setHorizontalAlignment(SwingConstants.TRAILING);
 		balanceText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
@@ -2299,14 +2330,20 @@ public class MainGame {
         sellButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
         sellButton.setBounds(312, 586, 360, 47);
         sellSingleAthletePanel.add(sellButton);
-		
+		/**
+		 * button that takes user back to market screen when pushed
+		 */
 		backButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		sellSingleAthletePanel.setVisible(false);
 	    		marketScreen();
 	    		}
 	    });
-
+		/**
+		 * button that sells player
+		 * calls sell player method
+		 * updates the current user balance
+		 */
 		sellButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		gameEnvironment.sellPlayer(athlete);
@@ -2316,7 +2353,9 @@ public class MainGame {
 	    		}
 	    });
 	}
-	
+	/**
+	 * displays items in the inventory to be sold
+	 */
 	public void sellItemspanel() {
 		JPanel sellItemDisplayPanel = createScreenPanel();
 		frame.getContentPane().add(sellItemDisplayPanel);
@@ -2355,7 +2394,9 @@ public class MainGame {
         	itemsPanel.setVisible(false);
         }
 		
-		
+		/**
+		 * takes user to sell single item display when item is clicked
+		 */
         for (int i = 0; i < panels.size(); i++) {
 			final int index = i;
 		    JPanel panel = panels.get(i);
@@ -2367,7 +2408,9 @@ public class MainGame {
 		        }
 		    });
 		}
-        
+        /**
+         * button that takes user back to market screen when pressed
+         */
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				sellItemDisplayPanel.setVisible(false);
@@ -2378,6 +2421,10 @@ public class MainGame {
 		
 	}
 	
+	/**
+	 * single display of item that you can purchase
+	 * @param item to be purchased
+	 */
 	public void sellSingleItemScreen(Item item) {
 				
 		JPanel sellSingleItemPanel = createScreenPanel();
@@ -2409,14 +2456,20 @@ public class MainGame {
         sellButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
         sellButton.setBounds(312, 586, 360, 47);
         sellSingleItemPanel.add(sellButton);
-		
+		/**
+		 * button that takes user back to the market screen when pushed
+		 */
 		backButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		sellSingleItemPanel.setVisible(false);
 	    		marketScreen();
 	    		}
 	    });
-
+		/**
+		 * button that buys the item
+		 * calls sellItem method from gameEnvironment
+		 * shows text of current money after player is purchased
+		 */
 		sellButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent a) {
 	    		gameEnvironment.sellItem(item);
@@ -2759,7 +2812,10 @@ public class MainGame {
 		
 	}
 
-	
+	/**
+	 * screen that shows the resultant event if a random event happens
+	 * @param result the result is random event that happened
+	 */
 	public void randomEventScreen(String result) {
 		
 		JPanel randomEventPanel = new JPanel();
@@ -2797,7 +2853,10 @@ public class MainGame {
 				
 			}
 		});
-		
+		/**
+		 * checks what string event the result is equal to
+		 * sets text of the event that happened  and out puts it to the screen
+		 */
 		JButton randomEventsButton = new JButton("Rest");
 		randomEventsButton.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		randomEventsButton.setBounds(328, 359, 322, 62);
