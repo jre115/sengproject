@@ -541,6 +541,23 @@ public class GameEnvironment {
     	inventory.remove(item);
 	}
 	
+	/**
+	 * Method for training the selected athlete at the end of the week
+	 * @param athleteTrained the selected athlete to be trained
+	 */
+    public void trainAthlete(Athlete athleteTrained) {
+    	for (Athlete athlete : team.getTeamList()) {
+    		if (athleteTrained.equals(athlete)) {
+    			athlete.trainAthlete();
+    		}
+    	}
+    	for (Athlete reserve : team.getReservesList()) {
+    		if (athleteTrained.equals(reserve)) {
+    			reserve.trainAthlete();
+    		}
+    	}
+    }
+	
 	
 	// Methods relating to the Team class
 	
@@ -744,7 +761,7 @@ public class GameEnvironment {
     
     /**
      * Ends the match and returns a Map with the results of the match
-     * @return result a Map of objects showing the reuslt of the game
+     * @return result a Map of objects showing the result of the game
      * @throws IllegalStateException if the match has not yet ended and all players have not completed their encounters
      */
     public Map<String, Object> endMatch() throws IllegalStateException {
@@ -848,23 +865,7 @@ public class GameEnvironment {
     	modifyPlayerMoney(+athlete.getSellBackPrice());
     	team.removeAthlete(athlete);
     }
-    
-
-    
-  
-    
-    public void trainAthlete(Athlete athleteTrained) {
-    	for (Athlete athlete : team.getTeamList()) {
-    		if (athleteTrained.equals(athlete)) {
-    			athlete.trainAthlete();
-    		}
-    	}
-    	for (Athlete reserve : team.getReservesList()) {
-    		if (athleteTrained.equals(reserve)) {
-    			reserve.trainAthlete();
-    		}
-    	}
-    }
+   
     
 	
  /**
