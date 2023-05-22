@@ -174,7 +174,7 @@ public class Team {
 	 * @param athlete the athlete that is being added to the team (and if it is a reserve it is removed from reserves)
 	 * @param the position the athlete is being added as - if null then the athlete's position will be whatever there are less of in the team
 	 */
-	public void addToTeam(Athlete athlete, String position) {
+	public void addToTeam(Athlete athlete, String position) throws LimitException{
 		if (teamList.size() < maxSizeTeamList) {
 			teamList.add(athlete);
 			for (int i = 0 ; i < reservesList.size(); i ++) {
@@ -197,8 +197,9 @@ public class Team {
     			position = "Defender";
     		}
     	}
-			
 			athlete.setPosition(position);
+		} else {
+			throw new LimitException("Your team is full");
 		}
 	}
 	
@@ -215,29 +216,8 @@ public class Team {
 			int firstPlayerIndex = reservesList.indexOf(firstAthlete);
 			int secondPlayerIndex = teamList.indexOf(secondAthlete);
 			String positionInTeam = secondAthlete.getPosition();
-			
-			/*
-			 *  If the athlete from the team who is becoming a reserve is injured
-			 *  - set the previous position to reserve so that it correctly updates athlete's position when restoring stamina
-			 *  Otherwise, set their current position to "Reserve"
-			 */
-			
-			if (secondAthlete.isInjured()) {
-				positionInTeam = secondAthlete.getPreviousPosition();
-				secondAthlete.setPreviousPosition("Reserve");
-			} else {
-				secondAthlete.setPosition("Reserve");
-			}
-			
-			/*
-			 * If the reserve athlete is injured, set their previous position to the swapped athlete's position in the team
-			 * Otherwise set their current position to the position in the team from the swapped athlete
-			 */
-			if (firstAthlete.isInjured()) {
-				firstAthlete.setPreviousPosition(positionInTeam);
-			} else {
-					firstAthlete.setPosition(positionInTeam);
-			}
+			firstAthlete.setPosition(positionInTeam);
+			secondAthlete.setPosition("Reserve");
 			
 			// Swaps athletes in team and reserves in their indexes.
 			teamList.set(secondPlayerIndex, firstAthlete);
@@ -253,18 +233,9 @@ public class Team {
 			int secondPlayerIndex = reservesList.indexOf(secondAthlete);
 			String positionInTeam = firstAthlete.getPosition();
 			
-			if (firstAthlete.isInjured()) {
-				positionInTeam = firstAthlete.getPreviousPosition();
-				firstAthlete.setPreviousPosition("Reserve");
-			} else {
-				firstAthlete.setPosition("Reserve");
-			}
+			firstAthlete.setPosition("Reserve");
+			secondAthlete.setPosition(positionInTeam);
 			
-			if (secondAthlete.isInjured()) {
-				secondAthlete.setPreviousPosition(positionInTeam);
-			} else {
-				secondAthlete.setPosition(positionInTeam);
-			}
 			reservesList.set(secondPlayerIndex, firstAthlete);
 			teamList.set(firstPlayerIndex, secondAthlete);
 				
@@ -289,17 +260,11 @@ public class Team {
 	 * @param swapped the athlete to be swapped out from the team
 	 */
 	public void addAthleteAndSwap(Athlete added, Athlete swapped) {
-		String position = null;
-		if (swapped.isInjured()) {
-			position = swapped.getPreviousPosition();
-			swapped.setPreviousPosition("Reserve");
-		} else {
-			position = swapped.getPosition();
-			swapped.setPosition("Reserve");
-		}
+		String position = swapped.getPosition();
 		int swappedIndex = teamList.indexOf(swapped);
 		added.setPosition(position);
 		reservesList.add(swapped);
+		swapped.setPosition("Reserve");
 		teamList.set(swappedIndex, added);
 		}
 		
@@ -358,7 +323,7 @@ public class Team {
 		int attackerCount = 0;
 		for (Athlete athlete : teamList) {
 			String position = athlete.getPosition();
-			if (athlete.getStamina() == 0) {
+			if (athlete.isInjured()) {
 				return false;
 			} else if (position == "Defender") {
 				defenderCount += 1;

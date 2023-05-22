@@ -40,17 +40,16 @@ public class Athlete extends Purchasable {
 	 * The position of the athlete
 	 */
     private String athletePosition;
-    
-	/**
-	 * The position the athlete was in before they became injured or if they were previously injured
-	 */
-    private String previousPosition;
 
 	/**
 	 * The string for the name of the athlete's associated image
 	 */
     private String athleteImage;
 	
+	/**
+	 * A boolean set to true if the player is injured and false otherwise
+	 */
+    private Boolean isInjured;
     
     /** 
     * Class constructor.
@@ -62,6 +61,7 @@ public class Athlete extends Purchasable {
         setContractPrice(0); 
         setSellBackPrice(0); 
         setDescription(""); 
+        isInjured = false;
 	}
 	
 	/**
@@ -83,6 +83,9 @@ public class Athlete extends Purchasable {
         this.defensiveStatistic = defensiveStatistic;
         this.staminaStatistic = staminaStatistic;
         this.athleteName = athleteName;
+        this.athletePosition = athletePosition;
+
+        isInjured = false;
         
         athleteImage = new String();
         
@@ -256,7 +259,6 @@ public class Athlete extends Purchasable {
      * @param positionInput a String representing the new position of the athlete.
      */
     public void setPosition(String positionInput) {
-    	// allows player to set the nickname for the athlete
     	athletePosition = positionInput;
     }
     
@@ -281,7 +283,7 @@ public class Athlete extends Purchasable {
     
     /**
      * Sets the athlete's position to the alternate position from getAlternatePosition.
-     * If an athlete is a defender, their position will be set to attacker and vice versa. If an athlete is injured or a reserve, their position will remain.
+     * If an athlete is a defender, their position will be set to attacker and vice versa. If an athlete is a reserve, their position will remain.
      */
 	public void changeAthletePosition() {
 		this.setPosition(getAlternatePosition());
@@ -289,7 +291,7 @@ public class Athlete extends Purchasable {
 	
 	/**
 	 * Returns a string with the alternative position of the athlete
-	 * If an athlete is an attacker, returns "Defender" and vice versa. If an athlete is injured or a reserve, their position will remain.
+	 * If an athlete is an attacker, returns "Defender" and vice versa. If an athlete a reserve, their position will remain.
 	 * @return
 	 */
 	public String getAlternatePosition() {
@@ -389,8 +391,7 @@ public class Athlete extends Purchasable {
     	}
     	
     	if (staminaStatistic == 0) {
-    		setPreviousPosition(athletePosition);
-    		setPosition("Injured");
+    		isInjured = true;;
     	}
     }
     
@@ -416,8 +417,8 @@ public class Athlete extends Purchasable {
      * If the athlete was injured, once their stamina reaches 100 their position will be restored to the previous position they were in before they became injured.
      */
     public void restoreStamina() {
-    	if (athletePosition == "Injured") {
-    		setPosition(previousPosition);
+    	if (isInjured) {
+    		isInjured = false;
     	}
     	staminaStatistic = 100;
     }
@@ -435,37 +436,19 @@ public class Athlete extends Purchasable {
     }
     
     /**
-     * Checks if the athlete is currently in the reserve position or if they are a reserve but currently injured
+     * Checks if the athlete is currently in the reserve position
      * @return true if the athlete is a reserve, false otherwise
      */
     public boolean isReserve() {
-    	return (athletePosition == "Reserve" || previousPosition == "Reserve");
+    	return (athletePosition.equals("Reserve"));
     }
     
     /**
-     * Checks if the athlete is currently in the injured position
-     * @return true if injured, false otherwise
+     * Checks if the athlete is currently injured
+     * @return true if the athlete is injured, false otherwise
      */
     public boolean isInjured() {
-    	return (athletePosition == "Injured");
-    }
-    
-    
-    /**
-     * Sets the previous position of the athlete to the specified position string
-     * Used for determining the athlete's previous position before they became injured
-     * @param position the previous position of the athlete
-     */
-    public void setPreviousPosition(String position) {
-    	previousPosition = position;
-    }
-    
-    /**
-     * retrieves the previous position of the athlete
-     * @return previousPosition the previous position of the athlete
-     */
-    public String getPreviousPosition() {
-    	return previousPosition;
+    	return (isInjured);
     }
     
     /**
@@ -474,10 +457,10 @@ public class Athlete extends Purchasable {
        */
        public String toString() {
        	String result = ("Athlete name: " + athleteName);
-       	if (athletePosition != null && athletePosition != "Injured") {
+       	if (athletePosition != null && !isInjured) {
        		result += ("\nPosition: " + athletePosition);
-       	} else if (athletePosition != null && athletePosition == "Injured") {
-       		result += ("\n" + athletePosition);
+       	} else if (athletePosition != null && isInjured) {
+       		result += ("\n" + "Injured Athlete");
        	} else {
        		result += ("\nPrice: " + this.getContractPriceFormatted());
        	}
@@ -498,10 +481,10 @@ public class Athlete extends Purchasable {
        public String toStringHTML() {
        	String result;
        	if (this.getPosition() != null) {
-       		if (this.getPosition() == "Reserve") {
-       			result = "<html>" + ("Reserve player");
-       		} else if (athletePosition == "Injured"){
+       		if (isInjured) {
        			result = "<html>" + ("Injured player");
+       		} else if (isReserve()){
+       			result = "<html>" + ("Reserve player");
        		} else {
            		result = "<html>" + ("Position: " + this.getPosition());
        		}
@@ -525,10 +508,10 @@ public class Athlete extends Purchasable {
        public String toStringHTMLSell() {
        	String result = "";
        	if (this.getPosition() != null) {
-       		if (this.getPosition() == "Reserve") {
-       			result = "<html>" + ("Reserve player");
-       		} else if (athletePosition == "Injured"){
+       		if (isInjured) {
        			result = "<html>" + ("Injured player");
+       		} else if (isReserve()){
+       			result = "<html>" + ("Reserve player");
        		} else {
            		result = "<html>" + ("Position: " + this.getPosition());
        		}

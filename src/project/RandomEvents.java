@@ -53,17 +53,20 @@ public class RandomEvents {
     public Athlete athleteJoins(Team team) {
        
         Athlete athlete = new Athlete();
-        if (team.getTeamList().size() < 4) {
-        	team.addToTeam(athlete, null);
-        } else {
         	try {
-        		team.addToReserves(athlete);
-        	} catch (LimitException e) {
-        		return null;
-        	}
-        }
+				team.addToTeam(athlete, null);
+		        return athlete;
+			} catch (LimitException e) {
+	        	try {
+	        		team.addToReserves(athlete);
+	                return athlete;
+	        	} catch (LimitException el) {
+	        		return null;
+	        	}
+			}
+
         
-        return athlete;
+        
 
     }
     /**
