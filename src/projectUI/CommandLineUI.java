@@ -14,12 +14,12 @@ import java.util.Scanner;  // Import the Scanner class
 
 import projectExceptions.IllegalTeamException;
 import projectExceptions.InsufficientFundsException;
+import projectExceptions.LimitException;
 import projectExceptions.NameException;
 import projectExceptions.NoReserveAthletesException;
 import project.Athlete;
 import project.GameEnvironment;
 import project.Item;
-import project.LimitException;
 
 import java.util.Map;
 

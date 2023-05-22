@@ -19,11 +19,11 @@ import javax.swing.border.Border;
 import project.Athlete;
 import project.GameEnvironment;
 import project.Item;
-import project.LimitException;
 import project.Match;
 import projectExceptions.IllegalTeamException;
 import projectExceptions.InsufficientFundsException;
 import projectExceptions.InventoryFullException;
+import projectExceptions.LimitException;
 import projectExceptions.NameException;
 import projectExceptions.NoReserveAthletesException;
 
@@ -1753,6 +1753,7 @@ public class MainGame {
         
         if (shopItems.size() == 0) {
         	infoText.setText("No items left to purchase this week. Come back next week and the market will be restocked");
+        	balanceText.setVisible(false);
         	ItemPanel.setVisible(false);
         }
         /**
@@ -1901,6 +1902,7 @@ public class MainGame {
 		 */
 		if (shopAthletes.size() == 0) {
         	infoText.setText("No athletes left to purchase this week. Come back next week and the market will be restocked");
+        	balanceText.setVisible(false);
         	athletesPanel.setVisible(false);
         }
         /**

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import java.util.Scanner;
 
+import projectExceptions.LimitException;
 import projectExceptions.NameException;
 import projectExceptions.NoReserveAthletesException;
 
@@ -59,6 +60,7 @@ public class Team {
 		reservesList = new ArrayList<Athlete>();
 	}
 	
+	// The following 4 methods are used when setting up the team.
 	/**
 	 * Sets the name of the specified string if the name meets requirements
 	 * 
@@ -73,43 +75,6 @@ public class Team {
 			throw new NameException("Team name must not include any special characters");
 		}
 		teamName = nameInput;
-	}
-	
-	/**
-	 * Returns the name of the team
-	 * 
-	 * @return the name of the team
-	 */
-	public String getTeamName() {
-		return teamName;
-	}
-	
-	/**
-	 * Removes athlete from the team list or reserves list
-	 * @param athlete the athlete that is to be removed from one of the lists;
-	 */
-	public void removeAthlete(Athlete athlete) {
-	    if (reservesList.contains(athlete)) {
-	        reservesList.remove(athlete);
-	    } else if (teamList.contains(athlete)) {
-	        teamList.remove(athlete);
-	    } 
-	}
-	
-	/**
-	 * Returns the ArrayList of athletes in the reserves
-	 * @return reservesList an ArrayList of athletes in the reserves list
-	 */
-	public ArrayList<Athlete> getReservesList() {
-		return reservesList;
-	}
-	
-	/**
-	 * Returns the ArrayList of athletes in the team, not including reserves
-	 * @return teamList the list of athletes in the team
-	 */
-	public ArrayList<Athlete> getTeamList() {
-		return teamList;
 	}
 	
 	/**
@@ -152,6 +117,77 @@ public class Team {
 			refreshInitialAthletes();
 		}
 		return initialAthleteOptions;
+	}
+	
+	
+	/**
+	 * Returns the name of the team
+	 * 
+	 * @return the name of the team
+	 */
+	public String getTeamName() {
+		return teamName;
+	}
+	
+	/**
+	 * Returns the ArrayList of athletes in the reserves
+	 * @return reservesList an ArrayList of athletes in the reserves list
+	 */
+	public ArrayList<Athlete> getReservesList() {
+		return reservesList;
+	}
+	
+	/**
+	 * Returns the ArrayList of athletes in the team, not including reserves
+	 * @return teamList the list of athletes in the team
+	 */
+	public ArrayList<Athlete> getTeamList() {
+		return teamList;
+	}
+	
+
+	/**
+	 * Calculates and returns a total score for the team by adding all offensive and defensive scores of athletes
+	 * @return the total score of the team
+	 */
+	public int getTeamScore() {
+		int teamScore = 0;
+		for (Athlete athlete : teamList) {
+			teamScore += athlete.getOffensive();
+			teamScore += athlete.getDefensive();
+		}
+		
+		return teamScore;
+	}
+	
+	/**
+	 * Calculates and returns the total offensive score of the team's attackers
+	 * @return the total offensive score of the team's attackers
+	 */
+	public int getOffensiveScore() {
+		int offensiveScore = 0;
+		for (Athlete athlete : teamList) {
+			if (athlete.getPosition() == "Attacker") {
+				offensiveScore += athlete.getOffensive();
+			}
+		}
+		
+		return offensiveScore;
+	}
+	
+	/**
+	 * Calculates and returns the total defensive score of the team's defenders
+	 * @return the total defensive score of the team's defenders
+	 */
+	public int getDefensiveScore() {
+		int defensiveScore = 0;
+		for (Athlete athlete : teamList) {
+			if (athlete.getPosition() == "Defender") {
+				defensiveScore += athlete.getDefensive();
+			}
+		}
+		
+		return defensiveScore;
 	}
 	
 	/**
@@ -204,13 +240,30 @@ public class Team {
 	}
 	
 	/**
-	 * Swaps the positions of the two athletes within the team and reserves lists
+	 * Removes athlete from the team list or reserves list
+	 * @param athlete the athlete that is to be removed from one of the lists;
+	 */
+	public void removeAthlete(Athlete athlete) {
+	    if (reservesList.contains(athlete)) {
+	        reservesList.remove(athlete);
+	    } else if (teamList.contains(athlete)) {
+	        teamList.remove(athlete);
+	    } 
+	}
+	
+	/**
+	 * Swaps the positions of the two athletes within the team and reserves lists.
+	 * If both athletes are both in team list or both in the reserves list then it does nothing.
 	 * 
 	 * @param firstAthlete the first athlete to swap
 	 * @param secondAthlete the second athlete to swap
 	 */
 	public void swapAthletes(Athlete firstAthlete, Athlete secondAthlete) {
-		
+		if (firstAthlete.isReserve() && secondAthlete.isReserve()) {
+			return;
+		} else if (!firstAthlete.isReserve() && !secondAthlete.isReserve()) {
+			return;
+		}
 		// In the case that the first athlete is the reserve athlete
 		if (firstAthlete.isReserve()) {
 			int firstPlayerIndex = reservesList.indexOf(firstAthlete);
@@ -268,51 +321,6 @@ public class Team {
 		teamList.set(swappedIndex, added);
 		}
 		
-
-	
-	/**
-	 * Calculates and returns a total score for the team by adding all offensive and defensive scores of athletes
-	 * @return the total score of the team
-	 */
-	public int getTeamScore() {
-		int teamScore = 0;
-		for (Athlete athlete : teamList) {
-			teamScore += athlete.getOffensive();
-			teamScore += athlete.getDefensive();
-		}
-		
-		return teamScore;
-	}
-	
-	/**
-	 * Calculates and returns the total offensive score of the team's attackers
-	 * @return the total offensive score of the team's attackers
-	 */
-	public int getOffensiveScore() {
-		int offensiveScore = 0;
-		for (Athlete athlete : teamList) {
-			if (athlete.getPosition() == "Attacker") {
-				offensiveScore += athlete.getOffensive();
-			}
-		}
-		
-		return offensiveScore;
-	}
-	
-	/**
-	 * Calculates and returns the total defensive score of the team's defenders
-	 * @return the total defensive score of the team's defenders
-	 */
-	public int getDefensiveScore() {
-		int defensiveScore = 0;
-		for (Athlete athlete : teamList) {
-			if (athlete.getPosition() == "Defender") {
-				defensiveScore += athlete.getOffensive();
-			}
-		}
-		
-		return defensiveScore;
-	}
 	
 	/**
 	 * Checks if the team is ready for a match

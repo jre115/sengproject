@@ -12,6 +12,7 @@ import project.Athlete;
 import project.Match;
 import project.Stadium;
 import project.Team;
+import projectExceptions.LimitException;
 
 /**
  * Tests for the Stadium class
@@ -28,7 +29,11 @@ class StadiumTests {
 		Team team = new Team();
 		ArrayList<Athlete> generatedAthletes = team.getInitialAthletes();
 		for (Athlete athlete : generatedAthletes) {
-			team.addToTeam(athlete, null);
+			try {
+				team.addToTeam(athlete, null);
+			} catch (LimitException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		assertEquals(team.getTeamList().size(), 4);

@@ -3,3 +3,4 @@
 /InventoryFullException.class
 /NoReserveAthletesException.class
 /NameException.class
+/LimitException.class

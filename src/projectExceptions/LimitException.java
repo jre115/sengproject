@@ -1,4 +1,4 @@
-package project;
+package projectExceptions;
 
 public class LimitException extends Exception {
 	public LimitException() {

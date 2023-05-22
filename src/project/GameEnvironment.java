@@ -8,6 +8,7 @@ import java.util.Random;
 import projectExceptions.IllegalTeamException;
 import projectExceptions.InsufficientFundsException;
 import projectExceptions.InventoryFullException;
+import projectExceptions.LimitException;
 import projectExceptions.NameException;
 import projectExceptions.NoReserveAthletesException;
 import projectUI.MainGame;
