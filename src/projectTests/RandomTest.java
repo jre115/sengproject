@@ -92,7 +92,7 @@ class RandomTest {
 	     */
 	    void testAthleteJoins() {
 	        
-	        Team team = new Team();
+	        
 
 	        
 	        RandomEvents randomEvents = new RandomEvents();
