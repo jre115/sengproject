@@ -404,7 +404,7 @@ public class MainGame {
 			imageMultiplier = 0.8;
 		} else if (sizeMultiplier == 0.4) {
 			nameFontSize = 11;
-			bodyFontSize = 10;
+			bodyFontSize = 9;
 			imageMultiplier = 0.55;
 		} else if (sizeMultiplier == 0.7) {
 			nameFontSize = 15;

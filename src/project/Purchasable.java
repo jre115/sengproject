@@ -100,6 +100,7 @@ public class Purchasable {
      * Returns the sell-back price of the item.
      * For an Athlete, the sell-back price is calculated from the offensive and defensive scores.
      * If the stamina is not full, the sell-back price is lowered 
+     * @return the sellback price for the item/athlete
      */
     public int getSellBackPrice() {
     	if (this instanceof Athlete) {

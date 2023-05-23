@@ -11,12 +11,33 @@ import java.util.Random;
  */
 public class Market   {
 	// Creates new items
+	/**
+	 * A pre-generated item for the market
+	 */
 	public Item Broom = new Item("Fireflyer Charm", 5, 5, 1000, 200, "A charm that enhances your broom's attack and defense capabilities with its enchanting glow");
+	/**
+	 * A pre-generated item for the market
+	 */
 	public Item LuckPotion = new Item("LiquidLuck", 7, 7, 1500, 200, "A potion that increases your luck");
+	/**
+	 * A pre-generated item for the market
+	 */
 	public Item Gloves = new Item("Enchanted Gloves", 7, 3, 1000, 300, "Gloves that a blessed with strength magic giving you mighty throws");
+	/**
+	 * A pre-generated item for the market
+	 */
 	public Item Broom2 = new Item("SkySoarer9000", 14, 0, 2000, 1200, "A covted broom with unmatched speed");
+	/**
+	 * A pre-generated item for the market
+	 */
 	public Item charm = new Item("Anti Cheat Charm", 0, 8, 800, 100, "A magical spell that prevents the opposing team from using any underhanded tactics");
+	/**
+	 * A pre-generated item for the market
+	 */
 	public Item TimeTurner = new Item("TimeTurner", 0, 15, 2000, 1000, "A magical device that allows the goalie to go back in time ");
+	/**
+	 * A pre-generated item for the market
+	 */
 	public Item fiveSensePotion = new Item("Five Sense Potion", 6, 6, 1200, 3000, "A potion that heightens the 5 senses");
 	
 	ArrayList<Item> currentItemsAvailable;

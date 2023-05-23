@@ -162,8 +162,8 @@ public class SetupScreen {
 	    JLabel teamLabel = new JLabel("Please input a team name");
 	    teamLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	    teamLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-	    teamLabel.setSize(255, 24);
-	    teamLabel.setLocation((width - teamLabel.getWidth()) / 2, 167);
+	    teamLabel.setSize(width, 24);
+	    teamLabel.setLocation(0, 167);
 	    setupInputPanel.add(teamLabel);
 
 	    JTextField teamNameInput = new JTextField();

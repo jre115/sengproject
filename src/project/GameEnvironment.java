@@ -842,7 +842,7 @@ public class GameEnvironment {
 	
    /**
     * Returns the inventory belonging to the player
-    * @return
+    * @return returns the player inventory as an arraylist
     */
     public ArrayList<Item> getInventory() {
         return inventory;

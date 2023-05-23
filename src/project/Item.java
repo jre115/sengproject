@@ -15,11 +15,6 @@ public class Item extends Purchasable {
 	private int defence;
 	private int offence;
 	
-	//JR NOTE: removed variables and methods that are inherited from Purchasable
-    //private int contractPrice;
-    //private int sellbackPrice;
-	
-	
 	private String name;
 	/** item name
 	 * 
@@ -41,7 +36,6 @@ public class Item extends Purchasable {
 	 * @param sellbackPrice an integer value that represents the sell price of the item
 	 * @param description a string that gives a description of the item
 	 */
-	
 	public Item(String name, int offence, int defence, int contractPrice, int sellbackPrice, String description) {
 		super(contractPrice, sellbackPrice, description);
 		this.name = name;
