@@ -8,6 +8,10 @@ import java.util.Map;
 import project.Athlete;
 import project.GameEnvironment;
 import project.Item;
+import project.Match;
+import project.Stadium;
+import project.Team;
+import projectExceptions.IllegalTeamException;
 import projectExceptions.InsufficientFundsException;
 import projectExceptions.InventoryFullException;
 import projectExceptions.LimitException;
@@ -18,7 +22,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests related to the game environment
- * @author jorda
+ * @author jordan redfern
  *
  */
 class GameEnvironmentTest {
@@ -173,7 +177,9 @@ class GameEnvironmentTest {
 	     }
 	 }
 
-
+	 /**
+	  * Testing purchase athlete method
+	  */
 	 @Test
 	 public void testPurchaseAthlete() {
 	     GameEnvironment game = testGame;
@@ -230,10 +236,37 @@ class GameEnvironmentTest {
 	         assertEquals("Team is full!", e.getMessage());
 		}
 
-	    
+	 }
+	 
+	 /**
+	  * Testing start match method throws exception if the team is illegal
+	  */
+	 @Test
+	 public void testStartMatch() {
+	     GameEnvironment game = testGame;
+	     Team playerTeam = testGame.getPlayerTeam();
+	     
+		Stadium stadium = new Stadium("Normal");
+		stadium.setStadium(playerTeam, 2);
+		stadium.refreshStadiumMatches();
+		
+		Match match = stadium.getMatches(playerTeam).get(0);
+		
+		// Change the position of one athlete in the team  so the team is illegal
+		
+		Athlete athlete = playerTeam.getTeamList().get(0);
+		athlete.changeAthletePosition();
+		
+		try {
+			game.startMatch(match);
+		} catch (IllegalTeamException e) {
+	         assertEquals("Team must have 2 attackers and 2 defenders", e.getMessage());
+		}
+		
+		
+
 
 	 }
-
 
 
 	 

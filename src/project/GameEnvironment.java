@@ -560,6 +560,14 @@ public class GameEnvironment {
 	
 	
 	// Methods relating to the Team class
+    
+    /**
+     * Gets the player team - used for testing
+     * @return team the player's team
+     */
+    public Team getPlayerTeam() {
+    	return team;
+    }
 	
 	/**
 	 * Returns the list of athletes in the team. This does not include any reserve athletes.
