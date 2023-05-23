@@ -7,10 +7,18 @@ package projectExceptions;
  *
  */
 public class LimitException extends Exception {
+	
+	/**
+	 * The constructor for the LimitException exception
+	 */
 	public LimitException() {
         super("A maximum  of 5 reserves are allowed");
     }
 	
+	/**
+	 * The constructor for the LimitException exception
+	 * @param message the message for the exception
+	 */
 	public LimitException(String message) {
 		super(message);
 	}

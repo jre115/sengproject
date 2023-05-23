@@ -292,7 +292,7 @@ public class Athlete extends Purchasable {
 	/**
 	 * Returns a string with the alternative position of the athlete
 	 * If an athlete is an attacker, returns "Defender" and vice versa. If an athlete a reserve, their position will remain.
-	 * @return
+	 * @return the alternate position of the athlete
 	 */
 	public String getAlternatePosition() {
 		String position = null;
@@ -368,7 +368,7 @@ public class Athlete extends Purchasable {
      * Defensive score is divided by 2 and then adjusted with a random value between -5 to 5 and set to be the offensive statistic of the Athlete
      * This should generate an offensive statistic that is similar to the team that the offensiveScore was from.
      * 
-     * @param offensiveScore
+     * @param offensiveScore returns the offensive score of the athlete
      */
     public void setAthleteStatisticsBasedOnOffensive(int offensiveScore) {
 
@@ -453,8 +453,8 @@ public class Athlete extends Purchasable {
     
     /**
    	* Returns a string representation of the Athlete object, including the athlete's name, contract price, and offensive, defensive, and stamina statistics.
-       * @return a String containing the athlete's name, contract price or position and statistics.
-       */
+    * @return a String containing the athlete's name, contract price or position and statistics.
+    */
        public String toString() {
        	String result = ("Athlete name: " + athleteName);
        	if (athletePosition != null && !isInjured) {
@@ -472,12 +472,12 @@ public class Athlete extends Purchasable {
        }
        
        
-       /**
+    /**
    	* Returns a string representation in HTML of the Athlete object, including the athlete's name, contract price, and offensive, defensive, and stamina statistics.
    	* If the athlete has a position (defender, attacker, injured or reserve) then the String representation includes the position or "Injured player"
    	* Otherwise, athlete's contract price will be included. 
-       * @return a String containing the athlete's name, contract price or position, and statistics.
-       */
+    * @return a String containing the athlete's name, contract price or position, and statistics.
+    */
        public String toStringHTML() {
        	String result;
        	if (this.getPosition() != null) {
@@ -499,12 +499,12 @@ public class Athlete extends Purchasable {
        }
        
        
-       /**
+    /**
    	* Returns a string representation in HTML of the Athlete object, including the athlete's name, sell-back price, and offensive, defensive, and stamina statistics.
    	* If the athlete has a position (defender, attacker, injured or reserve) then the String representation includes the position or "Injured player"
    	* Sell-back price included for use in the market sell panel.
-       * @return a String containing the athlete's name, contract price or position, and statistics.
-       */
+    * @return a String containing the athlete's name, contract price or position, and statistics.
+    */
        public String toStringHTMLSell() {
        	String result = "";
        	if (this.getPosition() != null) {

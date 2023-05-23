@@ -50,7 +50,6 @@ public class RandomEvents {
  * the athlete is added to the main team. Otherwise, the athlete is added to the reserves.
  * @param team The team to which the athlete will be added.
  * @return The added athlete if successfully added, or null if the team's roster and reserves are full.
- * @throws LimitException if the team's reserves are full and the athlete cannot be added
  */
     public Athlete athleteJoins(Team team) {
        

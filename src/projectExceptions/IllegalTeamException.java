@@ -7,6 +7,11 @@ package projectExceptions;
  *
  */
 public class IllegalTeamException extends Exception {
+	
+	/**
+	 * The constructor for the IllegalTeamException exception
+	 * @param message the message for the exception
+	 */
     public IllegalTeamException(String message) {
         super(message);
     }

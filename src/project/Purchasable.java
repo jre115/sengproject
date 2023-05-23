@@ -59,11 +59,10 @@ public class Purchasable {
     public String getContractPriceFormatted() {
         return getMoneyFormatted(contractPrice);
     }
-
+    
     /**
      * Returns the formatted sell-back price of the item.
      * The sell-back price is formatted as a string with a dollar sign ($) and commas for thousands separators.
-     *
      * @return the formatted sell-back price of the item
      */
     public String getSellBackPriceFormatted() {
@@ -117,6 +116,7 @@ public class Purchasable {
     /**
      * Generates a contract price for the athlete based on their statistics
      * For an Athlete, the contract price is calculated from the offensive and defensive scores.
+     * @return the contract price for the purchasable item
      */
     public int generateContractPrice() {
     	if (this instanceof Athlete) {

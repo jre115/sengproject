@@ -270,6 +270,7 @@ public class Stadium {
     /**
      * Generates the points reward for the match that will be added to the team who wins the match. 
      * The value is based on the opposition team's score and the difficulty divider.
+     * @param oppositionTeam the opposition team 
      * @return points the amount of points on offer for winning the match
      */
     public int generateMatchPoints(Team oppositionTeam) {
@@ -306,6 +307,7 @@ public class Stadium {
     /**
      * Returns the current matches available.
      * Note: each time getMatches is called, the player team will be refreshed to the current team.
+     * @param currentPlayerTeam the updated current players' team
      * @return list of match objects representing the available matches to play for the current week
      */
     public ArrayList<Match> getMatches(Team currentPlayerTeam) {

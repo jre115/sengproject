@@ -5,6 +5,10 @@ package projectExceptions;
  *
  */
 public class InventoryFullException extends Exception {
+	
+	/**
+	 * The constructor for the InventoryFullException exception
+	 */
     public InventoryFullException() {
         super("Inventory is full. Cannot add item.");
     }

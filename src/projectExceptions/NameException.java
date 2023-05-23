@@ -8,10 +8,17 @@ package projectExceptions;
  */
 public class NameException extends IllegalArgumentException{
 	
+	/**
+	 * The constructor for the NameException exception
+	 */
 	public NameException() {
 		super();
 	}
 	
+	/**
+	 * The constructor for the NameException exception
+	 * @param message the message for the exception
+	 */
 	public NameException(String message) {
 		super(message);
 	}

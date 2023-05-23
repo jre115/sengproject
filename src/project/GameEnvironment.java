@@ -464,6 +464,7 @@ public class GameEnvironment {
 	/**
 	 * Returns a string with the name for the athlete's image
 	 * @return a string containing the name of the athlete's set image
+	 * @param athlete the selected athlete
 	 */
 	public String getAthleteImageName(Athlete athlete) {
 		return athlete.getImageName();
@@ -588,8 +589,8 @@ public class GameEnvironment {
 	/**
 	 * Swaps two athletes owned by the player if one is in the reserves team and one is in the player team
 	 * If both athletes are in the same team, does nothing.
-	 * @param playerAthlete the first athlete to be swapped with secondAthlete
-	 * @param reserveAthlete the second athlete to be swapped with firstAthlete
+	 * @param firstAthlete the first athlete to be swapped with secondAthlete
+	 * @param secondAthlete the second athlete to be swapped with firstAthlete
 	 */
 	public void swapAthletes(Athlete firstAthlete, Athlete secondAthlete) {
 		team.swapAthletes(firstAthlete, secondAthlete);
@@ -622,8 +623,8 @@ public class GameEnvironment {
     /**
 	 * Adds reserve to the team - if position is not specified it automatically assigns athlete to the position there are less of in the team
 	 *
-	 * @param reserve the reserve athlete that is being added to the team 
-	 * @param the position the athlete is being added as - if null then the athlete's position will be whatever there are less of in the team
+	 * @param athlete the athlete that is being added to the team
+	 * @param position the position the athlete is being added as - if null then the athlete's position will be whatever there are less of in the team
 	 */
     public void addAthleteToTeam(Athlete athlete, String position) {
     	try {
@@ -726,7 +727,7 @@ public class GameEnvironment {
     
     /**
      * Returns the opposition team name for the current match
-     * @return
+     * @return the opposition team name
      */
     public String getCurrentMatchTeamName() {
     	String name = currentMatch.getOppositionTeamName();
@@ -788,9 +789,18 @@ public class GameEnvironment {
 	
 	// Methods relating to the Market and Item Classes
 	
+    /**
+     * Returns the athletes in the shop
+     * @return ArrayList of athletes in the shop available
+     */
 	public ArrayList<Athlete> getShopAthletes() {
         return market.getShopAthletes();
     }
+	
+    /**
+     * Returns the items in the shop
+     * @return ArrayList of items in the shop available
+     */
 	public ArrayList<Item> getShopItems(){
 		return market.getShopItems();
 	}
@@ -906,7 +916,7 @@ public class GameEnvironment {
     
     /**
      * The main method which starts the entire game by creating a new game environment and launching the game setup.
-     * @param args
+     * @param args the arguments
      */
 	public static void main(String[] args) {
 		GameEnvironment game = new GameEnvironment();

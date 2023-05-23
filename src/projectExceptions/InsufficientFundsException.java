@@ -7,6 +7,10 @@ package projectExceptions;
  *
  */
 public class InsufficientFundsException extends Exception{
+	
+	/**
+	 * The constructor for the InsufficientFundsException exception
+	 */
     public InsufficientFundsException() {
         super("Not enough funds to make purchase");
 

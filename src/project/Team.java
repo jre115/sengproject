@@ -208,7 +208,8 @@ public class Team {
 	 * Adds an athlete to the team if the team is not full - if position is not specified it automatically assigns athlete to the position there are less of in the team
 	 *
 	 * @param athlete the athlete that is being added to the team (and if it is a reserve it is removed from reserves)
-	 * @param the position the athlete is being added as - if null then the athlete's position will be whatever there are less of in the team
+	 * @param position the position the athlete is being added as - if null then the athlete's position will be whatever there are less of in the team
+	 * @throws LimitException if the team list is already full
 	 */
 	public void addToTeam(Athlete athlete, String position) throws LimitException{
 		if (teamList.size() < maxSizeTeamList) {
