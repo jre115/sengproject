@@ -200,7 +200,7 @@ class StadiumTests {
 	        
 	        stadium.refreshStadiumMatches();
 	        
-	        ArrayList<Match> availableMatches = new ArrayList<>(stadium.getMatches());
+	        ArrayList<Match> availableMatches = new ArrayList<>(stadium.getMatches(playerTeam));
 	        ArrayList<String> availableTeamNames = new ArrayList<>(stadium.getAvailableOppositionTeamNames());
 	        
 	        int numberOfAvailableMatches = availableMatches.size();
@@ -210,7 +210,7 @@ class StadiumTests {
 	        Match match = availableMatches.get(0);
 	        stadium.playMatch(match);
 	        
-	        ArrayList<Match> availableMatchesAfterPlayed = stadium.getMatches();
+	        ArrayList<Match> availableMatchesAfterPlayed = stadium.getMatches(playerTeam);
 	        ArrayList<String> availableTeamNamesAfterPlayed = stadium.getAvailableOppositionTeamNames();
 
 	        assertEquals(numberOfAvailableMatches - 1, availableMatchesAfterPlayed.size());
